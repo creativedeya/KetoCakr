@@ -101,6 +101,7 @@ export const en: TranslationKeys = {
     recipe: 'recipe',
     recipes: 'recipes',
     servings: 'servings',
+    searchPlaceholder: 'Search my recipes...',
     emptyState: {
       title: 'My Creations',
       description: "You don't have any created recipes yet.\nTime to start creating!",
@@ -325,6 +326,14 @@ export const en: TranslationKeys = {
     makes: 'MAKES:',
     totalWeight: 'TOTAL WEIGHT',
     perServingShort: 'PER SERVING',
+    intro: {
+      type: 'Type',
+      prep: 'Prep',
+      bake: 'Bake',
+      total: 'Total',
+      equipment: 'Equipment needed',
+      min: 'min',
+    },
     noIngredients: 'No ingredient information available',
     errorState: 'Loading Error',
   },
@@ -445,6 +454,13 @@ export const en: TranslationKeys = {
     },
     copyright: '© 2025 All rights reserved',
     saveChanges: 'Save changes',
+    units: {
+      title: 'Units',
+      metric: 'Metric',
+      imperial: 'Imperial',
+      metricHint: 'g, ml, °C',
+      imperialHint: 'oz, fl oz, °F',
+    },
     saved: {
       title: 'Success! ✅',
       message: 'Settings saved',
@@ -510,5 +526,10 @@ export const en: TranslationKeys = {
     perServing: 'per serving',
     round: 'round',
     freeSize: 'Free size',
+  },
+
+  allRecipes: {
+    title: 'All Recipes',
+    searchPlaceholder: 'Search recipes...',
   },
 };

@@ -99,6 +99,7 @@ export const bg = {
     recipe: 'рецепта',
     recipes: 'рецепти',
     servings: 'порции',
+    searchPlaceholder: 'Търси в моите рецепти...',
     emptyState: {
       title: 'Моите творения',
       description: 'Все още нямаш създадени рецепти.\nВреме е да започнеш да създаваш!',
@@ -323,6 +324,14 @@ export const bg = {
     makes: 'ПРАВИ:',
     totalWeight: 'ОБЩО ТЕГЛО',
     perServingShort: 'НА ПОРЦИЯ',
+    intro: {
+      type: 'Тип',
+      prep: 'Подготовка',
+      bake: 'Печене',
+      total: 'Общо',
+      equipment: 'Необходими уреди',
+      min: 'мин',
+    },
     noIngredients: 'Няма информация за съставки',
     errorState: 'Грешка при зареждане',
   },
@@ -443,6 +452,13 @@ export const bg = {
     },
     copyright: '© 2025 Всички права запазени',
     saveChanges: 'Запази промените',
+    units: {
+      title: 'Мерни единици',
+      metric: 'Метрични',
+      imperial: 'Имперски',
+      metricHint: 'г, мл, °C',
+      imperialHint: 'oz, fl oz, °F',
+    },
     saved: {
       title: 'Успех! ✅',
       message: 'Настройките бяха запазени',
@@ -508,6 +524,11 @@ export const bg = {
     perServing: 'на порция',
     round: 'кръгла',
     freeSize: 'Свободен размер',
+  },
+
+  allRecipes: {
+    title: 'Всички рецепти',
+    searchPlaceholder: 'Търси рецепти...',
   },
 };
 

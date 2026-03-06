@@ -144,7 +144,8 @@ export default function HomeScreen() {
       let query = supabase
         .from('ready_recipes')
         .select('id, name_bg, name_en, hero_image_url, total_calories, total_net_carbs, total_servings, dessert_type_id')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(8);
 
       if (selectedTypeId) {
         query = query.eq('dessert_type_id', selectedTypeId);
@@ -392,55 +393,65 @@ export default function HomeScreen() {
               subtitle={t('common.noResults')}
             />
           ) : (
-            <View style={styles.grid}>
-              {(readyRecipes || []).map((recipe) => (
-                <TouchableOpacity
-                  key={recipe.id}
-                  style={styles.readyRecipeCard}
-                  onPress={() => router.push(`/recipe-detail/${recipe.id}`)}
-                >
-                  {recipe.hero_image_url ? (
-                    <Image
-                      source={{ uri: recipe.hero_image_url }}
-                      style={styles.readyRecipeImage}
-                      resizeMode="cover"
-                    />
-                  ) : (
-                    <View style={styles.readyRecipeImagePlaceholder}>
-                      <Text style={styles.readyRecipeEmoji}>🎂</Text>
-                    </View>
-                  )}
-                  <View style={styles.readyRecipeInfo}>
-                    <Text style={styles.readyRecipeName} numberOfLines={2}>
-                      {language === 'bg' ? recipe.name_bg : (recipe.name_en || recipe.name_bg)}
-                    </Text>
-                    {recipe.total_calories ? (() => {
-                      const servings = recipe.total_servings || 8;
-                      const calPerServing = Math.round(recipe.total_calories / servings);
-                      const ncPerServing = recipe.total_net_carbs
-                        ? Math.round(recipe.total_net_carbs / servings)
-                        : null;
-                      return (
-                        <View>
-                          <View style={styles.caloriesBadge}>
-                            <Text style={styles.caloriesText}>
-                              {calPerServing} {language === 'bg' ? 'кал' : 'cal'}
-                              {ncPerServing !== null ? (
-                                <Text style={styles.netCarbsText}>
-                                  {' · '}{ncPerServing}g {language === 'bg' ? 'НВ' : 'NC'}
-                                </Text>
-                              ) : null}
+            <View>
+              <View style={styles.grid}>
+                {(readyRecipes || []).map((recipe) => (
+                  <TouchableOpacity
+                    key={recipe.id}
+                    style={styles.readyRecipeCard}
+                    onPress={() => router.push(`/recipe-detail/${recipe.id}`)}
+                  >
+                    {recipe.hero_image_url ? (
+                      <Image
+                        source={{ uri: recipe.hero_image_url }}
+                        style={styles.readyRecipeImage}
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <View style={styles.readyRecipeImagePlaceholder}>
+                        <Text style={styles.readyRecipeEmoji}>🎂</Text>
+                      </View>
+                    )}
+                    <View style={styles.readyRecipeInfo}>
+                      <Text style={styles.readyRecipeName} numberOfLines={2}>
+                        {language === 'bg' ? recipe.name_bg : (recipe.name_en || recipe.name_bg)}
+                      </Text>
+                      {recipe.total_calories ? (() => {
+                        const servings = recipe.total_servings || 8;
+                        const calPerServing = Math.round(recipe.total_calories / servings);
+                        const ncPerServing = recipe.total_net_carbs
+                          ? Math.round(recipe.total_net_carbs / servings)
+                          : null;
+                        return (
+                          <View>
+                            <View style={styles.caloriesBadge}>
+                              <Text style={styles.caloriesText}>
+                                {calPerServing} {language === 'bg' ? 'кал' : 'cal'}
+                                {ncPerServing !== null ? (
+                                  <Text style={styles.netCarbsText}>
+                                    {' · '}{ncPerServing}g {language === 'bg' ? 'НВ' : 'NC'}
+                                  </Text>
+                                ) : null}
+                              </Text>
+                            </View>
+                            <Text style={styles.perServingLabel}>
+                              {language === 'bg' ? 'на порция' : 'per serving'}
                             </Text>
                           </View>
-                          <Text style={styles.perServingLabel}>
-                            {language === 'bg' ? 'на порция' : 'per serving'}
-                          </Text>
-                        </View>
-                      );
-                    })() : null}
-                  </View>
-                </TouchableOpacity>
-              ))}
+                        );
+                      })() : null}
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {/* View all button */}
+              <TouchableOpacity
+                style={styles.viewAllBtn}
+                onPress={() => router.push('/all-recipes')}
+              >
+                <Text style={styles.viewAllBtnText}>{t('common.viewAll')}</Text>
+                <Ionicons name="chevron-forward" size={16} color={Colors.primary.main} />
+              </TouchableOpacity>
             </View>
           )}
         </View>
@@ -756,5 +767,18 @@ const styles = StyleSheet.create({
     color: Colors.text.tertiary,
     fontSize: 9,
     marginTop: 1,
+  },
+  viewAllBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: Spacing.md,
+    marginTop: Spacing.sm,
+    gap: Spacing.xs,
+  },
+  viewAllBtnText: {
+    ...Typography.body2,
+    color: Colors.primary.main,
+    fontWeight: '600',
   },
 });

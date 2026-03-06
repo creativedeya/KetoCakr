@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
@@ -30,8 +31,6 @@ import {
 
 const { height } = Dimensions.get('window');
 const HERO_HEIGHT = height * 0.75;
-
-const BLAGO_LOGO = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMwIDVMMzUgMjBIMjVMMzAgNVoiIGZpbGw9IiNBODAwNDgiLz4KPHBhdGggZD0iTTMwIDU1TDI1IDQwSDM1TDMwIDU1WiIgZmlsbD0iI0E4MDA0OCIvPgo8cGF0aCBkPSJNNSAzMEwyMCAyNVYzNUw1IDMwWiIgZmlsbD0iI0E4MDA0OCIvPgo8cGF0aCBkPSJNNTUgMzBMNDAgMzVWMjVMNTUgMzBaIiBmaWxsPSIjQTgwMDQ4Ii8+CjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjE1IiBmaWxsPSIjQjJBQzg4Ii8+CjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjgiIGZpbGw9IiNBODAwNDgiLz4KPC9zdmc+Cg==';
 
 // ─── Fixed servings options ──────────────────────────────────
 const PAN_SERVINGS = [6, 8, 10, 12, 14, 18, 20, 35];
@@ -73,6 +72,9 @@ export interface ComponentItem {
   totalNetCarbs?: number;
   bakeTemp?: number;
   bakeTime?: number;
+  prepTime?: number;
+  equipmentNotes?: string;
+  equipmentNotesEn?: string;
 }
 
 interface RecipeDetailViewProps {
@@ -136,6 +138,22 @@ function translateUnit(unit: string): string {
   return unitMap[unit.toLowerCase()] || unit;
 }
 
+function convertUnit(
+  quantity: number,
+  unit: string,
+  unitSystem: 'metric' | 'imperial'
+): { value: number; unit: string } {
+  if (unitSystem === 'metric') return { value: quantity, unit };
+  switch (unit.toLowerCase()) {
+    case 'g': case 'г':
+      return { value: Math.round(quantity / 28.35 * 10) / 10, unit: 'oz' };
+    case 'ml': case 'мл':
+      return { value: Math.round(quantity / 29.57 * 10) / 10, unit: 'fl oz' };
+    default:
+      return { value: quantity, unit };
+  }
+}
+
 // ─── Component ──────────────────────────────────────────────
 export default function RecipeDetailView({
   recipeId,
@@ -161,6 +179,7 @@ export default function RecipeDetailView({
 
   // Price store
   const getEffectivePrice = useUserPricesStore((s) => s.getEffectivePrice);
+  const setCustomPrice = useUserPricesStore((s) => s.setCustomPrice);
   const currency = useUserPricesStore((s) => s.currency);
   const loadIngredients = useUserPricesStore((s) => s.loadIngredients);
   const storeIngredientCount = useUserPricesStore((s) => s.ingredients.length);
@@ -171,6 +190,8 @@ export default function RecipeDetailView({
   const [selectedServings, setSelectedServings] = useState(totalServings || BASE_SERVINGS);
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('intro');
+  const [editingIngId, setEditingIngId] = useState<string | null>(null);
+  const [editingPriceText, setEditingPriceText] = useState('');
 
   // Servings options based on dessert type
   const servingsOptions = hasFixedPan ? PAN_SERVINGS : NO_PAN_SERVINGS;
@@ -201,16 +222,27 @@ export default function RecipeDetailView({
   const scaledIngredients = useMemo(() => {
     return ingredients.map(ing => {
       const scaledQty = ing.quantity * scaleFactor;
-      const displayQty = Math.round(scaledQty); // всички цели числа (Task 2)
       const weightInGrams = convertToGrams(scaledQty, ing.unit, ing.unitWeightGrams);
+      const converted = convertUnit(scaledQty, ing.unit, unitSystem);
+      // Round: 1 decimal for oz/fl oz, integer for everything else
+      const isImperialUnit = converted.unit === 'oz' || converted.unit === 'fl oz';
+      const displayQty = isImperialUnit
+        ? Math.round(converted.value * 10) / 10
+        : Math.round(converted.value);
+      let displayUnit: string;
+      if (isImperialUnit) {
+        displayUnit = converted.unit;
+      } else {
+        displayUnit = language === 'bg' ? translateUnit(ing.unit) : ing.unit;
+      }
       return {
         ...ing,
         quantity: displayQty,
-        displayUnit: language === 'bg' ? translateUnit(ing.unit) : ing.unit,
+        displayUnit,
         weightInGrams,
       };
     });
-  }, [ingredients, scaleFactor, language]);
+  }, [ingredients, scaleFactor, language, unitSystem]);
 
   const calculatedTotalWeight = useMemo(() => {
     const total = scaledIngredients.reduce((sum, ing) => sum + (ing.weightInGrams || 0), 0);
@@ -262,6 +294,21 @@ export default function RecipeDetailView({
       t('recipeDetail.timer.started').replace('{{minutes}}', String(minutes))
     );
   };
+
+  // Intro tab computed data
+  const introData = useMemo(() => {
+    const totalPrepTime = components.reduce((s, c) => s + (c.prepTime || 0), 0);
+    const totalBakeTime = components.reduce((s, c) => s + (c.bakeTime || 0), 0);
+    const allEquipmentStrings = components
+      .map(c => language === 'en' ? (c.equipmentNotesEn || c.equipmentNotes || '') : (c.equipmentNotes || ''))
+      .filter(Boolean)
+      .join(',')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    const uniqueEquipment = [...new Set(allEquipmentStrings)];
+    return { totalPrepTime, totalBakeTime, uniqueEquipment };
+  }, [components, language]);
 
   // Pan info for intro tab
   const panForIntro = hasFixedPan ? getPanByServings(selectedServings) : null;
@@ -470,32 +517,86 @@ export default function RecipeDetailView({
           {/* INTRO Tab */}
           {activeTab === 'intro' && (
             <View>
+              {/* Dessert Type */}
+              {dessertTypeName ? (
+                <View style={styles.introInfoCard}>
+                  <Text style={styles.introInfoEmoji}>🍰</Text>
+                  <View style={styles.introInfoContent}>
+                    <Text style={styles.introInfoLabel}>{t('recipeDetail.intro.type')}</Text>
+                    <Text style={styles.introInfoValue}>{dessertTypeName}</Text>
+                  </View>
+                </View>
+              ) : null}
+
+              {/* Times */}
+              {(introData.totalPrepTime > 0 || introData.totalBakeTime > 0) && (
+                <View style={styles.introTimesCard}>
+                  {introData.totalPrepTime > 0 && (
+                    <View style={styles.introTimeRow}>
+                      <Text style={styles.introTimeEmoji}>⏱</Text>
+                      <Text style={styles.introTimeLabel}>{t('recipeDetail.intro.prep')}</Text>
+                      <Text style={styles.introTimeValue}>
+                        {introData.totalPrepTime} {language === 'bg' ? 'мин' : 'min'}
+                      </Text>
+                    </View>
+                  )}
+                  {introData.totalBakeTime > 0 && (
+                    <View style={styles.introTimeRow}>
+                      <Text style={styles.introTimeEmoji}>🔥</Text>
+                      <Text style={styles.introTimeLabel}>{t('recipeDetail.intro.bake')}</Text>
+                      <Text style={styles.introTimeValue}>
+                        {introData.totalBakeTime} {language === 'bg' ? 'мин' : 'min'}
+                      </Text>
+                    </View>
+                  )}
+                  {(introData.totalPrepTime + introData.totalBakeTime) > 0 && (
+                    <View style={[styles.introTimeRow, styles.introTimeTotalRow]}>
+                      <Text style={styles.introTimeEmoji}>⏰</Text>
+                      <Text style={[styles.introTimeLabel, { fontWeight: '700' }]}>{t('recipeDetail.intro.total')}</Text>
+                      <Text style={[styles.introTimeValue, { fontWeight: '700', color: Colors.primary.main }]}>
+                        {introData.totalPrepTime + introData.totalBakeTime} {language === 'bg' ? 'мин' : 'min'}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
+
               {/* Pan info */}
               {panInfoStr && (
-                <View style={styles.panInfoCard}>
-                  <Ionicons name="resize-outline" size={18} color={Colors.primary.main} style={{ marginRight: 8 }} />
-                  <View>
-                    <Text style={styles.panInfoText}>
-                      {t('panPicker.title')}: {panInfoStr}
-                    </Text>
-                    <Text style={styles.panInfoSub}>
-                      {selectedServings} {t('panPicker.servings')}
+                <View style={styles.introInfoCard}>
+                  <Text style={styles.introInfoEmoji}>📏</Text>
+                  <View style={styles.introInfoContent}>
+                    <Text style={styles.introInfoLabel}>{t('panPicker.title')}</Text>
+                    <Text style={styles.introInfoValue}>
+                      {panInfoStr} · {selectedServings} {t('panPicker.servings')}
                     </Text>
                   </View>
                 </View>
               )}
 
-              {dessertTypeName ? (
-                <View style={styles.introSection}>
-                  <Text style={styles.introTypeLabel}>{t('recipeDetail.type')}</Text>
-                  <Text style={{ color: Colors.text.secondary }}>{dessertTypeName}</Text>
+              {/* Equipment */}
+              {introData.uniqueEquipment.length > 0 && (
+                <View style={styles.introInfoCard}>
+                  <Text style={styles.introInfoEmoji}>🔧</Text>
+                  <View style={styles.introInfoContent}>
+                    <Text style={styles.introInfoLabel}>{t('recipeDetail.intro.equipment')}</Text>
+                    <Text style={styles.introInfoValue}>{introData.uniqueEquipment.join(', ')}</Text>
+                  </View>
                 </View>
-              ) : null}
+              )}
+
+              {/* BLAGO logo divider */}
               <View style={styles.dividerRow}>
                 <View style={styles.dividerLine} />
-                <Image source={{ uri: BLAGO_LOGO }} style={styles.blagoLogo} resizeMode="contain" />
+                <Image
+                  source={require('../assets/Logo-Blago.png')}
+                  style={styles.blagoLogo}
+                  resizeMode="contain"
+                />
                 <View style={styles.dividerLine} />
               </View>
+
+              {/* Intro text */}
               <Text style={styles.introBody}>
                 {introText || (language === 'bg'
                   ? 'Специално приготвен с кето-приятелски съставки, без излишни въглехидрати.'
@@ -526,17 +627,63 @@ export default function RecipeDetailView({
                           <View key={component.id} style={styles.ingredientGroup}>
                             <Text style={styles.categoryLabel}>{component.roleName}</Text>
                             {compIngredients.map(ing => (
-                              <View key={ing.id} style={styles.priceRow}>
-                                <Text style={styles.priceIngName} numberOfLines={1}>
-                                  {ing.name} {ing.quantity}{ing.displayUnit}
-                                </Text>
-                                <Text style={[
-                                  styles.priceCost,
-                                  ing.cost === null && { color: Colors.text.secondary },
-                                ]}>
-                                  {ing.cost !== null ? `${ing.cost.toFixed(2)} ${currency}` : '—'}
-                                </Text>
-                              </View>
+                              editingIngId === ing.id ? (
+                                <View key={ing.id} style={styles.priceEditRow}>
+                                  <Text style={[styles.priceIngName, { flex: 1.2 }]} numberOfLines={1}>
+                                    {ing.name} {ing.quantity}{ing.displayUnit}
+                                  </Text>
+                                  <View style={styles.priceEditControls}>
+                                    <TextInput
+                                      value={editingPriceText}
+                                      onChangeText={setEditingPriceText}
+                                      keyboardType="decimal-pad"
+                                      style={styles.priceEditInput}
+                                      autoFocus
+                                    />
+                                    <Text style={styles.priceEditUnit}>{currency}/kg</Text>
+                                    <TouchableOpacity
+                                      onPress={() => {
+                                        const newPrice = parseFloat(editingPriceText.replace(',', '.'));
+                                        if (!isNaN(newPrice) && newPrice > 0 && ing.ingredientDatabaseId) {
+                                          setCustomPrice(ing.ingredientDatabaseId, newPrice);
+                                        }
+                                        setEditingIngId(null);
+                                      }}
+                                    >
+                                      <Ionicons name="checkmark" size={20} color={Colors.primary.main} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setEditingIngId(null)}>
+                                      <Ionicons name="close" size={20} color={Colors.text.tertiary} />
+                                    </TouchableOpacity>
+                                  </View>
+                                </View>
+                              ) : (
+                                <View key={ing.id} style={styles.priceRow}>
+                                  <Text style={styles.priceIngName} numberOfLines={1}>
+                                    {ing.name} {ing.quantity}{ing.displayUnit}
+                                  </Text>
+                                  <View style={styles.priceRowRight}>
+                                    <Text style={[
+                                      styles.priceCost,
+                                      ing.cost === null && { color: Colors.text.secondary },
+                                    ]}>
+                                      {ing.cost !== null ? `${ing.cost.toFixed(2)} ${currency}` : '—'}
+                                    </Text>
+                                    {ing.ingredientDatabaseId && (
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          const currentPrice = getEffectivePrice(ing.ingredientDatabaseId!) ?? 0;
+                                          setEditingPriceText(currentPrice > 0 ? String(currentPrice) : '');
+                                          setEditingIngId(ing.id);
+                                        }}
+                                        style={styles.priceEditBtn}
+                                      >
+                                        <Ionicons name="pencil" size={IconSize.sm} color={Colors.text.tertiary} />
+                                      </TouchableOpacity>
+                                    )}
+                                  </View>
+                                </View>
+                              )
                             ))}
                           </View>
                         );
@@ -1116,26 +1263,68 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
   },
 
-  // Pan info card (intro tab)
-  panInfoCard: {
+  // Intro info cards
+  introInfoCard: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.background.accent,
+    alignItems: 'flex-start',
+    backgroundColor: Colors.background.secondary,
     borderRadius: BorderRadius.md,
     padding: Spacing.md,
-    marginBottom: Spacing.lg,
-    borderLeftWidth: 3,
-    borderLeftColor: Colors.primary.main,
+    marginBottom: Spacing.sm,
   },
-  panInfoText: {
+  introInfoEmoji: {
+    fontSize: 18,
+    marginRight: Spacing.md,
+    marginTop: 1,
+  },
+  introInfoContent: {
+    flex: 1,
+  },
+  introInfoLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.text.tertiary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  introInfoValue: {
     fontSize: 14,
-    fontWeight: '600',
     color: Colors.text.primary,
+    fontWeight: '500',
   },
-  panInfoSub: {
-    fontSize: 12,
+  introTimesCard: {
+    backgroundColor: Colors.background.secondary,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  introTimeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
+  introTimeTotalRow: {
+    borderTopWidth: 1,
+    borderTopColor: Colors.border.light,
+    marginTop: 4,
+    paddingTop: 8,
+  },
+  introTimeEmoji: {
+    fontSize: 16,
+    marginRight: Spacing.md,
+    width: 24,
+    textAlign: 'center',
+  },
+  introTimeLabel: {
+    flex: 1,
+    fontSize: 14,
     color: Colors.text.secondary,
-    marginTop: 2,
+  },
+  introTimeValue: {
+    fontSize: 14,
+    color: Colors.text.primary,
+    fontWeight: '600',
   },
 
   // Intro tab
@@ -1261,6 +1450,40 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: Colors.primary.main,
+  },
+  // Price row with edit button
+  priceRowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  priceEditBtn: {
+    padding: 4,
+  },
+  priceEditRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    gap: 8,
+  },
+  priceEditControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  priceEditInput: {
+    width: 72,
+    borderWidth: 1,
+    borderColor: Colors.primary.main,
+    borderRadius: BorderRadius.sm,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    fontSize: 13,
+    color: Colors.text.primary,
+  },
+  priceEditUnit: {
+    fontSize: 11,
+    color: Colors.text.tertiary,
   },
   priceNoteBox: {
     backgroundColor: Colors.background.secondary,

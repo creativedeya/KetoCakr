@@ -60,7 +60,7 @@ export default function ReadyRecipeScreen() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('base_recipes')
-        .select('id, name, name_en, image_url, total_weight_grams, total_calories, total_protein, total_fat, total_carbs, total_net_carbs, prep_time_minutes, bake_time_minutes, servings, recipe_role_id, role:recipe_roles(id, name, name_en), recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, cat:ingredient_categories(id, name, name_en)))')
+        .select('id, name, name_en, image_url, total_weight_grams, total_calories, total_protein, total_fat, total_carbs, total_net_carbs, prep_time_minutes, bake_time_minutes, bake_temp_celsius, equipment_notes, equipment_notes_en, servings, recipe_role_id, role:recipe_roles(id, name, name_en), recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, cat:ingredient_categories(id, name, name_en)))')
         .in('id', baseRecipeIds);
       if (error) throw error;
       return data || [];
@@ -198,6 +198,9 @@ export default function ReadyRecipeScreen() {
           : undefined,
         bakeTemp: br.bake_temp_celsius,
         bakeTime: br.bake_time_minutes,
+        prepTime: br.prep_time_minutes,
+        equipmentNotes: br.equipment_notes,
+        equipmentNotesEn: br.equipment_notes_en,
       });
 
       // Ingredients — quantity * multiplier, сортирани по order_index

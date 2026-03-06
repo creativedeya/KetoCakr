@@ -156,6 +156,9 @@ export default function UserRecipeScreen() {
         totalNetCarbs: br.total_net_carbs,
         bakeTemp: br.bake_temp_celsius,
         bakeTime: br.bake_time_minutes,
+        prepTime: br.prep_time_minutes,
+        equipmentNotes: br.equipment_notes,
+        equipmentNotesEn: br.equipment_notes_en,
       });
 
       (br.ingredients || []).forEach((ing: any) => {
