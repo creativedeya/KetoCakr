@@ -101,14 +101,31 @@ export default function ShoppingListScreen() {
   const uncheckedItems = items.filter(i => !i.isChecked);
   const checkedItems = items.filter(i => i.isChecked);
 
-  // Category order for grocery shopping
-  const CATEGORY_ORDER = [
-    'dairy', 'eggs', 'butter', 'fats', 'oils',
-    'flour', 'grains', 'nuts', 'seeds',
-    'sweeteners', 'chocolate',
-    'fruits', 'berries',
-    'spices', 'flavorings',
-    'other',
+  // Category order for grocery shopping (matches ingredient_categories table)
+  const CATEGORY_ORDER = language === 'en' ? [
+    'Dairy',
+    'Eggs & Proteins',
+    'Flours',
+    'Sweeteners',
+    'Fats & Oils',
+    'Chocolate & Cocoa',
+    'Nuts & Seeds',
+    'Spices & Flavors',
+    'Leavening Agents',
+    'Gelling Agents',
+    'Other',
+  ] : [
+    'Млечни продукти',
+    'Яйца и протеини',
+    'Брашна',
+    'Подсладители',
+    'Мазнини',
+    'Шоколад и какао',
+    'Ядки и семена',
+    'Подправки и аромати',
+    'Разпускатели',
+    'Желиращи агенти',
+    'Други',
   ];
 
   const getIngredientName = (item: typeof items[0]) => {

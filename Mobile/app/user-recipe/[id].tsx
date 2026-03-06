@@ -45,7 +45,7 @@ export default function UserRecipeScreen() {
         .select(`
           *,
           role:recipe_roles(id, name, name_en),
-          ingredients:recipe_ingredients(*, ingredient:ingredients_database(*))
+          ingredients:recipe_ingredients(id, ingredient_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, unit_weight_grams, cat:ingredient_categories(id, name, name_en)))
         `)
         .in('id', baseRecipeIds);
       if (error) throw error;
@@ -60,26 +60,33 @@ export default function UserRecipeScreen() {
   const { data: assemblyTemplate } = useQuery({
     queryKey: ['assemblyTemplate', assemblyTemplateId, userDessertTypeId],
     queryFn: async () => {
-      if (assemblyTemplateId) {
-        const { data } = await supabase
-          .from('assembly_templates')
-          .select('instructions, instructions_bg, instructions_en')
-          .eq('id', assemblyTemplateId)
-          .single();
-        return data || null;
+      try {
+        if (assemblyTemplateId) {
+          const { data } = await supabase
+            .from('assembly_templates')
+            .select('instructions, instructions_bg, instructions_en')
+            .eq('id', assemblyTemplateId)
+            .single();
+          return data || null;
+        }
+        // Fallback: намери по compatible_dessert_types
+        if (userDessertTypeId) {
+          const { data: templates } = await supabase
+            .from('assembly_templates')
+            .select('*');
+          const matchingTemplates = (templates || []).filter((t: any) => {
+            const compatible = t.compatible_dessert_types as number[];
+            return compatible && compatible.includes(Number(userDessertTypeId));
+          });
+          // Предпочитай id=1 (Sponge Cake) за торти, иначе първото съвпадение
+          const matching = matchingTemplates.find((t: any) => t.id === 1) || matchingTemplates[0] || null;
+          return matching;
+        }
+        return null;
+      } catch (err) {
+        console.error('Assembly template error:', err);
+        return null;
       }
-      // Fallback: намери по compatible_dessert_types
-      if (userDessertTypeId) {
-        const { data: templates } = await supabase
-          .from('assembly_templates')
-          .select('*');
-        const matching = (templates || []).find((t: any) => {
-          const compatible = t.compatible_dessert_types as number[];
-          return compatible && compatible.includes(Number(userDessertTypeId));
-        });
-        return matching || null;
-      }
-      return null;
     },
     enabled: !!recipe && !!(assemblyTemplateId || userDessertTypeId),
   });
@@ -164,7 +171,9 @@ export default function UserRecipeScreen() {
           unit: ing.unit,
           imageUrl: ing.ingredient?.image_url,
           unitWeightGrams: ing.ingredient?.unit_weight_grams,
-          category: ing.ingredient?.category || undefined,
+          category: language === 'en'
+            ? (ing.ingredient?.cat?.name_en || undefined)
+            : (ing.ingredient?.cat?.name || undefined),
           componentId: String(br.id),
         });
       });
