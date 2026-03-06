@@ -154,6 +154,40 @@ function convertUnit(
   }
 }
 
+function formatPrice(amount: number, curr: string): string {
+  const rounded = amount.toFixed(2);
+  return curr === '€' ? `${rounded} €` : `$${rounded}`;
+}
+
+function formatPricePerUnit(price: number, unit: string, curr: string, lang: string): string {
+  const formatted = formatPrice(price, curr);
+  const isEN = lang === 'en';
+  switch (unit.toLowerCase()) {
+    case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
+      return `${formatted}/${isEN ? 'kg' : 'кг'}`;
+    case 'ml': case 'мл':
+      return `${formatted}/${isEN ? 'L' : 'л'}`;
+    case 'бр': case 'pcs': case 'pieces':
+      return `${formatted}/${isEN ? 'pc' : 'бр'}`;
+    default:
+      return `${formatted}/${isEN ? 'kg' : 'кг'}`;
+  }
+}
+
+function getPriceEditLabel(unit: string, lang: string): string {
+  const isEN = lang === 'en';
+  switch (unit.toLowerCase()) {
+    case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
+      return isEN ? 'Price per kg' : 'Цена за кг';
+    case 'ml': case 'мл':
+      return isEN ? 'Price per L' : 'Цена за л';
+    case 'бр': case 'pcs': case 'pieces':
+      return isEN ? 'Price per pc' : 'Цена за бр';
+    default:
+      return isEN ? 'Price per kg' : 'Цена за кг';
+  }
+}
+
 // ─── Component ──────────────────────────────────────────────
 export default function RecipeDetailView({
   recipeId,
@@ -172,7 +206,7 @@ export default function RecipeDetailView({
   onBack,
 }: RecipeDetailViewProps) {
   const { t, language } = useTranslation();
-  const { unitSystem } = useLanguageStore();
+  const { unitSystem, currency } = useLanguageStore();
 
   // Shopping list store
   const addRecipeIngredients = useShoppingListStore((s) => s.addRecipeIngredients);
@@ -180,7 +214,6 @@ export default function RecipeDetailView({
   // Price store
   const getEffectivePrice = useUserPricesStore((s) => s.getEffectivePrice);
   const setCustomPrice = useUserPricesStore((s) => s.setCustomPrice);
-  const currency = useUserPricesStore((s) => s.currency);
   const loadIngredients = useUserPricesStore((s) => s.loadIngredients);
   const storeIngredientCount = useUserPricesStore((s) => s.ingredients.length);
 
@@ -267,17 +300,28 @@ export default function RecipeDetailView({
   // Price data
   const priceData = useMemo(() => {
     return scaledIngredients.map(ing => {
-      if (!ing.ingredientDatabaseId) return { ...ing, cost: null as number | null };
-      const price = getEffectivePrice(ing.ingredientDatabaseId);
-      if (price === null || price === 0) return { ...ing, cost: null as number | null };
-      let cost: number | null = null;
-      if (ing.weightInGrams > 0) {
-        cost = (ing.weightInGrams / 1000) * price;
-      } else {
-        const isPiece = ['бр', 'pcs', 'pieces'].includes(ing.unit.toLowerCase());
-        if (isPiece) cost = price * ing.quantity;
+      if (!ing.ingredientDatabaseId) {
+        return { ...ing, cost: null as number | null, pricePerUnit: null as number | null };
       }
-      return { ...ing, cost: cost !== null && cost > 0 ? cost : null };
+      const price = getEffectivePrice(ing.ingredientDatabaseId);
+      if (price === null || price === 0) {
+        return { ...ing, cost: null as number | null, pricePerUnit: null as number | null };
+      }
+      let cost: number | null = null;
+      const lowerUnit = ing.unit.toLowerCase();
+      const isPiece = ['бр', 'pcs', 'pieces'].includes(lowerUnit);
+      if (isPiece) {
+        // price is per piece; ing.quantity is already scaled
+        cost = ing.quantity * price;
+      } else if (ing.weightInGrams > 0) {
+        // price is per kg/L; weightInGrams already handles ч.л./с.л./g/ml
+        cost = (ing.weightInGrams / 1000) * price;
+      }
+      return {
+        ...ing,
+        cost: (cost !== null && cost > 0) ? cost : null,
+        pricePerUnit: price,
+      };
     });
   }, [scaledIngredients, getEffectivePrice]);
 
@@ -462,16 +506,14 @@ export default function RecipeDetailView({
                   <View style={styles.priceSummaryRow}>
                     <View style={styles.priceSummaryItem}>
                       <Text style={styles.priceSummaryValue}>
-                        {totalCost !== null ? `${totalCost.toFixed(2)} ${currency}` : '— ' + currency}
+                        {totalCost !== null ? formatPrice(totalCost, currency) : '—'}
                       </Text>
                       <Text style={styles.controlLabel}>{t('recipeDetail.cost.total')}</Text>
                     </View>
                     <View style={styles.priceSummaryDivider} />
                     <View style={styles.priceSummaryItem}>
                       <Text style={styles.priceSummaryValue}>
-                        {totalCost !== null
-                          ? `${(totalCost / selectedServings).toFixed(2)} ${currency}`
-                          : '— ' + currency}
+                        {totalCost !== null ? formatPrice(totalCost / selectedServings, currency) : '—'}
                       </Text>
                       <Text style={styles.controlLabel}>{t('recipeDetail.cost.perServing')}</Text>
                     </View>
@@ -629,10 +671,13 @@ export default function RecipeDetailView({
                             {compIngredients.map(ing => (
                               editingIngId === ing.id ? (
                                 <View key={ing.id} style={styles.priceEditRow}>
-                                  <Text style={[styles.priceIngName, { flex: 1.2 }]} numberOfLines={1}>
+                                  <Text style={styles.priceIngName} numberOfLines={1}>
                                     {ing.name} {ing.quantity}{ing.displayUnit}
                                   </Text>
                                   <View style={styles.priceEditControls}>
+                                    <Text style={styles.priceEditUnit}>
+                                      {getPriceEditLabel(ing.unit, language)}:
+                                    </Text>
                                     <TextInput
                                       value={editingPriceText}
                                       onChangeText={setEditingPriceText}
@@ -640,7 +685,6 @@ export default function RecipeDetailView({
                                       style={styles.priceEditInput}
                                       autoFocus
                                     />
-                                    <Text style={styles.priceEditUnit}>{currency}/kg</Text>
                                     <TouchableOpacity
                                       onPress={() => {
                                         const newPrice = parseFloat(editingPriceText.replace(',', '.'));
@@ -663,12 +707,19 @@ export default function RecipeDetailView({
                                     {ing.name} {ing.quantity}{ing.displayUnit}
                                   </Text>
                                   <View style={styles.priceRowRight}>
-                                    <Text style={[
-                                      styles.priceCost,
-                                      ing.cost === null && { color: Colors.text.secondary },
-                                    ]}>
-                                      {ing.cost !== null ? `${ing.cost.toFixed(2)} ${currency}` : '—'}
-                                    </Text>
+                                    <View style={styles.priceCostBlock}>
+                                      <Text style={[
+                                        styles.priceCost,
+                                        ing.cost === null && { color: Colors.text.secondary },
+                                      ]}>
+                                        {ing.cost !== null ? formatPrice(ing.cost, currency) : '—'}
+                                      </Text>
+                                      {ing.pricePerUnit !== null && ing.cost !== null && (
+                                        <Text style={styles.pricePerUnitText}>
+                                          {formatPricePerUnit(ing.pricePerUnit, ing.unit, currency, language)}
+                                        </Text>
+                                      )}
+                                    </View>
                                     {ing.ingredientDatabaseId && (
                                       <TouchableOpacity
                                         onPress={() => {
@@ -689,10 +740,20 @@ export default function RecipeDetailView({
                         );
                       })}
                       <View style={styles.priceTotalRow}>
-                        <Text style={styles.priceTotalLabel}>{t('recipeDetail.cost.total')}</Text>
-                        <Text style={styles.priceTotalValue}>
-                          {totalCost !== null ? `${totalCost.toFixed(2)} ${currency}` : '—'}
-                        </Text>
+                        <View>
+                          <Text style={styles.priceTotalLabel}>{t('recipeDetail.cost.total')}</Text>
+                          <Text style={[styles.priceTotalLabel, { fontSize: 13, fontWeight: '400', color: Colors.text.secondary }]}>
+                            {t('recipeDetail.cost.perServing')}
+                          </Text>
+                        </View>
+                        <View style={{ alignItems: 'flex-end' }}>
+                          <Text style={styles.priceTotalValue}>
+                            {totalCost !== null ? formatPrice(totalCost, currency) : '—'}
+                          </Text>
+                          <Text style={[styles.priceTotalValue, { fontSize: 13, color: Colors.text.secondary }]}>
+                            {totalCost !== null ? formatPrice(totalCost / selectedServings, currency) : '—'}
+                          </Text>
+                        </View>
                       </View>
                       <Text style={styles.priceNoteText}>{t('recipeDetail.cost.note')}</Text>
                     </View>
@@ -1456,6 +1517,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
+  },
+  priceCostBlock: {
+    alignItems: 'flex-end',
+  },
+  pricePerUnitText: {
+    fontSize: 11,
+    color: Colors.text.tertiary,
+    marginTop: 1,
   },
   priceEditBtn: {
     padding: 4,

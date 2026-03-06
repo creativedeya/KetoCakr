@@ -461,6 +461,11 @@ export const en: TranslationKeys = {
       metricHint: 'g, ml, °C',
       imperialHint: 'oz, fl oz, °F',
     },
+    currency: {
+      title: 'Currency',
+      dollar: 'Dollar',
+      euro: 'Euro',
+    },
     saved: {
       title: 'Success! ✅',
       message: 'Settings saved',

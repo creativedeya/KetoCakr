@@ -459,6 +459,11 @@ export const bg = {
       metricHint: 'г, мл, °C',
       imperialHint: 'oz, fl oz, °F',
     },
+    currency: {
+      title: 'Валута',
+      dollar: 'Долар',
+      euro: 'Евро',
+    },
     saved: {
       title: 'Успех! ✅',
       message: 'Настройките бяха запазени',

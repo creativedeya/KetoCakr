@@ -32,6 +32,8 @@ export default function SettingsScreen() {
   const setLanguage = useLanguageStore((state) => state.setLanguage);
   const unitSystem = useLanguageStore((state) => state.unitSystem);
   const setUnitSystem = useLanguageStore((state) => state.setUnitSystem);
+  const currency = useLanguageStore((state) => state.currency);
+  const setCurrency = useLanguageStore((state) => state.setCurrency);
 
   // Settings state
   const [notifications, setNotifications] = useState(true);
@@ -218,6 +220,41 @@ export default function SettingsScreen() {
                 </TouchableOpacity>
               </View>
             </View>
+
+            {/* Currency — only for EN */}
+            {language === 'en' && (
+              <View style={[unitsStyles.card, { marginTop: 12 }]}>
+                <View style={unitsStyles.iconRow}>
+                  <View style={unitsStyles.iconBg}>
+                    <Ionicons name="cash-outline" size={20} color={Colors.primary.main} />
+                  </View>
+                  <View style={unitsStyles.labelBlock}>
+                    <Text style={unitsStyles.title}>{t('settings.currency.title')}</Text>
+                    <Text style={unitsStyles.hint}>
+                      {currency === '$' ? '$ Dollar' : '€ Euro'}
+                    </Text>
+                  </View>
+                </View>
+                <View style={unitsStyles.toggle}>
+                  <TouchableOpacity
+                    onPress={() => setCurrency('$')}
+                    style={[unitsStyles.toggleBtn, currency === '$' && unitsStyles.toggleBtnActive]}
+                  >
+                    <Text style={[unitsStyles.toggleText, currency === '$' && unitsStyles.toggleTextActive]}>
+                      $ {t('settings.currency.dollar')}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setCurrency('€')}
+                    style={[unitsStyles.toggleBtn, currency === '€' && unitsStyles.toggleBtnActive]}
+                  >
+                    <Text style={[unitsStyles.toggleText, currency === '€' && unitsStyles.toggleTextActive]}>
+                      € {t('settings.currency.euro')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
           </View>
 
           {/* About Section */}
