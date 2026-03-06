@@ -1,0 +1,514 @@
+export const bg = {
+  common: {
+    back: 'Назад',
+    save: 'Запази',
+    cancel: 'Отказ',
+    continue: 'Продължи',
+    create: 'Създай',
+    edit: 'Редактирай',
+    delete: 'Изтрий',
+    search: 'Търси',
+    loading: 'Зареждане...',
+    error: 'Грешка',
+    success: 'Успех',
+    confirm: 'Потвърди',
+    yes: 'Да',
+    no: 'Не',
+    retry: 'Опитай отново',
+    all: 'Всички',
+    viewAll: 'Виж всички',
+    createNew: 'Създай нова',
+    noResults: 'Няма резултати',
+  },
+
+  tabs: {
+    home: 'Начало',
+    search: 'Търсене',
+    create: 'Създай',
+    tools: 'Инструменти',
+    profile: 'Профил',
+    login: 'Вход',
+  },
+
+  home: {
+    greeting: 'Здравей! 👋',
+    hero: {
+      title: 'Десерт на деня',
+      subtitle: 'Специална препоръка само за теб',
+      button: 'Покажи ми!',
+    },
+    error: {
+      title: 'Грешка при зареждане',
+      failedToLoad: 'Не можахме да заредим десерта на деня',
+      failedToLoadRecipes: 'Не можахме да заредим рецептите',
+    },
+    noDessert: {
+      title: 'Няма десерт на деня',
+      subtitle: 'Провери отново по-късно',
+    },
+    createMasterpiece: 'Създай шедьовър',
+    featuredBadge: 'ДЕСЕРТ НА ДЕНЯ',
+    viewRecipe: 'ВИЖ РЕЦЕПТАТА',
+    startCreating: 'ЗАПОЧНИ СЪЗДАВАНЕ',
+    byDessertType: 'По вид десерт',
+    noRecipes: {
+      title: 'Няма рецепти',
+      subtitle: 'Опитай друг филтър',
+    },
+    quickActions: {
+      title: 'Какво искаш да направиш?',
+      createCake: {
+        title: 'Създай торта',
+        description: 'Пъзел режим',
+      },
+      readyRecipes: {
+        title: 'Готови рецепти',
+        description: 'От нашия екип',
+      },
+    },
+    popularCakes: {
+      title: 'Популярни торти',
+      netCarbs: 'нетни въглехидрати',
+    },
+    yourCreations: 'Твоите рецепти',
+    noCreations: 'Нямаш рецепти все още',
+  },
+
+  search: {
+    title: 'Търсене',
+    placeholder: 'Търси рецепти, съставки...',
+    popularSearches: 'Популярни търсения',
+    recentSearches: 'Последни търсения',
+    categories: 'Категории',
+    emptyState: {
+      title: 'Все още няма търсения',
+      description: 'Започни да търсиш твоите любими\nкето десерти',
+    },
+    categoryItems: {
+      cakes: 'Торти',
+      muffins: 'Мъфини',
+      cookies: 'Бисквити',
+      cheesecakes: 'Чийзкейкове',
+      pies: 'Пайове',
+      recipes: 'рецепти',
+    },
+  },
+
+  create: {
+    title: 'Моите творения',
+    recipe: 'рецепта',
+    recipes: 'рецепти',
+    servings: 'порции',
+    emptyState: {
+      title: 'Моите творения',
+      description: 'Все още нямаш създадени рецепти.\nВреме е да започнеш да създаваш!',
+      button: 'Създай нова торта',
+    },
+  },
+
+  tools: {
+    title: 'Инструменти',
+    subtitle: 'Всичко необходимо за перфектния десерт',
+    quickTools: '⚡ Бързи инструменти',
+    knowledgeBase: '📚 База знания',
+    tipsOfDay: '💡 Съвети на деня',
+    items: {
+      converter: {
+        title: 'Конвертор',
+        description: 'Инч ↔ См\nУнции ↔ Грамове',
+      },
+      timer: {
+        title: 'Таймер',
+        description: 'За печене и готвене',
+      },
+      panSizes: {
+        title: 'Размери тави',
+        description: 'Преизчисли за различни размери',
+      },
+      macroCalculator: {
+        title: 'Макро калкулатор',
+        description: 'Персонални дневни нужди',
+      },
+      encyclopedia: {
+        title: 'Енциклопедия на съставките',
+        subtitle: 'Свойства, заместители, съвети',
+      },
+      substitutes: {
+        title: 'Заместители на съставки',
+        subtitle: 'Какво да използвам вместо...',
+      },
+      techniques: {
+        title: 'Техники за готвене',
+        subtitle: 'Съвети от професионалисти',
+      },
+      nutrition: {
+        title: 'Нутриционни таблици',
+        subtitle: 'Калории и макроси',
+      },
+    },
+    tipText:
+      'При печене на кето блатове, винаги предварително затопляй фурната на 180°C. Това гарантира равномерно печене и по-добра текстура.',
+  },
+
+  profile: {
+    title: 'Профил',
+    user: 'Потребител',
+    login: {
+      title: 'Влез в профила си',
+      description: 'Запази рецептите си и синхронизирай\nмежду всички твои устройства',
+      signIn: 'Вход',
+      signUp: 'Регистрация',
+    },
+    stats: {
+      myRecipes: 'Мои рецепти',
+      favorites: 'Любими',
+      daysActive: 'Дни активност',
+    },
+    menu: {
+      favoriteRecipes: {
+        title: 'Любими рецепти',
+        subtitle: '28 запазени десерти',
+      },
+      shoppingList: {
+        title: 'Списък за пазаруване',
+        subtitle: 'Генериран от рецептите',
+      },
+      premium: {
+        title: 'Премиум абонамент',
+        subtitle: 'Unlock всички функции',
+      },
+      settings: {
+        title: 'Настройки',
+        subtitle: 'Профил и предпочитания',
+      },
+      logout: 'Изход',
+    },
+    ingredientPrices: {
+      title: 'Моите цени на продуктите',
+      subtitle: 'Персонализирай за точни разходи',
+    },
+    logoutConfirm: {
+      title: 'Изход',
+      message: 'Сигурни ли сте, че искате да излезете?',
+    },
+    appInfo: {
+      version: 'KetoCakr v1.0.0',
+      tagline: 'Made with 💜 for keto lovers',
+    },
+  },
+
+  recipeBuilder: {
+    dessertSelection: {
+      title: 'Избери десерт',
+      subtitle: 'Какво ще приготвим днес?',
+    },
+    buildStep: {
+      roles: {
+        crust: 'Блат',
+        filling: 'Пълнеж',
+        cream: 'Крем',
+        decoration: 'Декор',
+      },
+      continueButton: 'Продължи ({{count}}/4)',
+      nutrition: {
+        kcal: 'kcal',
+        protein: 'протеин',
+        fat: 'мазнини',
+        carbs: 'въглехидр.',
+        net: 'нетни',
+      },
+    },
+    finalizeStep: {
+      title: 'Последна стъпка',
+      subtitle: 'Име и брой порции',
+      recipeName: 'Име на рецептата',
+      servings: 'Брой порции',
+      descriptionLabel: 'Описание (опционално)',
+      descriptionPlaceholder: 'Напишете кратко описание на вашия десерт...',
+      summary: {
+        title: 'Обобщение',
+        dessert: 'Десерт:',
+        components: 'Компоненти:',
+        calories: 'Калории:',
+        perServing: 'kcal/порция',
+      },
+      saveButton: '🎉 Запази рецептата',
+      placeholder: 'Моя {{dessert}}',
+    },
+    alerts: {
+      loginRequired: {
+        title: 'Грешка',
+        message: 'Моля влезте за да запазите рецепта',
+      },
+      selectComponent: {
+        title: 'Грешка',
+        message: 'Моля изберете поне един компонент',
+      },
+      success: {
+        title: 'Успех! 🎉',
+        message: 'Рецептата е запазена',
+        viewRecipe: 'Виж рецепта',
+        goToRecipes: 'Към рецептите',
+      },
+      error: {
+        title: 'Грешка',
+        message: 'Неуспешно запазване на рецептата',
+      },
+    },
+  },
+
+  recipeDetail: {
+    tabs: {
+      overview: 'Обзор',
+      intro: 'УВОД',
+      ingredients: 'СЪСТАВКИ',
+      steps: 'СТЪПКИ',
+      instructions: 'Приготвяне',
+      nutrition: 'Хранене',
+      nutritionShort: 'ХРАН. СТОЙ.',
+    },
+    mode: {
+      servings: 'ПОРЦИИ',
+      quantity: 'КОЛИЧЕСТВО',
+      price: 'ЦЕНА',
+      total: 'ОБЩО',
+      portion: 'ПОРЦИЯ',
+    },
+    type: 'ТИП:',
+    views: {
+      text: 'Текст',
+      gallery: 'Снимки',
+    },
+    overview: {
+      servings: 'порции',
+      perServing: 'на порция',
+      components: 'Компоненти',
+      ingredients: 'Съставки',
+    },
+    nutrition: {
+      calories: 'Калории',
+      protein: 'Протеини',
+      fat: 'Мазнини',
+      carbs: 'Въглехидрати',
+      fiber: 'Фибри',
+      netCarbs: 'Нетни въглехидрати',
+      perServing: 'Хранителни стойности на порция',
+    },
+    instructions: {
+      step: 'Стъпка',
+      noInstructions: 'Няма инструкции',
+      assembly: 'Сглобяване',
+    },
+    actions: {
+      addToShoppingList: 'Добави в списъка',
+      addToShoppingListLong: 'Добави към списъка за пазаруване',
+      addedToList: 'Продуктите са добавени към списъка',
+      share: 'Сподели',
+      favorite: 'Любима',
+    },
+    share: {
+      title: 'Споделяне',
+      message: 'Share функционалността идва скоро!',
+    },
+    timer: {
+      started: 'Стартиран {{minutes}} минутен таймер!',
+      error: 'Не може да се стартира таймер',
+    },
+    cost: {
+      total: 'Обща цена',
+      perServing: 'на порция',
+      estimatedCost: 'Приблизителна цена',
+      note: 'Въведете цените на всички продукти според най-използваните ви марки от менюто Цени на съставки за точна калкулация.',
+    },
+    makes: 'ПРАВИ:',
+    totalWeight: 'ОБЩО ТЕГЛО',
+    perServingShort: 'НА ПОРЦИЯ',
+    noIngredients: 'Няма информация за съставки',
+    errorState: 'Грешка при зареждане',
+  },
+
+  ingredientPrices: {
+    title: 'Цени на съставки',
+    subtitle: 'Задай цените от твоя магазин',
+    loading: 'Зареждане на съставки...',
+    search: 'Търси съставка...',
+    saveAll: 'Запази всички',
+    resetAll: 'Нулирай',
+    saved: 'Запазено!',
+    priceLabel: 'Цена:',
+    notSet: 'Не е зададено',
+    pricePerUnit: 'Цена за {{unit}}',
+    noResults: 'Няма намерени съставки',
+    categories: {
+      all: 'Всички',
+      dairy: 'Млечни',
+      nuts: 'Ядки',
+      sweeteners: 'Подсладители',
+      flours: 'Брашна',
+      other: 'Друго',
+    },
+  },
+
+  shoppingList: {
+    title: 'Списък за пазаруване',
+    clearChecked: 'Изчисти отметнати',
+    addProduct: 'Добави продукт',
+    newProduct: 'Нов продукт',
+    productName: 'Ime на продукта',
+    quantity: 'Количество',
+    unit: 'Мярка',
+    add: 'Добави',
+    toBuy: 'За купуване',
+    bought: 'Купени',
+    stats: {
+      unchecked: '{{count}} продукта',
+      checked: 'Отметнати: {{count}}',
+    },
+    empty: {
+      title: 'Списъкът е празен',
+      description: 'Добавете продукти или ги импортирайте от рецепта',
+    },
+    actions: {
+      clearAll: 'Изчисти всички',
+      shareList: 'Сподели списъка',
+      addManually: 'Добави ръчно',
+    },
+    item: {
+      checked: 'Купено',
+      unchecked: 'Не е купено',
+    },
+    alerts: {
+      emptyIngredient: 'Моля, въведете ime на съставката',
+      noChecked: {
+        title: 'Информация',
+        message: 'Няма отметнати продукти',
+      },
+      deleteChecked: {
+        title: 'Изтриване',
+        message: 'Изтриване на {{count}} отметнати продукта?',
+        button: 'Изтрий',
+      },
+      clearAll: {
+        title: 'Изчистване на списъка',
+        message: 'Сигурни ли сте, че искате да изтриете всички продукти?',
+        button: 'Изтрий всички',
+      },
+    },
+    confirmClear: {
+      title: 'Изчисти списъка',
+      message: 'Сигурни ли сте?',
+    },
+    total: 'Обща цена: {{amount}} лв.',
+  },
+
+  settings: {
+    title: 'Настройки',
+    loginRequired: {
+      title: 'Влезте в профила си',
+      subtitle: 'За да промените настройките',
+    },
+    account: 'Акаунт',
+    email: 'Имейл',
+    name: 'Ime',
+    notSet: 'Не е зададено',
+    preferences: 'Предпочитания',
+    notifications: {
+      title: 'Известия',
+      subtitle: 'Push нотификации за нови рецепти',
+    },
+    darkMode: {
+      title: 'Тъмен режим',
+      comingSoon: 'Скоро достъпен',
+    },
+    language: {
+      title: 'Език',
+      current: 'Български',
+      alert: 'Скоро ще можете да изберете език',
+    },
+    about: {
+      title: 'За приложението',
+      alertMessage: 'KetoCakr v1.0.0\n\nПерсонализирани кето десерти',
+    },
+    privacy: {
+      title: 'Поверителност',
+      alertMessage: 'Вашите данни са защитени',
+    },
+    help: {
+      title: 'Помощ',
+      alertMessage: 'За помощ: support@ketocakr.com',
+    },
+    contact: {
+      title: 'Свържете се с нас',
+      alertMessage: 'Email: support@ketocakr.com',
+    },
+    copyright: '© 2025 Всички права запазени',
+    saveChanges: 'Запази промените',
+    saved: {
+      title: 'Успех! ✅',
+      message: 'Настройките бяха запазени',
+    },
+  },
+
+  roles: {
+    1: 'Блат',
+    2: 'Крем',
+    3: 'Плънка',
+    4: 'Декор',
+    crust: 'Блат',
+    cream: 'Крем',
+    filling: 'Пълнеж',
+    decoration: 'Декор',
+  },
+
+  units: {
+    g: 'г',
+    kg: 'кг',
+    ml: 'мл',
+    l: 'л',
+    tsp: 'ч.л.',
+    tbsp: 'с.л.',
+    cup: 'чаша',
+    piece: 'бр.',
+    perHundredG: 'на 100г',
+  },
+
+  favorites: {
+    title: 'Любими рецепти',
+    loginRequired: {
+      description: 'За да видите вашите любими рецепти',
+    },
+    count: {
+      single: 'рецепта',
+      plural: 'рецепти',
+    },
+    servings: 'порции',
+    components: 'компонента',
+    empty: {
+      title: 'Няма любими рецепти',
+      description: 'Маркирайте рецепти като любими с ❤️ бутона, за да ги видите тук',
+      browse: 'Разгледайте рецепти',
+    },
+  },
+
+  alerts: {
+    comingSoon: 'Скоро...',
+    premium: {
+      title: '👑 Премиум функция',
+      message:
+        'Тази функция е достъпна само за премиум потребители.\n\nАбонирай се за пълен достъп до всички инструменти!',
+    },
+  },
+
+  panPicker: {
+    title: 'Форма',
+    servings: 'порции',
+    pieces: 'парчета',
+    rectangular: 'Правоъгълни тави',
+    selectPan: 'Избери форма',
+    perServing: 'на порция',
+    round: 'кръгла',
+    freeSize: 'Свободен размер',
+  },
+};
+
+export type TranslationKeys = typeof bg;
