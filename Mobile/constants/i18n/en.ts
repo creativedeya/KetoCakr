@@ -94,6 +94,13 @@ export const en: TranslationKeys = {
       pies: 'Pies',
       recipes: 'recipes',
     },
+    filters: {
+      dessertType: 'Dessert type',
+      calories: 'Calories per serving',
+      netCarbs: 'Net carbs',
+      all: 'All',
+    },
+    results: 'results',
   },
 
   create: {

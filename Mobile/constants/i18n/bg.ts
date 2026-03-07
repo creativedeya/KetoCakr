@@ -92,6 +92,13 @@ export const bg = {
       pies: 'Пайове',
       recipes: 'рецепти',
     },
+    filters: {
+      dessertType: 'Тип десерт',
+      calories: 'Калории на порция',
+      netCarbs: 'Нет въглехидрати',
+      all: 'Всички',
+    },
+    results: 'резултата',
   },
 
   create: {
