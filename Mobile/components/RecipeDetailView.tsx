@@ -159,32 +159,71 @@ function formatPrice(amount: number, curr: string): string {
   return curr === '€' ? `${rounded} €` : `$${rounded}`;
 }
 
-function formatPricePerUnit(price: number, unit: string, curr: string, lang: string): string {
-  const formatted = formatPrice(price, curr);
+function formatPricePerUnit(
+  price: number,
+  unit: string,
+  curr: string,
+  lang: string,
+  unitSystem: 'metric' | 'imperial'
+): string {
   const isEN = lang === 'en';
+  const isImperial = unitSystem === 'imperial';
   switch (unit.toLowerCase()) {
     case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
-      return `${formatted}/${isEN ? 'kg' : 'кг'}`;
+      if (isImperial) return `${formatPrice(price / 2.205, curr)}/lb`;
+      return `${formatPrice(price, curr)}/${isEN ? 'kg' : 'кг'}`;
     case 'ml': case 'мл':
-      return `${formatted}/${isEN ? 'L' : 'л'}`;
+      if (isImperial) return `${formatPrice(price / 33.814, curr)}/fl oz`;
+      return `${formatPrice(price, curr)}/${isEN ? 'L' : 'л'}`;
     case 'бр': case 'pcs': case 'pieces':
-      return `${formatted}/${isEN ? 'pc' : 'бр'}`;
+      return `${formatPrice(price, curr)}/${isEN ? 'pc' : 'бр'}`;
     default:
-      return `${formatted}/${isEN ? 'kg' : 'кг'}`;
+      if (isImperial) return `${formatPrice(price / 2.205, curr)}/lb`;
+      return `${formatPrice(price, curr)}/${isEN ? 'kg' : 'кг'}`;
   }
 }
 
-function getPriceEditLabel(unit: string, lang: string): string {
+function getPriceEditLabel(unit: string, lang: string, unitSystem: 'metric' | 'imperial'): string {
   const isEN = lang === 'en';
+  const isImperial = unitSystem === 'imperial';
   switch (unit.toLowerCase()) {
     case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
+      if (isImperial) return 'Price per lb';
       return isEN ? 'Price per kg' : 'Цена за кг';
     case 'ml': case 'мл':
+      if (isImperial) return 'Price per fl oz';
       return isEN ? 'Price per L' : 'Цена за л';
     case 'бр': case 'pcs': case 'pieces':
       return isEN ? 'Price per pc' : 'Цена за бр';
     default:
+      if (isImperial) return 'Price per lb';
       return isEN ? 'Price per kg' : 'Цена за кг';
+  }
+}
+
+// Store → display (per kg → per lb, per L → per fl oz)
+function toDisplayPrice(stored: number, unit: string, unitSystem: 'metric' | 'imperial'): number {
+  if (unitSystem !== 'imperial') return stored;
+  switch (unit.toLowerCase()) {
+    case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
+      return stored / 2.205;
+    case 'ml': case 'мл':
+      return stored / 33.814;
+    default:
+      return stored;
+  }
+}
+
+// Display → store (per lb → per kg, per fl oz → per L)
+function toStoredPrice(display: number, unit: string, unitSystem: 'metric' | 'imperial'): number {
+  if (unitSystem !== 'imperial') return display;
+  switch (unit.toLowerCase()) {
+    case 'g': case 'г': case 'ч.л.': case 'tsp': case 'с.л.': case 'tbsp':
+      return display * 2.205;
+    case 'ml': case 'мл':
+      return display * 33.814;
+    default:
+      return display;
   }
 }
 
@@ -676,7 +715,7 @@ export default function RecipeDetailView({
                                   </Text>
                                   <View style={styles.priceEditControls}>
                                     <Text style={styles.priceEditUnit}>
-                                      {getPriceEditLabel(ing.unit, language)}:
+                                      {getPriceEditLabel(ing.unit, language, unitSystem)}:
                                     </Text>
                                     <TextInput
                                       value={editingPriceText}
@@ -687,9 +726,9 @@ export default function RecipeDetailView({
                                     />
                                     <TouchableOpacity
                                       onPress={() => {
-                                        const newPrice = parseFloat(editingPriceText.replace(',', '.'));
-                                        if (!isNaN(newPrice) && newPrice > 0 && ing.ingredientDatabaseId) {
-                                          setCustomPrice(ing.ingredientDatabaseId, newPrice);
+                                        const entered = parseFloat(editingPriceText.replace(',', '.'));
+                                        if (!isNaN(entered) && entered > 0 && ing.ingredientDatabaseId) {
+                                          setCustomPrice(ing.ingredientDatabaseId, toStoredPrice(entered, ing.unit, unitSystem));
                                         }
                                         setEditingIngId(null);
                                       }}
@@ -716,15 +755,16 @@ export default function RecipeDetailView({
                                       </Text>
                                       {ing.pricePerUnit !== null && ing.cost !== null && (
                                         <Text style={styles.pricePerUnitText}>
-                                          {formatPricePerUnit(ing.pricePerUnit, ing.unit, currency, language)}
+                                          {formatPricePerUnit(ing.pricePerUnit, ing.unit, currency, language, unitSystem)}
                                         </Text>
                                       )}
                                     </View>
                                     {ing.ingredientDatabaseId && (
                                       <TouchableOpacity
                                         onPress={() => {
-                                          const currentPrice = getEffectivePrice(ing.ingredientDatabaseId!) ?? 0;
-                                          setEditingPriceText(currentPrice > 0 ? String(currentPrice) : '');
+                                          const currentStored = getEffectivePrice(ing.ingredientDatabaseId!) ?? 0;
+                                          const displayPrice = toDisplayPrice(currentStored, ing.unit, unitSystem);
+                                          setEditingPriceText(displayPrice > 0 ? displayPrice.toFixed(2) : '');
                                           setEditingIngId(ing.id);
                                         }}
                                         style={styles.priceEditBtn}
