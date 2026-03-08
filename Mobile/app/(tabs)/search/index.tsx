@@ -24,8 +24,23 @@ import { useTranslation } from '../../../constants/i18n';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = (SCREEN_WIDTH - Spacing.xl * 2 - Spacing.md) / 2;
 
-const CALORIE_OPTIONS: (number | null)[] = [null, 150, 200, 300];
-const NET_CARB_OPTIONS: (number | null)[] = [null, 3, 5, 10];
+type Range = [number, number] | null;
+
+const CALORIE_OPTIONS: { label: string; range: Range }[] = [
+  { label: 'all',    range: null },
+  { label: '< 100',  range: [0, 100] },
+  { label: '100-150', range: [100, 150] },
+  { label: '150-200', range: [150, 200] },
+  { label: '200+',   range: [200, Infinity] },
+];
+
+const NET_CARB_OPTIONS: { label: string; range: Range }[] = [
+  { label: 'all',   range: null },
+  { label: '< 3g',  range: [0, 3] },
+  { label: '3-5g',  range: [3, 5] },
+  { label: '5-10g', range: [5, 10] },
+  { label: '10g+',  range: [10, Infinity] },
+];
 
 export default function SearchScreen() {
   const { t, language } = useTranslation();
@@ -33,8 +48,8 @@ export default function SearchScreen() {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDessertType, setSelectedDessertType] = useState<number | null>(null);
-  const [maxCalories, setMaxCalories] = useState<number | null>(null);
-  const [maxNetCarbs, setMaxNetCarbs] = useState<number | null>(null);
+  const [calRange, setCalRange] = useState<Range>(null);
+  const [ncRange, setNcRange] = useState<Range>(null);
 
   // Debounce search 300ms
   useEffect(() => {
@@ -84,22 +99,22 @@ export default function SearchScreen() {
       result = result.filter(r => r.dessert_type_id === selectedDessertType);
     }
 
-    if (maxCalories !== null) {
+    if (calRange) {
       result = result.filter(r => {
         const perServing = (r.total_calories || 0) / (r.total_servings || 8);
-        return perServing <= maxCalories;
+        return perServing >= calRange[0] && perServing < calRange[1];
       });
     }
 
-    if (maxNetCarbs !== null) {
+    if (ncRange) {
       result = result.filter(r => {
         const perServing = (r.total_net_carbs || 0) / (r.total_servings || 8);
-        return perServing <= maxNetCarbs;
+        return perServing >= ncRange[0] && perServing < ncRange[1];
       });
     }
 
     return result;
-  }, [recipes, searchQuery, selectedDessertType, maxCalories, maxNetCarbs]);
+  }, [recipes, searchQuery, selectedDessertType, calRange, ncRange]);
 
   return (
     <View style={styles.screen}>
@@ -168,17 +183,22 @@ export default function SearchScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.chipsRow}
           >
-            {CALORIE_OPTIONS.map((val) => (
-              <TouchableOpacity
-                key={String(val)}
-                onPress={() => setMaxCalories(val)}
-                style={[styles.chip, maxCalories === val && styles.chipActive]}
-              >
-                <Text style={[styles.chipText, maxCalories === val && styles.chipTextActive]}>
-                  {val === null ? t('search.filters.all') : `< ${val}`}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {CALORIE_OPTIONS.map((opt) => {
+              const isActive = calRange === opt.range ||
+                (calRange !== null && opt.range !== null &&
+                  calRange[0] === opt.range[0] && calRange[1] === opt.range[1]);
+              return (
+                <TouchableOpacity
+                  key={opt.label}
+                  onPress={() => setCalRange(opt.range)}
+                  style={[styles.chip, isActive && styles.chipActive]}
+                >
+                  <Text style={[styles.chipText, isActive && styles.chipTextActive]}>
+                    {opt.label === 'all' ? t('search.filters.all') : opt.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
 
@@ -190,17 +210,22 @@ export default function SearchScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.chipsRow}
           >
-            {NET_CARB_OPTIONS.map((val) => (
-              <TouchableOpacity
-                key={String(val)}
-                onPress={() => setMaxNetCarbs(val)}
-                style={[styles.chip, maxNetCarbs === val && styles.chipActive]}
-              >
-                <Text style={[styles.chipText, maxNetCarbs === val && styles.chipTextActive]}>
-                  {val === null ? t('search.filters.all') : `< ${val}g`}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {NET_CARB_OPTIONS.map((opt) => {
+              const isActive = ncRange === opt.range ||
+                (ncRange !== null && opt.range !== null &&
+                  ncRange[0] === opt.range[0] && ncRange[1] === opt.range[1]);
+              return (
+                <TouchableOpacity
+                  key={opt.label}
+                  onPress={() => setNcRange(opt.range)}
+                  style={[styles.chip, isActive && styles.chipActive]}
+                >
+                  <Text style={[styles.chipText, isActive && styles.chipTextActive]}>
+                    {opt.label === 'all' ? t('search.filters.all') : opt.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
 
