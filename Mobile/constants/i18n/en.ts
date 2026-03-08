@@ -549,4 +549,13 @@ export const en: TranslationKeys = {
     title: 'All Recipes',
     searchPlaceholder: 'Search recipes...',
   },
+
+  imageUpload: {
+    addPhoto: 'Add photo',
+    camera: 'Camera',
+    gallery: 'Gallery',
+    cancel: 'Cancel',
+    uploaded: 'Photo uploaded!',
+    skipForNow: 'You can add a photo later',
+  },
 };

@@ -265,6 +265,7 @@ export default function UserRecipeScreen() {
       <Stack.Screen options={{ headerShown: false }} />
       <RecipeDetailView
         {...transformedData}
+        allowImageUpload={true}
         onBack={() => router.back()}
       />
     </>

@@ -14,7 +14,9 @@ import {
   Dimensions,
   Image,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
+import { pickImage, uploadRecipeImage, updateRecipeImage } from '../lib/imageUpload';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { Typography, Spacing, BorderRadius, IconSize } from '../constants/Theme';
@@ -97,6 +99,7 @@ interface RecipeDetailViewProps {
   introText?: string;
   dessertTypeName?: string;
   hasFixedPan?: boolean;  // true = торти/чийзкейкове (default); false = мъфини/брауни
+  allowImageUpload?: boolean;
   onBack?: () => void;
 }
 
@@ -242,6 +245,7 @@ export default function RecipeDetailView({
   introText,
   dessertTypeName,
   hasFixedPan = true,
+  allowImageUpload = false,
   onBack,
 }: RecipeDetailViewProps) {
   const { t, language } = useTranslation();
@@ -264,6 +268,8 @@ export default function RecipeDetailView({
   const [activeTab, setActiveTab] = useState<ActiveTab>('intro');
   const [editingIngId, setEditingIngId] = useState<string | null>(null);
   const [editingPriceText, setEditingPriceText] = useState('');
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Servings options based on dessert type
   const servingsOptions = hasFixedPan ? PAN_SERVINGS : NO_PAN_SERVINGS;
@@ -404,6 +410,35 @@ export default function RecipeDetailView({
     ? `${panSizeStr}${panShapeStr ? ` ${panShapeStr}` : ''}`
     : (hasFixedPan ? t('panPicker.freeSize') : null);
 
+  const doImageUpload = async (source: 'camera' | 'gallery') => {
+    if (!recipeId) return;
+    setIsUploading(true);
+    try {
+      const uri = await pickImage(source);
+      if (!uri) return;
+      const publicUrl = await uploadRecipeImage(uri, recipeId);
+      if (publicUrl) {
+        await updateRecipeImage(recipeId, publicUrl);
+        setUploadedImageUrl(publicUrl);
+        Alert.alert(t('common.success'), t('imageUpload.uploaded'));
+      }
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleCameraPress = () => {
+    Alert.alert(
+      t('imageUpload.addPhoto'),
+      undefined,
+      [
+        { text: t('imageUpload.camera'), onPress: () => doImageUpload('camera') },
+        { text: t('imageUpload.gallery'), onPress: () => doImageUpload('gallery') },
+        { text: t('imageUpload.cancel'), style: 'cancel' },
+      ]
+    );
+  };
+
   const defaultHero = 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800';
 
   return (
@@ -437,10 +472,25 @@ export default function RecipeDetailView({
         {/* ─── Hero Section ─── */}
         <View style={styles.hero}>
           <ImageBackground
-            source={{ uri: heroImageUrl || defaultHero }}
+            source={{ uri: uploadedImageUrl || heroImageUrl || defaultHero }}
             style={styles.heroImage}
             resizeMode="cover"
           >
+            {/* Camera Upload Button */}
+            {allowImageUpload && (
+              <TouchableOpacity
+                style={styles.cameraUploadBtn}
+                onPress={handleCameraPress}
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <ActivityIndicator size="small" color="#FFFFFF" />
+                ) : (
+                  <Ionicons name="camera" size={IconSize.md} color="#FFFFFF" />
+                )}
+              </TouchableOpacity>
+            )}
+
             {/* Nutrition Overlay — top */}
             <View style={styles.nutritionOverlay}>
               <View style={styles.nutritionCard}>
@@ -1142,6 +1192,20 @@ const styles = StyleSheet.create({
   heroImage: {
     width: '100%',
     height: '100%',
+  },
+
+  // Camera upload button
+  cameraUploadBtn: {
+    position: 'absolute',
+    top: 80,
+    right: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
   },
 
   // Nutrition overlay (top of hero)

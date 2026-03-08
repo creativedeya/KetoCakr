@@ -1,7 +1,7 @@
 // ===========================================================
 // Visual Recipe Builder - Purple & Gold Theme
 // ===========================================================
-import { View, Text, ScrollView, TouchableOpacity, ImageBackground, Animated, TextInput, Alert, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground, Animated, TextInput, Alert, Image, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors';
@@ -17,6 +17,7 @@ import { DessertType, BaseRecipe } from '../../../shared/types';
 import { useTranslation } from '../../constants/i18n';
 import PanSizePicker from '../../components/PanSizePicker';
 import { getPanByServings, BASE_PAN, BASE_SERVINGS } from '../../constants/BakingPans';
+import { pickImage, uploadRecipeImage, updateRecipeImage } from '../../lib/imageUpload';
 
 const PLACEHOLDER_USER_ID = '00000000-0000-0000-0000-000000000000';
 
@@ -34,6 +35,8 @@ export default function VisualRecipeBuilder() {
   const [servings, setServings] = useState(BASE_SERVINGS);
   const [recipeName, setRecipeName] = useState('');
   const [introText, setIntroText] = useState('');
+  const [builderImageUri, setBuilderImageUri] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const nutritionAnim = useRef(new Animated.Value(0)).current;
 
@@ -170,6 +173,19 @@ export default function VisualRecipeBuilder() {
 
       if (error) throw error;
 
+      // Upload image if selected
+      if (builderImageUri && data.id) {
+        setIsUploadingImage(true);
+        try {
+          const publicUrl = await uploadRecipeImage(builderImageUri, String(data.id));
+          if (publicUrl) {
+            await updateRecipeImage(String(data.id), publicUrl);
+          }
+        } finally {
+          setIsUploadingImage(false);
+        }
+      }
+
       Alert.alert(
         t('recipeBuilder.alerts.success.title'),
         t('recipeBuilder.alerts.success.message'),
@@ -267,6 +283,82 @@ export default function VisualRecipeBuilder() {
             </Text>
           </View>
 
+          {/* Optional Photo */}
+          <View style={{ marginBottom: 24 }}>
+            <Text style={{ fontSize: 16, fontWeight: '600', color: Colors.text.primary, marginBottom: 8 }}>
+              {t('imageUpload.addPhoto')}
+            </Text>
+            {builderImageUri ? (
+              <View>
+                <Image
+                  source={{ uri: builderImageUri }}
+                  style={{ width: '100%', height: 180, borderRadius: 12, marginBottom: 8 }}
+                  resizeMode="cover"
+                />
+                <TouchableOpacity
+                  onPress={() => setBuilderImageUri(null)}
+                  style={{ alignSelf: 'center', paddingVertical: 4 }}
+                >
+                  <Text style={{ color: Colors.text.secondary, fontSize: 13 }}>{t('common.delete')}</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View>
+                <View style={{ flexDirection: 'row', gap: 12, marginBottom: 8 }}>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      const uri = await pickImage('camera');
+                      if (uri) setBuilderImageUri(uri);
+                    }}
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      backgroundColor: Colors.background.primary,
+                      borderWidth: 2,
+                      borderColor: Colors.border.light,
+                      borderRadius: 12,
+                      paddingVertical: 14,
+                    }}
+                  >
+                    <Ionicons name="camera-outline" size={20} color={Colors.primary.main} />
+                    <Text style={{ color: Colors.primary.main, fontWeight: '600' }}>
+                      {t('imageUpload.camera')}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      const uri = await pickImage('gallery');
+                      if (uri) setBuilderImageUri(uri);
+                    }}
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      backgroundColor: Colors.background.primary,
+                      borderWidth: 2,
+                      borderColor: Colors.border.light,
+                      borderRadius: 12,
+                      paddingVertical: 14,
+                    }}
+                  >
+                    <Ionicons name="images-outline" size={20} color={Colors.primary.main} />
+                    <Text style={{ color: Colors.primary.main, fontWeight: '600' }}>
+                      {t('imageUpload.gallery')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={{ fontSize: 12, color: Colors.text.secondary, textAlign: 'center' }}>
+                  {t('imageUpload.skipForNow')}
+                </Text>
+              </View>
+            )}
+          </View>
+
           {/* Servings */}
           <View style={{ marginBottom: 24 }}>
             <Text style={{ fontSize: 16, fontWeight: '600', color: Colors.text.primary, marginBottom: 8 }}>
@@ -354,12 +446,18 @@ export default function VisualRecipeBuilder() {
         <View style={{ paddingHorizontal: 24, paddingBottom: 32 }}>
           <TouchableOpacity
             onPress={handleFinalSave}
+            disabled={isUploadingImage}
             style={{
               backgroundColor: Colors.primary.main,
               paddingVertical: 16,
               borderRadius: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
             }}
           >
+            {isUploadingImage && <ActivityIndicator size="small" color="#FFFFFF" />}
             <Text style={{
               color: Colors.text.inverse,
               textAlign: 'center',

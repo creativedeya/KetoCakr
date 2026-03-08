@@ -547,6 +547,15 @@ export const bg = {
     title: 'Всички рецепти',
     searchPlaceholder: 'Търси рецепти...',
   },
+
+  imageUpload: {
+    addPhoto: 'Добави снимка',
+    camera: 'Камера',
+    gallery: 'Галерия',
+    cancel: 'Откажи',
+    uploaded: 'Снимката е качена!',
+    skipForNow: 'Можеш да добавиш снимка и по-късно',
+  },
 };
 
 export type TranslationKeys = typeof bg;
