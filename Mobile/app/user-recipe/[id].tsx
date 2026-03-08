@@ -45,7 +45,7 @@ export default function UserRecipeScreen() {
         .select(`
           *,
           role:recipe_roles(id, name, name_en),
-          ingredients:recipe_ingredients(id, ingredient_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, unit_weight_grams, cat:ingredient_categories(id, name, name_en)))
+          ingredients:recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, unit_weight_grams, cat:ingredient_categories(id, name, name_en)))
         `)
         .in('id', baseRecipeIds);
       if (error) throw error;
@@ -154,7 +154,6 @@ export default function UserRecipeScreen() {
         totalFat: br.total_fat,
         totalCarbs: br.total_carbs,
         totalNetCarbs: br.total_net_carbs,
-        bakeTemp: br.bake_temp_celsius,
         bakeTime: br.bake_time_minutes,
         prepTime: br.prep_time_minutes,
         equipmentNotes: br.equipment_notes,

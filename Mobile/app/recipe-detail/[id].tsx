@@ -57,11 +57,14 @@ export default function ReadyRecipeScreen() {
   // Заявка 3: base_recipes + role + recipe_ingredients
   const { data: baseRecipes, isLoading: baseLoading, error: baseError } = useQuery({
     queryKey: ['readyRecipeComponents', baseRecipeIds],
-    queryFn: async () => {
+   queryFn: async () => {
       const { data, error } = await supabase
         .from('base_recipes')
-        .select('id, name, name_en, image_url, total_weight_grams, total_calories, total_protein, total_fat, total_carbs, total_net_carbs, prep_time_minutes, bake_time_minutes, bake_temp_celsius, equipment_notes, equipment_notes_en, servings, recipe_role_id, role:recipe_roles(id, name, name_en), recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, cat:ingredient_categories(id, name, name_en)))')
+        .select('id, name, name_en, image_url, total_weight_grams, total_calories, total_protein, total_fat, total_carbs, total_net_carbs, prep_time_minutes, bake_time_minutes, equipment_notes, equipment_notes_en, servings, recipe_role_id, role:recipe_roles(id, name, name_en), recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, cat:ingredient_categories(id, name, name_en)))')
         .in('id', baseRecipeIds);
+
+      console.log('📄 BASE query error:', JSON.stringify(error));
+      console.log('📄 BASE query data count:', data?.length);
       if (error) throw error;
       return data || [];
     },
@@ -196,7 +199,6 @@ export default function ReadyRecipeScreen() {
         totalNetCarbs: br.total_net_carbs != null
           ? br.total_net_carbs * comp.multiplier
           : undefined,
-        bakeTemp: br.bake_temp_celsius,
         bakeTime: br.bake_time_minutes,
         prepTime: br.prep_time_minutes,
         equipmentNotes: br.equipment_notes,

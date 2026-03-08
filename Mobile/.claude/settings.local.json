@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(grep error TS:*)",
+      "Bash(cd:*)",
+      "Bash(grep recipe-detail:*)"
+    ]
+  }
+}

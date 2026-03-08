@@ -1,83 +1,77 @@
 // ===========================================================
-// FILE: mobile/lib/api/recipes.ts
+// FILE: mobile/api/recipes.ts - FIXED for actual schema
 // ===========================================================
-import { supabase } from '../supabase';
+import { supabase } from '../lib/supabase';
 import {
-  ReadyRecipe,
-  UserRecipe,
-  BaseRecipe,
   DessertType,
-  RecipeCategory,
-} from '../../../../shared/types';
+  BaseRecipe,
+  RecipeRole,
+  UserRecipe,
+  SelectedComponent
+} from '../../shared/types';
 
 // =====================================================
-// READY RECIPES
+// DESSERT TYPES
 // =====================================================
 
-export async function getReadyRecipes(limit?: number): Promise<ReadyRecipe[]> {
+export async function getDessertTypes(): Promise<DessertType[]> {
+  const { data, error } = await supabase
+    .from('dessert_types')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) throw error;
+  return data as DessertType[];
+}
+
+// =====================================================
+// RECIPE ROLES
+// =====================================================
+
+export async function getRecipeRoles(): Promise<RecipeRole[]> {
+  const { data, error } = await supabase
+    .from('recipe_roles')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) throw error;
+  return data as RecipeRole[];
+}
+
+// =====================================================
+// BASE RECIPES
+// =====================================================
+
+export async function getBaseRecipesByRole(
+  recipeRoleId: number,
+  dessertTypeId?: number
+): Promise<BaseRecipe[]> {
   let query = supabase
-    .from('ready_recipes')
-    .select(
-      `
-      *,
-      dessert_type:dessert_types(*),
-      crust:base_recipes!ready_recipes_crust_id_fkey(*),
-      cream:base_recipes!ready_recipes_cream_id_fkey(*),
-      filling:base_recipes!ready_recipes_filling_id_fkey(*),
-      decoration:base_recipes!ready_recipes_decoration_id_fkey(*)
-    `
-    )
-    .not('published_at', 'is', null)
-    .order('created_at', { ascending: false });
+    .from('base_recipes')
+    .select('*')
+    .eq('recipe_role_id', recipeRoleId);
 
-  if (limit) {
-    query = query.limit(limit);
+  // Filter by compatible dessert type if provided
+  if (dessertTypeId) {
+    query = query.contains('compatible_dessert_types', [dessertTypeId]);
   }
+
+  query = query.order('name', { ascending: true });
 
   const { data, error } = await query;
   if (error) throw error;
-  return data as ReadyRecipe[];
+  return data as BaseRecipe[];
 }
 
-export async function getReadyRecipe(id: string): Promise<ReadyRecipe> {
+export async function getBaseRecipe(id: string): Promise<BaseRecipe> {
   const { data, error } = await supabase
-    .from('ready_recipes')
-    .select(
-      `
-      *,
-      dessert_type:dessert_types(*),
-      crust:base_recipes!ready_recipes_crust_id_fkey(*),
-      cream:base_recipes!ready_recipes_cream_id_fkey(*),
-      filling:base_recipes!ready_recipes_filling_id_fkey(*),
-      decoration:base_recipes!ready_recipes_decoration_id_fkey(*)
-    `
-    )
+    .from('base_recipes')
+    .select('*')
     .eq('id', id)
     .single();
 
   if (error) throw error;
-  return data as ReadyRecipe;
-}
-
-export async function getFeaturedRecipe(): Promise<ReadyRecipe | null> {
-  const { data, error } = await supabase
-    .from('ready_recipes')
-    .select(
-      `
-      *,
-      dessert_type:dessert_types(*),
-      crust:base_recipes!ready_recipes_crust_id_fkey(*),
-      cream:base_recipes!ready_recipes_cream_id_fkey(*),
-      filling:base_recipes!ready_recipes_filling_id_fkey(*),
-      decoration:base_recipes!ready_recipes_decoration_id_fkey(*)
-    `
-    )
-    .eq('is_featured', true)
-    .not('published_at', 'is', null)
-    .maybeSingle();
-
-  if (error) throw error;
-  return data as ReadyRecipe | null;
+  return data as BaseRecipe;
 }
 
 // =====================================================
@@ -85,49 +79,83 @@ export async function getFeaturedRecipe(): Promise<ReadyRecipe | null> {
 // =====================================================
 
 export async function getUserRecipes(userId: string): Promise<UserRecipe[]> {
-  const { data, error } = await supabase
+  // First, get recipes without join
+  const { data: recipes, error } = await supabase
     .from('user_recipes')
-    .select(
-      `
-      *,
-      dessert_type:dessert_types(*),
-      crust:base_recipes!user_recipes_crust_id_fkey(*),
-      cream:base_recipes!user_recipes_cream_id_fkey(*),
-      filling:base_recipes!user_recipes_filling_id_fkey(*),
-      decoration:base_recipes!user_recipes_decoration_id_fkey(*)
-    `
-    )
+    .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
-  return data as UserRecipe[];
+  if (!recipes) return [];
+  
+  // Then fetch dessert types separately
+  const dessertTypeIds = [...new Set(recipes.map(r => r.dessert_type_id))];
+  const { data: dessertTypes } = await supabase
+    .from('dessert_types')
+    .select('*')
+    .in('id', dessertTypeIds);
+  
+  // Combine the data
+  return recipes.map(recipe => ({
+    ...recipe,
+    dessert_type: dessertTypes?.find(dt => dt.id === recipe.dessert_type_id),
+  })) as UserRecipe[];
 }
 
 export async function createUserRecipe(
-  recipe: Omit<UserRecipe, 'id' | 'created_at'>
+  userId: string,
+  dessertTypeId: number,
+  recipeName: string,
+  selectedComponents: SelectedComponent[],
+  totalServings: number
 ): Promise<UserRecipe> {
+  console.log('createUserRecipe called with:', {
+    userId,
+    dessertTypeId,
+    recipeName,
+    totalServings,
+    componentsCount: selectedComponents.length,
+  });
+  
   const { data, error } = await supabase
     .from('user_recipes')
-    .insert(recipe)
-    .select(
-      `
-      *,
-      dessert_type:dessert_types(*),
-      crust:base_recipes!user_recipes_crust_id_fkey(*),
-      cream:base_recipes!user_recipes_cream_id_fkey(*),
-      filling:base_recipes!user_recipes_filling_id_fkey(*),
-      decoration:base_recipes!user_recipes_decoration_id_fkey(*)
-    `
-    )
+    .insert({
+      user_id: userId,
+      dessert_type_id: dessertTypeId,
+      name: recipeName,  // IMPORTANT: Actually send the name!
+      selected_components: selectedComponents,
+      total_servings: totalServings,
+    })
+    .select('*')
     .single();
 
-  if (error) throw error;
-  return data as UserRecipe;
+  if (error) {
+    console.error('Insert error:', error);
+    throw error;
+  }
+  
+  console.log('Created recipe:', data);
+  
+  // Then fetch the dessert type separately
+  const { data: dessertType } = await supabase
+    .from('dessert_types')
+    .select('*')
+    .eq('id', dessertTypeId)
+    .single();
+  
+  return {
+    ...data,
+    dessert_type: dessertType || undefined,
+  } as UserRecipe;
 }
 
 export async function deleteUserRecipe(id: string): Promise<void> {
-  const { error } = await supabase.from('user_recipes').delete().eq('id', id);
+  const { error } = await supabase
+    .from('user_recipes')
+    .delete()
+    .eq('id', id);
+    
   if (error) throw error;
 }
 
@@ -150,49 +178,7 @@ export async function checkUserRecipeLimit(userId: string): Promise<boolean> {
 }
 
 // =====================================================
-// BASE RECIPES
-// =====================================================
-
-export async function getBaseRecipesByCategory(
-  category: RecipeCategory
-): Promise<BaseRecipe[]> {
-  const { data, error } = await supabase
-    .from('base_recipes')
-    .select('*')
-    .eq('category', category)
-    .order('name_en');
-
-  if (error) throw error;
-  return data as BaseRecipe[];
-}
-
-export async function getBaseRecipe(id: string): Promise<BaseRecipe> {
-  const { data, error } = await supabase
-    .from('base_recipes')
-    .select('*')
-    .eq('id', id)
-    .single();
-
-  if (error) throw error;
-  return data as BaseRecipe;
-}
-
-// =====================================================
-// DESSERT TYPES
-// =====================================================
-
-export async function getDessertTypes(): Promise<DessertType[]> {
-  const { data, error } = await supabase
-    .from('dessert_types')
-    .select('*')
-    .order('slug');
-
-  if (error) throw error;
-  return data as DessertType[];
-}
-
-// =====================================================
-// FAVORITES
+// FAVORITES (if needed later)
 // =====================================================
 
 export async function getFavorites(userId: string): Promise<string[]> {

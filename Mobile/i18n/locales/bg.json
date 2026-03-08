@@ -1,0 +1,230 @@
+{
+  "common": {
+    "back": "Назад",
+    "save": "Запази",
+    "cancel": "Отказ",
+    "continue": "Продължи",
+    "create": "Създай",
+    "edit": "Редактирай",
+    "delete": "Изтрий",
+    "search": "Търси",
+    "loading": "Зареждане...",
+    "error": "Грешка",
+    "success": "Успех"
+  },
+  
+  "tabs": {
+    "home": "Начало",
+    "search": "Търси",
+    "create": "Създай",
+    "tools": "Инструменти",
+    "profile": "Профил",
+    "login": "Вход"
+  },
+  
+  "home": {
+    "hero": {
+      "title": "Десерт на деня",
+      "subtitle": "Специална препоръка само за теб",
+      "button": "Покажи ми!"
+    },
+    "quickActions": {
+      "title": "Какво искаш да направиш?",
+      "createCake": {
+        "title": "Създай торта",
+        "description": "Пъзел режим"
+      },
+      "readyRecipes": {
+        "title": "Готови рецепти",
+        "description": "От нашия екип"
+      }
+    },
+    "popularCakes": {
+      "title": "Популярни торти",
+      "netCarbs": "нетни въглехидрати"
+    }
+  },
+  
+  "search": {
+    "title": "Търсене",
+    "placeholder": "Търси рецепти, съставки...",
+    "popularSearches": "Популярни търсения",
+    "recentSearches": "Последни търсения",
+    "categories": "Категории",
+    "emptyState": {
+      "title": "Все още няма търсения",
+      "description": "Започни да търсиш твоите любими\nкето десерти"
+    },
+    "categoryItems": {
+      "cakes": "Торти",
+      "muffins": "Мъфини",
+      "cookies": "Бисквити",
+      "cheesecakes": "Чийзкейкове",
+      "pies": "Пайове",
+      "recipes": "рецепти"
+    }
+  },
+  
+  "create": {
+    "title": "Моите творения",
+    "recipe": "рецепта",
+    "recipes": "рецепти",
+    "servings": "порции",
+    "emptyState": {
+      "title": "Моите творения",
+      "description": "Все още нямаш създадени рецепти.\nВреме е да започнеш да създаваш!",
+      "button": "Създай нова торта"
+    }
+  },
+  
+  "tools": {
+    "title": "Инструменти",
+    "subtitle": "Всичко необходимо за перфектния десерт",
+    "quickTools": "⚡ Бързи инструменти",
+    "knowledgeBase": "📚 База знания",
+    "tipsOfDay": "💡 Съвети на деня",
+    "items": {
+      "converter": {
+        "title": "Конвертор",
+        "description": "Инч ↔ См\nУнции ↔ Грамове"
+      },
+      "timer": {
+        "title": "Таймер",
+        "description": "За печене и готвене"
+      },
+      "panSizes": {
+        "title": "Размери тави",
+        "description": "Преизчисли за различни размери"
+      },
+      "macroCalculator": {
+        "title": "Макро калкулатор",
+        "description": "Персонални дневни нужди"
+      },
+      "encyclopedia": {
+        "title": "Енциклопедия на съставките",
+        "subtitle": "Свойства, заместители, съвети"
+      },
+      "substitutes": {
+        "title": "Заместители на съставки",
+        "subtitle": "Какво да използвам вместо..."
+      },
+      "techniques": {
+        "title": "Техники за готвене",
+        "subtitle": "Съвети от професионалисти"
+      },
+      "nutrition": {
+        "title": "Нутриционни таблици",
+        "subtitle": "Калории и макроси"
+      }
+    },
+    "tipText": "При печене на кето блатове, винаги предварително затопляй фурната на 180°C. Това гарантира равномерно печене и по-добра текстура."
+  },
+  
+  "profile": {
+    "title": "Профил",
+    "login": {
+      "title": "Влез в профила си",
+      "description": "Запази рецептите си и синхронизирай\nмежду всички твои устройства",
+      "signIn": "Вход",
+      "signUp": "Регистрация"
+    },
+    "stats": {
+      "myRecipes": "Мои рецепти",
+      "favorites": "Любими",
+      "daysActive": "Дни активност"
+    },
+    "menu": {
+      "favoriteRecipes": {
+        "title": "Любими рецепти",
+        "subtitle": "28 запазени десерти"
+      },
+      "shoppingList": {
+        "title": "Списък за пазаруване",
+        "subtitle": "Генериран от рецептите"
+      },
+      "premium": {
+        "title": "Премиум абонамент",
+        "subtitle": "Unlock всички функции"
+      },
+      "settings": {
+        "title": "Настройки",
+        "subtitle": "Профил и предпочитания"
+      },
+      "logout": "Изход"
+    },
+    "logoutConfirm": {
+      "title": "Изход",
+      "message": "Сигурни ли сте, че искате да излезете?"
+    },
+    "appInfo": {
+      "version": "KetoCakr v1.0.0",
+      "tagline": "Made with 💜 for keto lovers"
+    }
+  },
+  
+  "recipeBuilder": {
+    "dessertSelection": {
+      "title": "Избери десерт",
+      "subtitle": "Какво ще приготвим днес?"
+    },
+    "buildStep": {
+      "roles": {
+        "crust": "Блат",
+        "filling": "Пълнеж",
+        "cream": "Крем",
+        "decoration": "Декор"
+      },
+      "continueButton": "Продължи ({{count}}/4)",
+      "nutrition": {
+        "kcal": "kcal",
+        "protein": "протеин",
+        "fat": "мазнини",
+        "carbs": "въглехидр.",
+        "net": "нетни"
+      }
+    },
+    "finalizeStep": {
+      "title": "Последна стъпка",
+      "subtitle": "Име и брой порции",
+      "recipeName": "Име на рецептата",
+      "servings": "Брой порции",
+      "summary": {
+        "title": "Обобщение",
+        "dessert": "Десерт:",
+        "components": "Компоненти:",
+        "calories": "Калории:",
+        "perServing": "kcal/порция"
+      },
+      "saveButton": "🎉 Запази рецептата",
+      "placeholder": "Моя {{dessert}}"
+    },
+    "alerts": {
+      "loginRequired": {
+        "title": "Грешка",
+        "message": "Моля влезте за да запазите рецепта"
+      },
+      "selectComponent": {
+        "title": "Грешка",
+        "message": "Моля изберете поне един компонент"
+      },
+      "success": {
+        "title": "Успех! 🎉",
+        "message": "Рецептата е запазена",
+        "viewRecipe": "Виж рецепта",
+        "goToRecipes": "Към рецептите"
+      },
+      "error": {
+        "title": "Грешка",
+        "message": "Неуспешно запазване на рецептата"
+      }
+    }
+  },
+  
+  "alerts": {
+    "comingSoon": "Скоро...",
+    "premium": {
+      "title": "👑 Премиум функция",
+      "message": "Тази функция е достъпна само за премиум потребители.\n\nАбонирай се за пълен достъп до всички инструменти!"
+    }
+  }
+}

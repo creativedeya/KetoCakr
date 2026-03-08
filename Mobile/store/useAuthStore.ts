@@ -1,140 +1,161 @@
 // ===========================================================
 // FILE: mobile/store/useAuthStore.ts
+// STEP 3: Real Supabase auth
 // ===========================================================
 import { create } from 'zustand';
-import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
-import { Profile } from '../../../shared/types';
 
 interface AuthState {
-  session: Session | null;
-  user: User | null;
-  profile: Profile | null;
+  user: any | null;
+  profile: any | null;
   isLoading: boolean;
+  error: string | null;
   
-  // Actions
   initialize: () => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
-  updateProfile: (updates: Partial<Profile>) => Promise<void>;
+  clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
-  session: null,
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   profile: null,
-  isLoading: true,
+  isLoading: false,
+  error: null,
 
   initialize: async () => {
     try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        const { data: profile } = await supabase
+      set({ isLoading: true, error: null });
+      
+      // Check for existing session
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) throw error;
+      
+      if (session?.user) {
+        // Fetch profile
+        const { data: profileData } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', session.user.id)
           .single();
 
-        set({
-          session,
-          user: session.user,
-          profile: profile as Profile,
-          isLoading: false,
+        set({ 
+          user: session.user, 
+          profile: profileData,
+          isLoading: false 
         });
       } else {
         set({ isLoading: false });
       }
-
-      // Listen to auth changes
-      supabase.auth.onAuthStateChange(async (_event, session) => {
-        if (session) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          set({
-            session,
-            user: session.user,
-            profile: profile as Profile,
-          });
-        } else {
-          set({ session: null, user: null, profile: null });
-        }
+    } catch (error: any) {
+      console.error('Initialize error:', error);
+      set({ 
+        error: error.message || 'Грешка при инициализация',
+        isLoading: false 
       });
-    } catch (error) {
-      console.error('Auth initialization error:', error);
-      set({ isLoading: false });
     }
   },
 
-  signIn: async (email: string, password: string) => {
+
+
+ signIn: async (email: string, password: string) => {
+  try {
+    set({ isLoading: true, error: null });
+    
+    console.log('=== SIGNIN START ===');
+    console.log('Email:', email);
+    console.log('Password length:', password.length);
+    
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) throw error;
-
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', data.user.id)
-      .single();
-
-    set({
-      session: data.session,
-      user: data.user,
-      profile: profile as Profile,
-    });
-  },
-
-  signUp: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    console.log('=== SIGNIN RESPONSE ===');
+    console.log('Data:', JSON.stringify(data, null, 2));
+    console.log('Error:', error);
 
     if (error) throw error;
 
-    // Profile is auto-created via trigger
     if (data.user) {
-      const { data: profile } = await supabase
+      const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', data.user.id)
         .single();
 
-      set({
-        session: data.session,
-        user: data.user,
-        profile: profile as Profile,
+      set({ 
+        user: data.user, 
+        profile: profileData,
+        isLoading: false 
+      });
+    }
+  } catch (error: any) {
+    console.log('=== SIGNIN ERROR ===');
+    console.log('Error:', error);
+    
+    set({ 
+      error: error.message || 'Грешка при вход',
+      isLoading: false 
+    });
+    throw error;
+  }
+},
+
+ signUp: async (email: string, password: string, fullName: string) => {
+  try {
+    set({ isLoading: true, error: null });
+    
+    console.log('=== SIGNUP START ===');
+    console.log('Email:', email);
+    console.log('Password length:', password.length);
+    console.log('Full name:', fullName);
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+
+    console.log('=== SIGNUP RESPONSE ===');
+    console.log('Data:', JSON.stringify(data, null, 2));
+    console.log('Error:', error);
+
+    if (error) throw error;
+    
+    set({ isLoading: false });
+    return data;
+  } catch (error: any) {
+    console.log('=== SIGNUP ERROR ===');
+    console.log('Error message:', error.message);
+    console.log('Error details:', JSON.stringify(error, null, 2));
+    
+    set({ 
+      error: error.message || 'Грешка при регистрация',
+      isLoading: false 
+    });
+    throw error;
+  }
+},
+  signOut: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      await supabase.auth.signOut();
+      set({ user: null, profile: null, isLoading: false });
+    } catch (error: any) {
+      console.error('Sign out error:', error);
+      set({ 
+        error: error.message || 'Грешка при изход',
+        isLoading: false 
       });
     }
   },
 
-  signOut: async () => {
-    await supabase.auth.signOut();
-    set({ session: null, user: null, profile: null });
-  },
-
-  updateProfile: async (updates: Partial<Profile>) => {
-    const { profile } = get();
-    if (!profile) throw new Error('No profile loaded');
-
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('id', profile.id)
-      .select()
-      .single();
-
-    if (error) throw error;
-    set({ profile: data as Profile });
-  },
+  clearError: () => set({ error: null }),
 }));

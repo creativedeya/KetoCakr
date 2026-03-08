@@ -1,81 +1,35 @@
-// ===========================================================
-// FILE: mobile/app/_layout.tsx
-// ===========================================================
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from '../store/useAuthStore';
-import '../global.css';
+import { useLanguageStore } from '../store/useLanguageStore';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const initialize = useAuthStore((state) => state.initialize);
+  const loadLanguage = useLanguageStore((state) => state.loadLanguage);
 
   useEffect(() => {
-    initialize();
+    loadLanguage();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="(auth)/signin"
-          options={{
-            presentation: 'modal',
-            title: 'Sign In',
-          }}
-        />
-        <Stack.Screen
-          name="(auth)/signup"
-          options={{
-            presentation: 'modal',
-            title: 'Sign Up',
-          }}
-        />
+      {/* stack will render tabs as well as modals; header hidden globally */}
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          // other global options (e.g. gestureEnabled) can go here
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+        {/* modal group handled automatically by expo-router since folder is named (modals) */}
         <Stack.Screen
           name="(modals)/recipe-generator"
-          options={{
-            presentation: 'modal',
-            title: 'Create Your Cake',
-          }}
+          options={{ presentation: 'modal' }}
         />
         <Stack.Screen
-          name="recipe/[id]"
-          options={{
-            title: 'Recipe',
-          }}
-        />
-        <Stack.Screen
-          name="user-recipe/[id]"
-          options={{
-            title: 'My Recipe',
-          }}
-        />
-        <Stack.Screen
-          name="favorites"
-          options={{
-            title: 'Favorites',
-          }}
-        />
-        <Stack.Screen
-          name="shopping-list"
-          options={{
-            title: 'Shopping List',
-          }}
-        />
-        <Stack.Screen
-          name="settings"
-          options={{
-            title: 'Settings',
-          }}
-        />
-        <Stack.Screen
-          name="subscription"
-          options={{
-            title: 'Premium',
-          }}
+          name="(modals)/visual-recipe-builder"
+          options={{ presentation: 'modal' }}
         />
       </Stack>
     </QueryClientProvider>

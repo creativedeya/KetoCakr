@@ -1,27 +1,17 @@
-// ===========================================================
-// FILE: admin/lib/supabase.ts
-// ===========================================================
-import { createClient } from '@supabase/supabase-js';
-import { createBrowserClient } from '@supabase/ssr';
+// admin/lib/supabase.ts
+import { createClient } from '@supabase/supabase-js'
 
-// Client-side (for client components)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// For client components
 export function createClientComponentClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  return createClient(supabaseUrl, supabaseAnonKey)
 }
 
-// Server-side (for API routes and server actions)
-export function createServerClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    }
-  );
+// For server components
+export function createServerComponentClient() {
+  return createClient(supabaseUrl, supabaseAnonKey)
 }

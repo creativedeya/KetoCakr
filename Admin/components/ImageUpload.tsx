@@ -1,138 +1,157 @@
-// ===========================================================
-// FILE: admin/components/ImageUpload.tsx
-// ===========================================================
 'use client';
 
 import { useState, useRef } from 'react';
-import { createClientComponentClient } from '@/lib/supabase';
-import { Upload, X } from 'lucide-react';
-import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
 
 interface ImageUploadProps {
-  value?: string;
-  onChange: (url: string | null) => void;
-  bucket?: string;
-  folder?: string;
+  value: string;
+  onChange: (url: string) => void;
+  recipeId?: string;
 }
 
-export function ImageUpload({
-  value,
-  onChange,
-  bucket = 'recipe-images',
-  folder = 'uploads',
-}: ImageUploadProps) {
+export default function ImageUpload({ value, onChange, recipeId }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const supabase = createClientComponentClient();
+  const [dragActive, setDragActive] = useState(false);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Image size must be less than 5MB');
-      return;
-    }
-
-    setError('');
-    setUploading(true);
-
+  async function handleImageUpload(file: File) {
     try {
+      setUploading(true);
+      
       const fileExt = file.name.split('.').pop();
-      const fileName = `${folder}/${Date.now()}-${Math.random()
-        .toString(36)
-        .substring(7)}.${fileExt}`;
+      const fileName = `${recipeId || Date.now()}-${Date.now()}.${fileExt}`;
+      const filePath = `recipe-images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from(bucket)
-        .upload(fileName, file);
+        .from('recipe-images')
+        .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from(bucket).getPublicUrl(fileName);
+      const { data: { publicUrl } } = supabase.storage
+        .from('recipe-images')
+        .getPublicUrl(filePath);
 
       onChange(publicUrl);
-    } catch (err: any) {
-      setError(err.message || 'Failed to upload image');
+      alert('Изображението беше качено успешно!');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Грешка при качване на изображението');
     } finally {
       setUploading(false);
     }
-  };
+  }
 
-  const handleRemove = async () => {
-    if (!value) return;
-
-    try {
-      // Extract filename from URL
-      const url = new URL(value);
-      const pathParts = url.pathname.split('/');
-      const path = pathParts.slice(-2).join('/');
-
-      await supabase.storage.from(bucket).remove([path]);
-      onChange(null);
-    } catch (err) {
-      console.error('Error removing image:', err);
+  function handleDrag(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
     }
-  };
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImageUpload(e.dataTransfer.files[0]);
+    }
+  }
+
+  function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
+      handleImageUpload(e.target.files[0]);
+    }
+  }
 
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
-        Image
-      </label>
+      {/* Drag & Drop Zone */}
+      <div
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          dragActive ? 'border-purple-600 bg-purple-50' : 'border-gray-300 bg-white'
+        }`}
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+      >
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileInput}
+          className="hidden"
+        />
+        
+        {uploading ? (
+          <div className="text-purple-600">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <p>Качване...</p>
+          </div>
+        ) : (
+          <>
+            <div className="text-5xl mb-4">📸</div>
+            <p className="text-lg font-medium text-gray-700 mb-2">
+              Влачете изображение тук
+            </p>
+            <p className="text-sm text-gray-500 mb-4">или</p>
+            <button
+              type="button"
+              onClick={() => imageInputRef.current?.click()}
+              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              Изберете файл
+            </button>
+            <p className="text-xs text-gray-400 mt-3">
+              PNG, JPG, WEBP до 5MB
+            </p>
+          </>
+        )}
+      </div>
 
-      {value ? (
-        <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
-          <Image src={value} alt="Uploaded" fill className="object-cover" />
-          <button
-            type="button"
-            onClick={handleRemove}
-            className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors shadow-lg"
-          >
-            <X className="w-4 h-4" />
-          </button>
+      {/* URL Input (alternative) */}
+      <div className="mt-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Или въведете URL
+        </label>
+        <input
+          type="url"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="https://..."
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+        />
+      </div>
+      
+      {/* Preview */}
+      {value && (
+        <div className="mt-4">
+          <p className="text-sm font-medium text-gray-700 mb-2">Преглед:</p>
+          <div className="relative inline-block">
+            <img
+              src={value}
+              alt="Preview"
+              className="max-w-sm rounded-lg border shadow-sm"
+              onError={(e) => {
+                e.currentTarget.src = 'https://via.placeholder.com/300x200?text=Invalid+Image';
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 shadow-lg"
+              title="Премахни изображение"
+            >
+              ✕
+            </button>
+          </div>
         </div>
-      ) : (
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
-          className="w-full h-64 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-purple-500 hover:bg-purple-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {uploading ? (
-            <>
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent" />
-              <p className="mt-4 text-gray-600">Uploading...</p>
-            </>
-          ) : (
-            <>
-              <Upload className="w-12 h-12 text-gray-400 mb-4" />
-              <p className="text-gray-600 font-medium">Click to upload image</p>
-              <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 5MB</p>
-            </>
-          )}
-        </button>
       )}
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
-
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </div>
   );
 }

@@ -1,0 +1,21 @@
+// PROFILE SCREEN BACKUP
+
+import { View, Text, ScrollView, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '../../../constants/Colors';
+import { router } from 'expo-router';
+import { useAuthStore } from '../../../store/useAuthStore';
+
+const Heart = (props: any) => <Ionicons name="heart-outline" {...props} />;
+const ShoppingCart = (props: any) => <Ionicons name="cart" {...props} />;
+const Crown = (props: any) => <MaterialCommunityIcons name="crown" {...props} />;
+const Settings = (props: any) => <Ionicons name="settings-outline" {...props} />;
+const LogOut = (props: any) => <Ionicons name="log-out-outline" {...props} />;
+const DollarSign = (props: any) => <Ionicons name="cash" {...props} />;
+
+export default function ProfileScreen() {
+  const user = useAuthStore((state) => state.user);
+  const signOut = useAuthStore((state) => state.signOut);
+
+  // ...rest omitted for brevity
+}

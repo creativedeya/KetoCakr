@@ -1,0 +1,230 @@
+{
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  
+  "tabs": {
+    "home": "Home",
+    "search": "Search",
+    "create": "Create",
+    "tools": "Tools",
+    "profile": "Profile",
+    "login": "Sign In"
+  },
+  
+  "home": {
+    "hero": {
+      "title": "Dessert of the Day",
+      "subtitle": "A special recommendation just for you",
+      "button": "Show me!"
+    },
+    "quickActions": {
+      "title": "What would you like to do?",
+      "createCake": {
+        "title": "Create Cake",
+        "description": "Puzzle mode"
+      },
+      "readyRecipes": {
+        "title": "Ready Recipes",
+        "description": "From our team"
+      }
+    },
+    "popularCakes": {
+      "title": "Popular Cakes",
+      "netCarbs": "net carbs"
+    }
+  },
+  
+  "search": {
+    "title": "Search",
+    "placeholder": "Search recipes, ingredients...",
+    "popularSearches": "Popular Searches",
+    "recentSearches": "Recent Searches",
+    "categories": "Categories",
+    "emptyState": {
+      "title": "No searches yet",
+      "description": "Start searching for your favorite\nketo desserts"
+    },
+    "categoryItems": {
+      "cakes": "Cakes",
+      "muffins": "Muffins",
+      "cookies": "Cookies",
+      "cheesecakes": "Cheesecakes",
+      "pies": "Pies",
+      "recipes": "recipes"
+    }
+  },
+  
+  "create": {
+    "title": "My Creations",
+    "recipe": "recipe",
+    "recipes": "recipes",
+    "servings": "servings",
+    "emptyState": {
+      "title": "My Creations",
+      "description": "You don't have any created recipes yet.\nTime to start creating!",
+      "button": "Create New Cake"
+    }
+  },
+  
+  "tools": {
+    "title": "Tools",
+    "subtitle": "Everything you need for the perfect dessert",
+    "quickTools": "⚡ Quick Tools",
+    "knowledgeBase": "📚 Knowledge Base",
+    "tipsOfDay": "💡 Tips of the Day",
+    "items": {
+      "converter": {
+        "title": "Converter",
+        "description": "Inches ↔ Cm\nOunces ↔ Grams"
+      },
+      "timer": {
+        "title": "Timer",
+        "description": "For baking and cooking"
+      },
+      "panSizes": {
+        "title": "Pan Sizes",
+        "description": "Recalculate for different sizes"
+      },
+      "macroCalculator": {
+        "title": "Macro Calculator",
+        "description": "Personal daily needs"
+      },
+      "encyclopedia": {
+        "title": "Ingredient Encyclopedia",
+        "subtitle": "Properties, substitutes, tips"
+      },
+      "substitutes": {
+        "title": "Ingredient Substitutes",
+        "subtitle": "What to use instead of..."
+      },
+      "techniques": {
+        "title": "Cooking Techniques",
+        "subtitle": "Tips from professionals"
+      },
+      "nutrition": {
+        "title": "Nutrition Tables",
+        "subtitle": "Calories and macros"
+      }
+    },
+    "tipText": "When baking keto crusts, always preheat the oven to 180°C (350°F). This ensures even baking and better texture."
+  },
+  
+  "profile": {
+    "title": "Profile",
+    "login": {
+      "title": "Sign in to your account",
+      "description": "Save your recipes and sync\nacross all your devices",
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
+    },
+    "stats": {
+      "myRecipes": "My Recipes",
+      "favorites": "Favorites",
+      "daysActive": "Days Active"
+    },
+    "menu": {
+      "favoriteRecipes": {
+        "title": "Favorite Recipes",
+        "subtitle": "28 saved desserts"
+      },
+      "shoppingList": {
+        "title": "Shopping List",
+        "subtitle": "Generated from recipes"
+      },
+      "premium": {
+        "title": "Premium Subscription",
+        "subtitle": "Unlock all features"
+      },
+      "settings": {
+        "title": "Settings",
+        "subtitle": "Profile and preferences"
+      },
+      "logout": "Sign Out"
+    },
+    "logoutConfirm": {
+      "title": "Sign Out",
+      "message": "Are you sure you want to sign out?"
+    },
+    "appInfo": {
+      "version": "KetoCakr v1.0.0",
+      "tagline": "Made with 💜 for keto lovers"
+    }
+  },
+  
+  "recipeBuilder": {
+    "dessertSelection": {
+      "title": "Choose Dessert",
+      "subtitle": "What shall we make today?"
+    },
+    "buildStep": {
+      "roles": {
+        "crust": "Crust",
+        "filling": "Filling",
+        "cream": "Cream",
+        "decoration": "Decoration"
+      },
+      "continueButton": "Continue ({{count}}/4)",
+      "nutrition": {
+        "kcal": "kcal",
+        "protein": "protein",
+        "fat": "fat",
+        "carbs": "carbs",
+        "net": "net"
+      }
+    },
+    "finalizeStep": {
+      "title": "Final Step",
+      "subtitle": "Name and servings",
+      "recipeName": "Recipe Name",
+      "servings": "Number of Servings",
+      "summary": {
+        "title": "Summary",
+        "dessert": "Dessert:",
+        "components": "Components:",
+        "calories": "Calories:",
+        "perServing": "kcal/serving"
+      },
+      "saveButton": "🎉 Save Recipe",
+      "placeholder": "My {{dessert}}"
+    },
+    "alerts": {
+      "loginRequired": {
+        "title": "Error",
+        "message": "Please sign in to save recipe"
+      },
+      "selectComponent": {
+        "title": "Error",
+        "message": "Please select at least one component"
+      },
+      "success": {
+        "title": "Success! 🎉",
+        "message": "Recipe saved successfully",
+        "viewRecipe": "View Recipe",
+        "goToRecipes": "Go to Recipes"
+      },
+      "error": {
+        "title": "Error",
+        "message": "Failed to save recipe"
+      }
+    }
+  },
+  
+  "alerts": {
+    "comingSoon": "Coming soon...",
+    "premium": {
+      "title": "👑 Premium Feature",
+      "message": "This feature is available only for premium users.\n\nSubscribe for full access to all tools!"
+    }
+  }
+}
