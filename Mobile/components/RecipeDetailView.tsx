@@ -3,6 +3,7 @@
 // Използва се от recipe-detail/[id].tsx и user-recipe/[id].tsx
 // ===========================================================
 import React, { useState, useMemo, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   View,
   Text,
@@ -250,6 +251,7 @@ export default function RecipeDetailView({
 }: RecipeDetailViewProps) {
   const { t, language } = useTranslation();
   const { unitSystem, currency } = useLanguageStore();
+  const queryClient = useQueryClient();
 
   // Shopping list store
   const addRecipeIngredients = useShoppingListStore((s) => s.addRecipeIngredients);
@@ -420,6 +422,9 @@ export default function RecipeDetailView({
       if (publicUrl) {
         await updateRecipeImage(recipeId, publicUrl);
         setUploadedImageUrl(publicUrl);
+        queryClient.invalidateQueries({ queryKey: ['userRecipe', recipeId] });
+        queryClient.invalidateQueries({ queryKey: ['homeUserRecipes'] });
+        queryClient.invalidateQueries({ queryKey: ['userRecipesCreate'] });
         Alert.alert(t('common.success'), t('imageUpload.uploaded'));
       }
     } finally {
