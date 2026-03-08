@@ -4,17 +4,13 @@
 // ===========================================================
 import { useEffect } from 'react';
 import { useRouter } from 'expo-router';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Image } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { Typography, Spacing } from '../constants/Theme';
-import { useTranslation } from '../constants/i18n';
 
 export default function Index() {
   const router = useRouter();
-  const { t } = useTranslation();
 
   useEffect(() => {
-    // Simple timeout to ensure everything is mounted
     const timer = setTimeout(() => {
       router.replace('/(tabs)/home');
     }, 100);
@@ -31,10 +27,11 @@ export default function Index() {
         backgroundColor: Colors.background.primary,
       }}
     >
-      <ActivityIndicator size="large" color={Colors.primary.main} />
-      <Text style={{ marginTop: Spacing.base, color: Colors.text.secondary, ...Typography.body1 }}>
-        {t('common.loading')}
-      </Text>
+      <Image
+        source={require('../assets/Logo-Blago.png')}
+        style={{ width: 120, height: 120 }}
+        resizeMode="contain"
+      />
     </View>
   );
 }
