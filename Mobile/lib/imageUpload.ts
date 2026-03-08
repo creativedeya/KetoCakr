@@ -25,15 +25,23 @@ export async function pickImage(source: 'camera' | 'gallery'): Promise<string | 
 
 export async function uploadRecipeImage(uri: string, recipeId: string): Promise<string | null> {
   try {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const fileExt = uri.split('.').pop() || 'jpg';
+    const fileExt = uri.split('.').pop()?.toLowerCase() || 'jpg';
     const fileName = `${recipeId}_${Date.now()}.${fileExt}`;
     const filePath = `recipes/${fileName}`;
 
+    const formData = new FormData();
+    formData.append('file', {
+      uri: uri,
+      name: fileName,
+      type: `image/${fileExt === 'jpg' ? 'jpeg' : fileExt}`,
+    } as any);
+
     const { error } = await supabase.storage
       .from('user-recipe-images')
-      .upload(filePath, blob, { contentType: `image/${fileExt}`, upsert: true });
+      .upload(filePath, formData, {
+        contentType: `image/${fileExt === 'jpg' ? 'jpeg' : fileExt}`,
+        upsert: true,
+      });
 
     if (error) {
       console.error('Upload error:', error.message);
