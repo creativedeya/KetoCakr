@@ -3,7 +3,7 @@
 // ===========================================================
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Vibration,
+  View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Vibration,
 } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -46,8 +46,7 @@ export default function BakingTimerScreen() {
         if (!timer.isRunning || timer.remainingSeconds <= 0) return timer;
         const next = timer.remainingSeconds - 1;
         if (next === 0) {
-          Alert.alert(`🔔 ${t('bakingTimer.done')}`, `${t('bakingTimer.timer')} ${timer.id} ${t('bakingTimer.finished')}`);
-          try { Vibration.vibrate([400, 200, 400, 200, 400]); } catch (_) {}
+          try { Vibration.vibrate([500, 200, 500, 200, 500]); } catch (_) {}
           return { ...timer, remainingSeconds: 0, isRunning: false };
         }
         return { ...timer, remainingSeconds: next };

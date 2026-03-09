@@ -590,8 +590,18 @@ export const bg = {
     volume: 'Обем',
     servings: 'порции',
     closestPan: 'Най-близка форма',
-    enterSize: 'Въведи размер',
+    enterSize: 'Въведи размери',
     liters: 'л',
+    changePan: 'Смяна на тава',
+    changeServings: 'Смяна на порции',
+    recipeSays: 'Рецептата казва',
+    iHave: 'Аз имам',
+    coefficient: 'Коефициент',
+    multiplyBy: 'Умножете всички съставки по',
+    recommendedPan: 'Препоръчителна тава',
+    recipeServings: 'Рецептата е за',
+    desiredServings: 'Искам да направя',
+    units: 'Мерна единица',
   },
 
   macroCalculator: {
@@ -619,6 +629,12 @@ export const bg = {
     gramsPerDay: 'г/ден',
     kcalPerDay: 'кал/ден',
     fillAll: 'Попълни всички полета',
+    dietType: 'Вид диета',
+    keto: 'Кето',
+    lchf: 'LCHF',
+    custom: 'По избор',
+    total: 'Общо',
+    percentWarning: 'Сумата трябва да е 100%',
   },
 };
 

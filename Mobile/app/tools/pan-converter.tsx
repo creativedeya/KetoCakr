@@ -1,5 +1,5 @@
 // ===========================================================
-// Pan Converter — конвертор на тави (кръгла / правоъгълна)
+// Pan Converter — 2 режима: смяна на тава / смяна на порции
 // ===========================================================
 import React, { useState, useMemo } from 'react';
 import {
@@ -13,77 +13,176 @@ import { useTranslation } from '../../constants/i18n';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { ROUND_PANS, RECTANGULAR_PANS } from '../../constants/BakingPans';
 
-// Parse diameter in cm from metricSize string like "16 см"
-function parseDiameter(metricSize: string): number {
-  return parseInt(metricSize.replace(/[^\d]/g, ''), 10) || 0;
-}
-
-// Parse rectangular dimensions from "23×33 см" → [23, 33]
-function parseRectDims(metricSize: string): [number, number] {
-  const match = metricSize.match(/(\d+)[×x](\d+)/);
-  if (!match) return [0, 0];
-  return [parseInt(match[1], 10), parseInt(match[2], 10)];
-}
-
 type PanShape = 'round' | 'rectangular';
+type AppMode = 'changePan' | 'changeServings';
 
+const IN_TO_CM = 2.54;
+
+function roundVolL(dCm: number): number {
+  return Math.PI * (dCm / 2) * (dCm / 2) * 7 / 1000;
+}
+
+function rectVolL(lCm: number, wCm: number): number {
+  return lCm * wCm * 5 / 1000;
+}
+
+function nearestRound(servings: number) {
+  return ROUND_PANS.reduce((best, pan) =>
+    Math.abs(pan.servings - servings) < Math.abs(best.servings - servings) ? pan : best
+  );
+}
+
+function nearestRect(servings: number) {
+  return RECTANGULAR_PANS.reduce((best, pan) =>
+    Math.abs(pan.servings - servings) < Math.abs(best.servings - servings) ? pan : best
+  );
+}
+
+// ── Sub-component ───────────────────────────────────────────
+interface PanInputProps {
+  title: string;
+  shape: PanShape;
+  onShapeChange: (s: PanShape) => void;
+  diam: string; onDiamChange: (v: string) => void;
+  len: string; onLenChange: (v: string) => void;
+  wid: string; onWidChange: (v: string) => void;
+  unitLabel: string;
+  volumeL: number | null;
+  t: (k: string) => string;
+}
+
+function PanInput({
+  title, shape, onShapeChange,
+  diam, onDiamChange, len, onLenChange, wid, onWidChange,
+  unitLabel, volumeL, t,
+}: PanInputProps) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.panTitle}>{title}</Text>
+
+      {/* Shape selector */}
+      <View style={styles.shapeToggle}>
+        <TouchableOpacity
+          style={[styles.shapeBtn, shape === 'round' && styles.shapeBtnActive]}
+          onPress={() => onShapeChange('round')}
+        >
+          <Text style={[styles.shapeBtnText, shape === 'round' && styles.shapeBtnTextActive]}>
+            ⭕ {t('panConverter.round')}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.shapeBtn, shape === 'rectangular' && styles.shapeBtnActive]}
+          onPress={() => onShapeChange('rectangular')}
+        >
+          <Text style={[styles.shapeBtnText, shape === 'rectangular' && styles.shapeBtnTextActive]}>
+            ▭ {t('panConverter.rectangular')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Size inputs */}
+      {shape === 'round' ? (
+        <View style={styles.sizeRow}>
+          <TextInput
+            value={diam} onChangeText={onDiamChange}
+            keyboardType="decimal-pad" placeholder="20"
+            placeholderTextColor={Colors.text.tertiary}
+            style={styles.sizeInput}
+          />
+          <Text style={styles.unitSuffix}>{unitLabel}</Text>
+        </View>
+      ) : (
+        <View style={styles.sizeRow}>
+          <TextInput
+            value={len} onChangeText={onLenChange}
+            keyboardType="decimal-pad" placeholder="23"
+            placeholderTextColor={Colors.text.tertiary}
+            style={styles.sizeInput}
+          />
+          <Text style={styles.timesSign}>×</Text>
+          <TextInput
+            value={wid} onChangeText={onWidChange}
+            keyboardType="decimal-pad" placeholder="33"
+            placeholderTextColor={Colors.text.tertiary}
+            style={styles.sizeInput}
+          />
+          <Text style={styles.unitSuffix}>{unitLabel}</Text>
+        </View>
+      )}
+
+      {volumeL !== null && (
+        <Text style={styles.volumeText}>
+          {t('panConverter.volume')}: {volumeL.toFixed(1)} {t('panConverter.liters')}
+        </Text>
+      )}
+    </View>
+  );
+}
+
+// ── Main component ──────────────────────────────────────────
 export default function PanConverter() {
   const { t } = useTranslation();
   const { unitSystem } = useLanguageStore();
-  const [shape, setShape] = useState<PanShape>('round');
-  const [diameter, setDiameter] = useState('');
-  const [length, setLength] = useState('');
-  const [width, setWidth] = useState('');
+
+  const [mode, setMode] = useState<AppMode>('changePan');
+  const [units, setUnits] = useState<'metric' | 'imperial'>(unitSystem);
+
+  // Mode 1 state
+  const [recipeShape, setRecipeShape] = useState<PanShape>('round');
+  const [recipeDiam, setRecipeDiam] = useState('');
+  const [recipeLen, setRecipeLen] = useState('');
+  const [recipeWid, setRecipeWid] = useState('');
+  const [myShape, setMyShape] = useState<PanShape>('round');
+  const [myDiam, setMyDiam] = useState('');
+  const [myLen, setMyLen] = useState('');
+  const [myWid, setMyWid] = useState('');
+
+  // Mode 2 state
+  const [recipeServ, setRecipeServ] = useState('');
+  const [desiredServ, setDesiredServ] = useState('');
+
+  const toCm = (val: string): number => {
+    const n = parseFloat(val.replace(',', '.'));
+    if (isNaN(n) || n <= 0) return 0;
+    return units === 'imperial' ? n * IN_TO_CM : n;
+  };
+
+  const unitLabel = units === 'metric' ? 'см' : '"';
+
+  const recipeVolL = useMemo(() => {
+    if (recipeShape === 'round') {
+      const d = toCm(recipeDiam);
+      return d > 0 ? roundVolL(d) : null;
+    }
+    const l = toCm(recipeLen), w = toCm(recipeWid);
+    return l > 0 && w > 0 ? rectVolL(l, w) : null;
+  }, [recipeShape, recipeDiam, recipeLen, recipeWid, units]);
+
+  const myVolL = useMemo(() => {
+    if (myShape === 'round') {
+      const d = toCm(myDiam);
+      return d > 0 ? roundVolL(d) : null;
+    }
+    const l = toCm(myLen), w = toCm(myWid);
+    return l > 0 && w > 0 ? rectVolL(l, w) : null;
+  }, [myShape, myDiam, myLen, myWid, units]);
 
   const result = useMemo(() => {
-    if (shape === 'round') {
-      const d = parseFloat(diameter.replace(',', '.'));
-      if (isNaN(d) || d <= 0) return null;
-      // Find closest round pan by diameter
-      let closest = ROUND_PANS[0];
-      let minDiff = Math.abs(parseDiameter(ROUND_PANS[0].metricSize) - d);
-      for (const pan of ROUND_PANS) {
-        const diff = Math.abs(parseDiameter(pan.metricSize) - d);
-        if (diff < minDiff) { minDiff = diff; closest = pan; }
-      }
-      // Compute volume for arbitrary diameter: V = π × (d/2)² × h, approximate h=7cm
-      const r = d / 2;
-      const vol = Math.PI * r * r * 0.07; // height ~7cm in liters (m³ = π r² h, d in cm → /100 for m²×100 → L)
-      // Simpler: area ratio to base pan (18cm = 1.4L)
-      const baseR = 9; // 18cm / 2
-      const volL = (r * r / (baseR * baseR)) * 1.4;
-      return {
-        size: unitSystem === 'metric' ? closest.metricSize : closest.imperialSize,
-        volume: volL.toFixed(1),
-        servings: closest.servings,
-        exact: minDiff === 0,
-      };
-    } else {
-      const l = parseFloat(length.replace(',', '.'));
-      const w = parseFloat(width.replace(',', '.'));
-      if (isNaN(l) || isNaN(w) || l <= 0 || w <= 0) return null;
-      const area = l * w; // cm²
-      // Find closest rectangular pan by area
-      const rectAreas = RECTANGULAR_PANS.map(p => {
-        const [pl, pw] = parseRectDims(p.metricSize);
-        return { pan: p, area: pl * pw };
-      });
-      let closest = rectAreas[0];
-      let minDiff = Math.abs(rectAreas[0].area - area);
-      for (const item of rectAreas) {
-        const diff = Math.abs(item.area - area);
-        if (diff < minDiff) { minDiff = diff; closest = item; }
-      }
-      // Volume: area × height ~5cm
-      const volL = (area * 5) / 1000;
-      return {
-        size: unitSystem === 'metric' ? closest.pan.metricSize : closest.pan.imperialSize,
-        volume: volL.toFixed(1),
-        servings: closest.pan.servings,
-        exact: false,
-      };
+    if (mode === 'changePan') {
+      if (recipeVolL === null || myVolL === null || recipeVolL <= 0) return null;
+      const multiplier = myVolL / recipeVolL;
+      return { type: 'changePan' as const, multiplier };
     }
-  }, [shape, diameter, length, width, unitSystem]);
+    const rs = parseFloat(recipeServ.replace(',', '.'));
+    const ds = parseFloat(desiredServ.replace(',', '.'));
+    if (isNaN(rs) || isNaN(ds) || rs <= 0 || ds <= 0) return null;
+    return {
+      type: 'changeServings' as const,
+      multiplier: ds / rs,
+      roundPan: nearestRound(ds),
+      rectPan: nearestRect(ds),
+    };
+  }, [mode, recipeVolL, myVolL, recipeServ, desiredServ]);
 
   return (
     <View style={styles.screen}>
@@ -99,119 +198,150 @@ export default function PanConverter() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        {/* Shape toggle */}
-        <View style={styles.toggle}>
+
+        {/* Mode toggle */}
+        <View style={styles.modeToggle}>
           <TouchableOpacity
-            style={[styles.toggleBtn, shape === 'round' && styles.toggleBtnActive]}
-            onPress={() => setShape('round')}
+            style={[styles.modeBtn, mode === 'changePan' && styles.modeBtnActive]}
+            onPress={() => setMode('changePan')}
           >
-            <Text style={[styles.toggleText, shape === 'round' && styles.toggleTextActive]}>
-              ⭕ {t('panConverter.round')}
+            <Text style={[styles.modeBtnText, mode === 'changePan' && styles.modeBtnTextActive]}>
+              🍳 {t('panConverter.changePan')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.toggleBtn, shape === 'rectangular' && styles.toggleBtnActive]}
-            onPress={() => setShape('rectangular')}
+            style={[styles.modeBtn, mode === 'changeServings' && styles.modeBtnActive]}
+            onPress={() => setMode('changeServings')}
           >
-            <Text style={[styles.toggleText, shape === 'rectangular' && styles.toggleTextActive]}>
-              ▭ {t('panConverter.rectangular')}
+            <Text style={[styles.modeBtnText, mode === 'changeServings' && styles.modeBtnTextActive]}>
+              🔢 {t('panConverter.changeServings')}
             </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Inputs */}
-        <View style={styles.card}>
-          {shape === 'round' ? (
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>{t('panConverter.diameter')}</Text>
-              <TextInput
-                value={diameter}
-                onChangeText={setDiameter}
-                keyboardType="decimal-pad"
-                placeholder="20"
-                placeholderTextColor={Colors.text.tertiary}
-                style={styles.input}
-              />
-            </View>
-          ) : (
-            <View style={styles.rowInputs}>
-              <View style={[styles.inputGroup, { flex: 1 }]}>
-                <Text style={styles.inputLabel}>{t('panConverter.length')}</Text>
-                <TextInput
-                  value={length}
-                  onChangeText={setLength}
-                  keyboardType="decimal-pad"
-                  placeholder="23"
-                  placeholderTextColor={Colors.text.tertiary}
-                  style={styles.input}
-                />
-              </View>
-              <Text style={styles.timesSign}>×</Text>
-              <View style={[styles.inputGroup, { flex: 1 }]}>
-                <Text style={styles.inputLabel}>{t('panConverter.width')}</Text>
-                <TextInput
-                  value={width}
-                  onChangeText={setWidth}
-                  keyboardType="decimal-pad"
-                  placeholder="33"
-                  placeholderTextColor={Colors.text.tertiary}
-                  style={styles.input}
-                />
-              </View>
-            </View>
-          )}
-        </View>
-
-        {/* Result */}
-        {result ? (
-          <View style={styles.resultCard}>
-            <Text style={styles.resultTitle}>{t('panConverter.closestPan')}</Text>
-            <Text style={styles.resultSize}>{result.size}</Text>
-            <View style={styles.resultRow}>
-              <View style={styles.resultItem}>
-                <Text style={styles.resultValue}>{result.volume} {t('panConverter.liters')}</Text>
-                <Text style={styles.resultItemLabel}>{t('panConverter.volume')}</Text>
-              </View>
-              <View style={styles.resultDivider} />
-              <View style={styles.resultItem}>
-                <Text style={styles.resultValue}>{result.servings}</Text>
-                <Text style={styles.resultItemLabel}>{t('panConverter.servings')}</Text>
-              </View>
-            </View>
+        {/* Unit toggle */}
+        <View style={styles.unitRow}>
+          <Text style={styles.unitRowLabel}>{t('panConverter.units')}:</Text>
+          <View style={styles.unitToggle}>
+            {(['metric', 'imperial'] as const).map(u => (
+              <TouchableOpacity
+                key={u}
+                style={[styles.unitBtn, units === u && styles.unitBtnActive]}
+                onPress={() => setUnits(u)}
+              >
+                <Text style={[styles.unitBtnText, units === u && styles.unitBtnTextActive]}>
+                  {u === 'metric' ? 'см' : 'инч'}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
+        </View>
+
+        {/* ── Mode 1: Change pan ── */}
+        {mode === 'changePan' ? (
+          <>
+            <PanInput
+              title={`📖 ${t('panConverter.recipeSays')}:`}
+              shape={recipeShape} onShapeChange={setRecipeShape}
+              diam={recipeDiam} onDiamChange={setRecipeDiam}
+              len={recipeLen} onLenChange={setRecipeLen}
+              wid={recipeWid} onWidChange={setRecipeWid}
+              unitLabel={unitLabel}
+              volumeL={recipeVolL}
+              t={t}
+            />
+
+            <PanInput
+              title={`🍳 ${t('panConverter.iHave')}:`}
+              shape={myShape} onShapeChange={setMyShape}
+              diam={myDiam} onDiamChange={setMyDiam}
+              len={myLen} onLenChange={setMyLen}
+              wid={myWid} onWidChange={setMyWid}
+              unitLabel={unitLabel}
+              volumeL={myVolL}
+              t={t}
+            />
+
+            {result?.type === 'changePan' ? (
+              <View style={styles.resultCard}>
+                <Text style={styles.resultLabel}>📊 {t('panConverter.coefficient')}</Text>
+                <Text style={styles.multiplierText}>×{result.multiplier.toFixed(2)}</Text>
+                <Text style={styles.resultHint}>
+                  {t('panConverter.multiplyBy')} {result.multiplier.toFixed(2)}
+                </Text>
+              </View>
+            ) : (
+              <View style={styles.emptyCard}>
+                <Text style={styles.emptyText}>{t('panConverter.enterSize')}</Text>
+              </View>
+            )}
+          </>
         ) : (
-          <View style={styles.emptyCard}>
-            <Text style={styles.emptyText}>{t('panConverter.enterSize')}</Text>
-          </View>
-        )}
+          /* ── Mode 2: Change servings ── */
+          <>
+            <View style={styles.card}>
+              <View style={styles.servingsRow}>
+                <View style={styles.servingBlock}>
+                  <Text style={styles.servingLabel}>{t('panConverter.recipeServings')}</Text>
+                  <TextInput
+                    value={recipeServ} onChangeText={setRecipeServ}
+                    keyboardType="number-pad" placeholder="8"
+                    placeholderTextColor={Colors.text.tertiary}
+                    style={styles.bigInput}
+                  />
+                </View>
+                <Text style={styles.arrowText}>→</Text>
+                <View style={styles.servingBlock}>
+                  <Text style={styles.servingLabel}>{t('panConverter.desiredServings')}</Text>
+                  <TextInput
+                    value={desiredServ} onChangeText={setDesiredServ}
+                    keyboardType="number-pad" placeholder="20"
+                    placeholderTextColor={Colors.text.tertiary}
+                    style={styles.bigInput}
+                  />
+                </View>
+              </View>
+            </View>
 
-        {/* Reference table */}
-        <View style={styles.refCard}>
-          <Text style={styles.refTitle}>📋 {t('panConverter.round')}</Text>
-          {ROUND_PANS.map(pan => (
-            <View key={pan.servings} style={styles.refRow}>
-              <Text style={styles.refCell}>
-                {unitSystem === 'metric' ? pan.metricSize : pan.imperialSize}
-              </Text>
-              <Text style={styles.refCell}>{pan.volumeLiters} {t('panConverter.liters')}</Text>
-              <Text style={[styles.refCell, { color: Colors.primary.main, fontWeight: '700' }]}>
-                {pan.servings} {t('panConverter.servings')}
-              </Text>
-            </View>
-          ))}
-          <Text style={[styles.refTitle, { marginTop: Spacing.md }]}>📋 {t('panConverter.rectangular')}</Text>
-          {RECTANGULAR_PANS.map(pan => (
-            <View key={pan.servings} style={styles.refRow}>
-              <Text style={styles.refCell}>
-                {unitSystem === 'metric' ? pan.metricSize : pan.imperialSize}
-              </Text>
-              <Text style={styles.refCell}>{pan.sheetName}</Text>
-              <Text style={[styles.refCell, { color: Colors.primary.main, fontWeight: '700' }]}>
-                {pan.servings} {t('panConverter.servings')}
-              </Text>
-            </View>
-          ))}
-        </View>
+            {result?.type === 'changeServings' ? (
+              <>
+                <View style={styles.resultCard}>
+                  <Text style={styles.resultLabel}>📊 {t('panConverter.coefficient')}</Text>
+                  <Text style={styles.multiplierText}>×{result.multiplier.toFixed(2)}</Text>
+                  <Text style={styles.resultHint}>
+                    {t('panConverter.multiplyBy')} {result.multiplier.toFixed(2)}
+                  </Text>
+                </View>
+
+                <View style={styles.recCard}>
+                  <Text style={styles.recTitle}>🍳 {t('panConverter.recommendedPan')}</Text>
+                  <View style={styles.recRow}>
+                    <Text style={styles.recShape}>⭕ {t('panConverter.round')}:</Text>
+                    <Text style={styles.recSize}>
+                      {units === 'metric' ? result.roundPan.metricSize : result.roundPan.imperialSize}
+                    </Text>
+                    <Text style={styles.recServings}>
+                      {result.roundPan.servings} {t('panConverter.servings')}
+                    </Text>
+                  </View>
+                  <View style={styles.recRow}>
+                    <Text style={styles.recShape}>▭ {t('panConverter.rectangular')}:</Text>
+                    <Text style={styles.recSize}>
+                      {units === 'metric' ? result.rectPan.metricSize : result.rectPan.imperialSize}
+                    </Text>
+                    <Text style={styles.recServings}>
+                      {result.rectPan.servings} {t('panConverter.servings')}
+                    </Text>
+                  </View>
+                </View>
+              </>
+            ) : (
+              <View style={styles.emptyCard}>
+                <Text style={styles.emptyText}>{t('panConverter.enterSize')}</Text>
+              </View>
+            )}
+          </>
+        )}
 
         <View style={{ height: 80 }} />
       </ScrollView>
@@ -235,39 +365,87 @@ const styles = StyleSheet.create({
   backBtn: { width: 40, alignItems: 'flex-start' },
   headerTitle: { ...Typography.h3, color: Colors.text.primary },
   content: { padding: Spacing.xl, gap: Spacing.md },
-  toggle: {
+
+  // Mode toggle
+  modeToggle: {
     flexDirection: 'row',
     backgroundColor: Colors.background.primary,
     borderRadius: BorderRadius.lg,
     padding: 4,
     ...Shadows.sm,
   },
-  toggleBtn: {
+  modeBtn: {
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: BorderRadius.md,
   },
-  toggleBtnActive: { backgroundColor: Colors.primary.main },
-  toggleText: { fontWeight: '700', color: Colors.text.secondary, fontSize: 14 },
-  toggleTextActive: { color: '#FFFFFF' },
+  modeBtnActive: { backgroundColor: Colors.primary.main },
+  modeBtnText: { fontWeight: '700', color: Colors.text.secondary, fontSize: 13 },
+  modeBtnTextActive: { color: '#FFFFFF' },
+
+  // Unit toggle
+  unitRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: Spacing.sm,
+  },
+  unitRowLabel: { fontSize: 13, color: Colors.text.tertiary, fontWeight: '600' },
+  unitToggle: {
+    flexDirection: 'row',
+    backgroundColor: Colors.background.primary,
+    borderRadius: BorderRadius.md,
+    padding: 2,
+    ...Shadows.sm,
+  },
+  unitBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: Spacing.md,
+    borderRadius: BorderRadius.sm,
+  },
+  unitBtnActive: { backgroundColor: Colors.primary.main },
+  unitBtnText: { fontWeight: '700', color: Colors.text.secondary, fontSize: 13 },
+  unitBtnTextActive: { color: '#FFFFFF' },
+
+  // PanInput card
   card: {
     backgroundColor: Colors.background.primary,
     borderRadius: BorderRadius.xl,
     padding: Spacing.lg,
     ...Shadows.sm,
   },
-  inputGroup: { marginBottom: 0 },
-  inputLabel: {
-    ...Typography.caption,
-    color: Colors.text.tertiary,
-    textTransform: 'uppercase',
+  panTitle: {
     fontWeight: '700',
-    letterSpacing: 0.5,
-    marginBottom: 6,
+    color: Colors.text.primary,
+    fontSize: 14,
+    marginBottom: Spacing.md,
   },
-  input: {
-    fontSize: 28,
+  shapeToggle: {
+    flexDirection: 'row',
+    backgroundColor: Colors.background.secondary,
+    borderRadius: BorderRadius.md,
+    padding: 3,
+    marginBottom: Spacing.md,
+  },
+  shapeBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderRadius: BorderRadius.sm,
+  },
+  shapeBtnActive: { backgroundColor: Colors.primary.main },
+  shapeBtnText: { fontWeight: '700', color: Colors.text.secondary, fontSize: 13 },
+  shapeBtnTextActive: { color: '#FFFFFF' },
+  sizeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.sm,
+  },
+  sizeInput: {
+    flex: 1,
+    fontSize: 26,
     fontWeight: '700',
     color: Colors.text.primary,
     borderBottomWidth: 2,
@@ -275,8 +453,17 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     textAlign: 'center',
   },
-  rowInputs: { flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
-  timesSign: { fontSize: 24, fontWeight: '700', color: Colors.text.secondary, paddingBottom: 8 },
+  timesSign: { fontSize: 22, fontWeight: '700', color: Colors.text.secondary },
+  unitSuffix: { fontSize: 16, fontWeight: '600', color: Colors.text.tertiary, width: 36 },
+  volumeText: {
+    marginTop: Spacing.sm,
+    textAlign: 'center',
+    fontSize: 13,
+    color: Colors.text.tertiary,
+    fontWeight: '600',
+  },
+
+  // Result card
   resultCard: {
     backgroundColor: Colors.primary.main,
     borderRadius: BorderRadius.xl,
@@ -284,13 +471,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Shadows.sm,
   },
-  resultTitle: { color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: '700', textTransform: 'uppercase', marginBottom: 4 },
-  resultSize: { color: '#FFFFFF', fontSize: 32, fontWeight: '800', marginBottom: Spacing.md },
-  resultRow: { flexDirection: 'row', width: '100%', alignItems: 'center' },
-  resultItem: { flex: 1, alignItems: 'center' },
-  resultValue: { color: '#FFFFFF', fontSize: 22, fontWeight: '800' },
-  resultItemLabel: { color: 'rgba(255,255,255,0.7)', fontSize: 11, marginTop: 2 },
-  resultDivider: { width: 1, height: 40, backgroundColor: 'rgba(255,255,255,0.3)' },
+  resultLabel: { color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: '700', textTransform: 'uppercase', marginBottom: 4 },
+  multiplierText: { color: '#FFFFFF', fontSize: 48, fontWeight: '800', letterSpacing: 1 },
+  resultHint: { color: 'rgba(255,255,255,0.9)', fontSize: 13, textAlign: 'center', marginTop: Spacing.sm },
+
+  // Empty state
   emptyCard: {
     backgroundColor: Colors.background.primary,
     borderRadius: BorderRadius.xl,
@@ -299,18 +484,57 @@ const styles = StyleSheet.create({
     ...Shadows.sm,
   },
   emptyText: { color: Colors.text.tertiary, fontSize: 15 },
-  refCard: {
+
+  // Recommended pan card
+  recCard: {
     backgroundColor: Colors.background.primary,
     borderRadius: BorderRadius.xl,
     padding: Spacing.lg,
     ...Shadows.sm,
   },
-  refTitle: { fontWeight: '700', color: Colors.text.primary, fontSize: 14, marginBottom: Spacing.sm },
-  refRow: {
+  recTitle: { fontWeight: '700', color: Colors.text.primary, fontSize: 14, marginBottom: Spacing.md },
+  recRow: {
     flexDirection: 'row',
-    paddingVertical: 8,
+    alignItems: 'center',
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border.light,
+    gap: 4,
   },
-  refCell: { flex: 1, fontSize: 13, color: Colors.text.primary },
+  recShape: { fontSize: 13, color: Colors.text.secondary, fontWeight: '600', width: 90 },
+  recSize: { flex: 1, fontSize: 15, fontWeight: '700', color: Colors.text.primary },
+  recServings: { fontSize: 13, color: Colors.primary.main, fontWeight: '700' },
+
+  // Servings mode
+  servingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  servingBlock: { flex: 1, alignItems: 'center' },
+  servingLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.text.tertiary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  bigInput: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: Colors.text.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.primary.main,
+    paddingVertical: 4,
+    textAlign: 'center',
+    minWidth: 80,
+  },
+  arrowText: {
+    fontSize: 22,
+    color: Colors.text.tertiary,
+    fontWeight: '700',
+    marginTop: 16,
+  },
 });

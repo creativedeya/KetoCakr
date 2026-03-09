@@ -13,6 +13,7 @@ import { useTranslation } from '../../constants/i18n';
 
 type Gender = 'male' | 'female';
 type Activity = 'sedentary' | 'lightlyActive' | 'moderatelyActive' | 'active' | 'veryActive';
+type DietType = 'keto' | 'lchf' | 'custom';
 
 const ACTIVITY_MULTIPLIERS: Record<Activity, number> = {
   sedentary: 1.2,
@@ -36,7 +37,8 @@ interface MacroResult {
 
 function calcMacros(
   weight: number, height: number, age: number,
-  gender: Gender, activity: Activity
+  gender: Gender, activity: Activity,
+  fatPct: number, protPct: number, carbPct: number, carbMaxG: number,
 ): MacroResult {
   // Mifflin-St Jeor
   const bmr = gender === 'male'
@@ -45,11 +47,10 @@ function calcMacros(
   const tdee = Math.round(bmr * ACTIVITY_MULTIPLIERS[activity]);
   const deficit = tdee - 500;
 
-  // Keto macros for TDEE: Fat 72%, Protein 23%, Carbs 5%
   const makeMacros = (kcal: number) => ({
-    fatG: Math.round(kcal * 0.72 / 9),
-    proteinG: Math.round(kcal * 0.23 / 4),
-    carbsG: Math.min(Math.round(kcal * 0.05 / 4), 50),
+    fatG: Math.round(kcal * fatPct / 100 / 9),
+    proteinG: Math.round(kcal * protPct / 100 / 4),
+    carbsG: Math.min(Math.round(kcal * carbPct / 100 / 4), carbMaxG),
   });
 
   const mTdee = makeMacros(tdee);
@@ -73,6 +74,10 @@ export default function MacroCalculator() {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<Gender>('female');
   const [activity, setActivity] = useState<Activity>('moderatelyActive');
+  const [dietType, setDietType] = useState<DietType>('keto');
+  const [customFatPct, setCustomFatPct] = useState('75');
+  const [customProtPct, setCustomProtPct] = useState('20');
+  const [customCarbPct, setCustomCarbPct] = useState('5');
   const [result, setResult] = useState<MacroResult | null>(null);
 
   const calculate = () => {
@@ -83,7 +88,20 @@ export default function MacroCalculator() {
       Alert.alert(t('common.error'), t('macroCalculator.fillAll'));
       return;
     }
-    setResult(calcMacros(w, h, a, gender, activity));
+    let fatPct = 75, protPct = 20, carbPct = 5, carbMaxG = 20;
+    if (dietType === 'lchf') {
+      fatPct = 60; protPct = 25; carbPct = 15; carbMaxG = 50;
+    } else if (dietType === 'custom') {
+      fatPct = parseInt(customFatPct) || 0;
+      protPct = parseInt(customProtPct) || 0;
+      carbPct = parseInt(customCarbPct) || 0;
+      carbMaxG = 999;
+      if (fatPct + protPct + carbPct !== 100) {
+        Alert.alert(t('common.error'), t('macroCalculator.percentWarning'));
+        return;
+      }
+    }
+    setResult(calcMacros(w, h, a, gender, activity, fatPct, protPct, carbPct, carbMaxG));
   };
 
   const activities: { key: Activity; label: string }[] = [
@@ -177,6 +195,58 @@ export default function MacroCalculator() {
           ))}
         </View>
 
+        {/* Diet type */}
+        <View style={styles.card}>
+          <Text style={styles.sectionLabel}>{t('macroCalculator.dietType')}</Text>
+          <View style={styles.dietRow}>
+            {(['keto', 'lchf', 'custom'] as DietType[]).map(d => (
+              <TouchableOpacity
+                key={d}
+                style={[styles.dietChip, dietType === d && styles.dietChipActive]}
+                onPress={() => setDietType(d)}
+              >
+                <Text style={[styles.dietChipText, dietType === d && styles.dietChipTextActive]}>
+                  {t(`macroCalculator.${d}`)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {dietType === 'custom' && (
+            <View style={{ marginTop: Spacing.md }}>
+              {[
+                { field: 'fat', label: t('macroCalculator.fat'), val: customFatPct, setVal: setCustomFatPct },
+                { field: 'protein', label: t('macroCalculator.protein'), val: customProtPct, setVal: setCustomProtPct },
+                { field: 'carbs', label: t('macroCalculator.carbs'), val: customCarbPct, setVal: setCustomCarbPct },
+              ].map(({ field, label, val, setVal }) => (
+                <View key={field} style={styles.customRow}>
+                  <Text style={styles.customLabel}>{label}</Text>
+                  <View style={styles.customInputWrap}>
+                    <TextInput
+                      value={val}
+                      onChangeText={setVal}
+                      keyboardType="number-pad"
+                      style={styles.customInput}
+                    />
+                    <Text style={styles.pctLabel}>%</Text>
+                  </View>
+                </View>
+              ))}
+              {(() => {
+                const total = (parseInt(customFatPct) || 0) + (parseInt(customProtPct) || 0) + (parseInt(customCarbPct) || 0);
+                const ok = total === 100;
+                return (
+                  <View style={[styles.totalRow, !ok && styles.totalRowError]}>
+                    <Text style={[styles.totalText, !ok && styles.totalTextError]}>
+                      {t('macroCalculator.total')}: {total}%{ok ? ' ✓' : ` — ${t('macroCalculator.percentWarning')}`}
+                    </Text>
+                  </View>
+                );
+              })()}
+            </View>
+          )}
+        </View>
+
         {/* Calculate button */}
         <TouchableOpacity style={styles.calcBtn} onPress={calculate}>
           <Ionicons name="calculator" size={20} color="#FFF" />
@@ -200,9 +270,9 @@ export default function MacroCalculator() {
               </View>
             </View>
 
-            {/* Keto macros — maintenance */}
+            {/* Macros — maintenance */}
             <MacroCard
-              title={`🥑 ${t('macroCalculator.ketoMacros')} — ${result.tdee} kcal`}
+              title={`🥑 ${dietType === 'keto' ? t('macroCalculator.ketoMacros') : dietType === 'lchf' ? 'LCHF' : t('macroCalculator.custom')} — ${result.tdee} kcal`}
               fat={result.fatG}
               protein={result.proteinG}
               carbs={result.carbsG}
@@ -361,6 +431,45 @@ const styles = StyleSheet.create({
   activityText: { flex: 1, fontSize: 14, color: Colors.text.secondary },
   activityTextActive: { color: Colors.text.primary, fontWeight: '600' },
   activityMultiplier: { fontSize: 12, color: Colors.text.tertiary, fontWeight: '600' },
+  dietRow: { flexDirection: 'row', gap: Spacing.sm, marginTop: 2 },
+  dietChip: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: BorderRadius.md,
+    backgroundColor: Colors.background.secondary,
+    alignItems: 'center',
+  },
+  dietChipActive: { backgroundColor: Colors.primary.main },
+  dietChipText: { fontWeight: '700', color: Colors.text.secondary, fontSize: 13 },
+  dietChipTextActive: { color: '#FFFFFF' },
+  customRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: Spacing.sm,
+  },
+  customLabel: { flex: 1, fontSize: 14, color: Colors.text.secondary, fontWeight: '600' },
+  customInputWrap: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  customInput: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.text.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.primary.main,
+    paddingVertical: 2,
+    minWidth: 52,
+    textAlign: 'center',
+  },
+  pctLabel: { fontSize: 14, color: Colors.text.secondary, fontWeight: '600' },
+  totalRow: {
+    borderTopWidth: 1,
+    borderTopColor: Colors.border.light,
+    paddingTop: Spacing.sm,
+    marginTop: Spacing.sm,
+  },
+  totalRowError: { borderTopColor: '#C0392B' },
+  totalText: { fontSize: 13, fontWeight: '700', color: Colors.text.secondary },
+  totalTextError: { color: '#C0392B' },
   calcBtn: {
     flexDirection: 'row',
     alignItems: 'center',
