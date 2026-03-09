@@ -1,4 +1,4 @@
-# 🔧 ЗАДАНИЕ ЗА CLAUDE CODE — User Recipe Image Upload
+# 🔧 ЗАДАНИЕ ЗА CLAUDE CODE — Поправки на Таб 4 инструменти
 
 > **Проект:** KetoCakR Mobile App
 > **Дата:** 07.03.2026
@@ -8,192 +8,222 @@
 ## ⚠️ КРИТИЧНИ ПРАВИЛА
 
 1. Прочети `CLAUDE.md`
-2. НИКОГА hardcoded цветове — `constants/Colors.ts`
-3. `expo-image-picker` Е ИНСТАЛИРАН — просто го импортирай
-4. `git add . && git commit -m "WIP before image upload"` ПРЕДИ да започнеш
+2. Цветове от `constants/Colors.ts`, размери от `constants/Theme.ts`
+3. НИКОГА нови npm пакети
+4. Двуезичност: `useTranslation()`
+5. `git commit` ПРЕДИ да започнеш
 
 ---
 
-## 📊 ВЕЧЕ НАПРАВЕНО В БАЗАТА
-
-```sql
--- Колона в user_recipes:
-user_image_url TEXT NULL
-
--- Supabase Storage bucket:
--- Име: user-recipe-images
--- Public: true
--- Policies: anonymous upload + public read
-```
+## 📋 ЗАДАЧИ
 
 ---
 
-## 📋 ЗАДАЧИ (3 задачи)
+### ЗАДАЧА 1: Заглавия — намали размера
+
+**Файлове:** Всички 4 tools екрана
+- `app/tools/unit-converter.tsx`
+- `app/tools/baking-timer.tsx`
+- `app/tools/pan-converter.tsx`
+- `app/tools/macro-calculator.tsx`
+
+Заглавията да са `Typography.h3` (не h1 или h2).
 
 ---
 
-### ЗАДАЧА 1: Image Upload helper
+### ЗАДАЧА 2: Таймер не стартира
 
-**Създай файл:** `lib/imageUpload.ts`
+**Файл:** `app/tools/baking-timer.tsx`
 
+**Проблем:** Таймерът се вижда, може да се създаде нов, но при натискане на "Старт" не започва countdown.
+
+**Диагностика:**
+1. Провери `setInterval` или `setTimeout` логиката
+2. В React Native, `setInterval` работи, но трябва да се чисти в cleanup
+3. Може проблемът да е в state update — `useState` вътре в `setInterval` трябва да използва функционален update: `setTime(prev => prev - 1)`
+
+**Правилна имплементация:**
 ```typescript
-import * as ImagePicker from 'expo-image-picker';
-import { supabase } from './supabase';
+const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-export async function pickImage(source: 'camera' | 'gallery'): Promise<string | null> {
-  if (source === 'camera') {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== 'granted') return null;
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.8,
-    });
-    if (result.canceled) return null;
-    return result.assets[0].uri;
-  } else {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') return null;
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.8,
-    });
-    if (result.canceled) return null;
-    return result.assets[0].uri;
-  }
-}
-
-export async function uploadRecipeImage(uri: string, recipeId: string): Promise<string | null> {
-  try {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const fileExt = uri.split('.').pop() || 'jpg';
-    const fileName = `${recipeId}_${Date.now()}.${fileExt}`;
-    const filePath = `recipes/${fileName}`;
-
-    const { error } = await supabase.storage
-      .from('user-recipe-images')
-      .upload(filePath, blob, { contentType: `image/${fileExt}`, upsert: true });
-
-    if (error) {
-      console.error('Upload error:', error.message);
-      return null;
-    }
-
-    const { data: urlData } = supabase.storage
-      .from('user-recipe-images')
-      .getPublicUrl(filePath);
-
-    return urlData.publicUrl;
-  } catch (err) {
-    console.error('Upload failed:', err);
-    return null;
-  }
-}
-
-export async function updateRecipeImage(recipeId: string, imageUrl: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('user_recipes')
-    .update({ user_image_url: imageUrl })
-    .eq('id', recipeId);
-  return !error;
-}
+const startTimer = (timerId: string) => {
+  // Спри предишен interval ако има
+  if (intervalRef.current) clearInterval(intervalRef.current);
+  
+  intervalRef.current = setInterval(() => {
+    setTimers(prev => prev.map(t => {
+      if (t.id === timerId && t.isRunning && t.remainingSeconds > 0) {
+        const newRemaining = t.remainingSeconds - 1;
+        if (newRemaining === 0) {
+          Vibration.vibrate([500, 500, 500]); // Вибрация при край
+        }
+        return { ...t, remainingSeconds: newRemaining };
+      }
+      return t;
+    }));
+  }, 1000);
+};
 ```
+
+**ВАЖНО:** Всеки таймер трябва да има собствен interval. Или един global interval, който обновява ВСИЧКИ running таймери.
+
+**Препоръчвам global interval подход:**
+```typescript
+useEffect(() => {
+  const interval = setInterval(() => {
+    setTimers(prev => prev.map(t => {
+      if (t.isRunning && t.remainingSeconds > 0) {
+        const newRemaining = t.remainingSeconds - 1;
+        if (newRemaining === 0) {
+          Vibration.vibrate([500, 500, 500]);
+          return { ...t, remainingSeconds: 0, isRunning: false };
+        }
+        return { ...t, remainingSeconds: newRemaining };
+      }
+      return t;
+    }));
+  }, 1000);
+  
+  return () => clearInterval(interval);
+}, []); // Празен dependency array — работи постоянно
+```
+
+Тествай: създай таймер за 10 секунди, натисни Старт, трябва да брои надолу.
 
 ---
 
-### ЗАДАЧА 2: Бутон за снимка в User Recipe Detail
+### ЗАДАЧА 3: Конвертор на тави — пълен redesign
 
-**Файл:** `app/user-recipe/[id].tsx` и/или `components/RecipeDetailView.tsx`
+**Файл:** `app/tools/pan-converter.tsx`
 
-Когато рецептата е **user_recipe** (НЕ ready_recipe), добави малък floating бутон за снимка върху hero image:
+**Нов layout — ДВА РЕЖИМА:**
 
-```
-┌─────────────────────────────────┐
-│                                 │
-│   [Hero Image]                  │
-│                        [📷]     │  ← бутон горе-дясно
-│                                 │
-└─────────────────────────────────┘
-```
-
-**При натискане на 📷:** Покажи Alert с 3 опции:
-- "Камера" / "Camera"
-- "Галерия" / "Gallery"  
-- "Откажи" / "Cancel"
-
-**След избор на снимка:**
-1. Покажи loading indicator
-2. `uploadRecipeImage(uri, recipeId)` → качва в Supabase Storage
-3. `updateRecipeImage(recipeId, publicUrl)` → записва URL в базата
-4. Refresh данните (invalidate React Query)
-5. Новата снимка се показва като hero image
-
-**Как RecipeDetailView разбира дали е user_recipe:**
-- Добави prop `allowImageUpload?: boolean`
-- `user-recipe/[id].tsx` подава `allowImageUpload={true}`
-- `recipe-detail/[id].tsx` подава `allowImageUpload={false}` (или не подава)
-
-**Стил на бутона:**
-- Позиция: absolute, top-right на hero image
-- Background: `rgba(0,0,0,0.5)` с `BorderRadius.round`
-- Икона: `Ionicons camera`, бяла, `IconSize.md`
-- Размер: 40×40
-
-**Двуезичност:**
-- BG: "Добави снимка", "Камера", "Галерия", "Откажи", "Снимката е качена!"
-- EN: "Add photo", "Camera", "Gallery", "Cancel", "Photo uploaded!"
-
----
-
-### ЗАДАЧА 3: Снимка при създаване в Recipe Builder
-
-**Файл:** `app/(modals)/visual-recipe-builder.tsx`
-
-Добави **опционална** стъпка за снимка СЛЕД избора на компоненти, ПРЕДИ финалния запис:
+#### Режим 1: "Имам рецепта, искам друга тава"
 
 ```
-┌─────────────────────────────────┐
-│   [Снимка placeholder]          │
-│                                 │
-│   📷 Камера    🖼️ Галерия      │
-│                                 │
-│   Можеш да добавиш снимка      │
-│   и по-късно                    │
-└─────────────────────────────────┘
+┌─────────────────────────────────────┐
+│ Мерна единица: [см] [инч]          │
+├─────────────────────────────────────┤
+│ 📖 РЕЦЕПТАТА КАЗВА:                │
+│                                     │
+│ Форма: [Кръгла ▼] [Правоъгълна ▼] │
+│ Размер: [ 18 ] см                  │
+│ (или Д:[ 23 ] × Ш:[ 33 ] см)      │
+│                                     │
+│ Обем: 1.4 л  |  8 порции           │
+├─────────────────────────────────────┤
+│ 🍳 АЗ ИМАМ:                        │
+│                                     │
+│ Форма: [Кръгла ▼] [Правоъгълна ▼] │
+│ Размер: [ 24 ] см                  │
+│                                     │
+│ Обем: 2.7 л  |  ~14 порции         │
+├─────────────────────────────────────┤
+│ 📊 КОЕФИЦИЕНТ: ×1.93               │
+│                                     │
+│ Умножете всички съставки по 1.93   │
+│ за да напълните вашата тава.        │
+└─────────────────────────────────────┘
 ```
 
 **Логика:**
-1. Потребителят избира снимка (или пропуска)
-2. При запис на рецептата:
-   - Ако има снимка → качи в Storage → запиши URL в `user_image_url`
-   - Ако няма → `user_image_url` остава NULL
-3. Текстът "Можеш да добавиш снимка и по-късно" успокоява потребителя
+- Обем на кръгла тава: `π × (d/2)² × h` (h = стандартно 7 см за торти)
+- Обем на правоъгълна: `L × W × h` (h = 5 см за тави)
+- Коефициент = обем_нова / обем_оригинална
+- Показвай най-близките порции от BakingPans.ts
 
-**Двуезичност:** Добави ключове в bg.ts и en.ts.
+#### Режим 2: "Имам порции, каква тава ми трябва"
+
+```
+┌─────────────────────────────────────┐
+│ Рецептата е за: [ 8 ] порции       │
+│ Искам да направя: [ 20 ] порции    │
+├─────────────────────────────────────┤
+│ 📊 КОЕФИЦИЕНТ: ×2.64               │
+│                                     │
+│ 🍳 Препоръчителна тава:            │
+│ Кръгла: 28 см / 11"                │
+│ Правоъгълна: 23×33 см / 9×13"     │
+│                                     │
+│ Умножете всички съставки по 2.64   │
+└─────────────────────────────────────┘
+```
+
+**Логика:**
+- Намери scaleFactor от BakingPans.ts за двата броя порции
+- Препоръчай тавата от BakingPans.ts
+
+**Toggle между двата режима:** Два бутона отгоре "Смяна на тава" / "Смяна на порции"
+
+**Мерна единица:** Следвай `unitSystem` от `useLanguageStore`. Покажи toggle за ръчна смяна.
+
+**Двуезичност:**
+- BG: "Рецептата казва", "Аз имам", "Коефициент", "Умножете всички съставки по", "Смяна на тава", "Смяна на порции", "Препоръчителна тава"
+- EN: "Recipe says", "I have", "Multiplier", "Multiply all ingredients by", "Change pan", "Change servings", "Recommended pan"
+
+---
+
+### ЗАДАЧА 4: Макро калкулатор — добави избор на диета
+
+**Файл:** `app/tools/macro-calculator.tsx`
+
+**Добави секция за избор на диета ПРЕДИ резултатите:**
+
+```
+┌─────────────────────────────────────┐
+│ Вид диета:                          │
+│ [Кето] [LCHF] [По избор]           │
+└─────────────────────────────────────┘
+```
+
+**Preset-и:**
+
+| Диета | Мазнини | Протеини | Въглехидрати |
+|-------|---------|----------|--------------|
+| Кето (стандартно) | 75% | 20% | 5% (max 20g) |
+| LCHF | 60% | 25% | 15% (max 50g) |
+| По избор | custom | custom | custom |
+
+**При "По избор":** Покажи 3 slider-а или TextInput-а за процентите. Валидация: сумата = 100%.
+
+```
+Мазнини:     [ 65 ] %
+Протеини:    [ 25 ] %
+Въглехидрати:[ 10 ] %
+             ─────────
+Общо:         100% ✓
+```
+
+Ако сумата ≠ 100% → покажи предупреждение в червено.
+
+**Стил за chips:**
+- Active: `Colors.primary.main` фон, бял текст
+- Inactive: `Colors.background.secondary` фон
+
+**Двуезичност:**
+- BG: "Вид диета", "Кето", "По избор", "Мазнини", "Протеини", "Въглехидрати"
+- EN: "Diet type", "Keto", "Custom", "Fats", "Proteins", "Carbs"
 
 ---
 
 ## ✅ КРИТЕРИИ ЗА ГОТОВО
 
-- [ ] `lib/imageUpload.ts` създаден
-- [ ] User recipe detail: 📷 бутон върху hero image
-- [ ] Camera и Gallery работят
-- [ ] Снимка се качва в Supabase Storage
-- [ ] `user_image_url` се обновява в базата
-- [ ] Hero image се обновява след upload
-- [ ] 📷 бутон НЕ се показва за ready_recipes
-- [ ] Builder: опционална стъпка за снимка
-- [ ] Двуезичност
+- [ ] Заглавия Typography.h3 във всички tools
+- [ ] Таймер стартира и брои надолу
+- [ ] Таймер вибрира при край
+- [ ] Множество паралелни таймера работят
+- [ ] Pan converter: Режим 1 — смяна на тава с коефициент
+- [ ] Pan converter: Режим 2 — порции → препоръчителна тава
+- [ ] Pan converter: metric/imperial toggle
+- [ ] Макро калкулатор: Кето / LCHF / По избор
+- [ ] По избор: custom проценти с валидация 100%
+- [ ] Двуезичност за всички нови текстове
 - [ ] Git commit
 
 ---
 
 ## 🔍 СЛЕД ПРИКЛЮЧВАНЕ КАЖИ МИ:
 
-1. expo-image-picker работи ли без проблеми?
-2. Upload към Supabase Storage успешен ли е?
-3. Какви файлове създаде/промени?
+1. Каква беше причината таймерът да не работи?
+2. Как изчислява обема на кръгла тава?
+3. Как работи "По избор" режимът на калкулатора?
