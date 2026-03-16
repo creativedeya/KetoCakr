@@ -4,6 +4,7 @@ import { EnhancedStepImages } from './EnhancedStepImages';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, useParams } from 'next/navigation';
+import { RefreshCw } from 'lucide-react';
 
 interface BaseRecipe {
   id: string;
@@ -122,6 +123,57 @@ function parseDescriptionIntoSteps(description: string): string[] {
   return steps;
 }
 
+// ─── Nutrition Calculation Helpers ───────────────────────────────────────────
+
+function convertToGrams(quantity: number, unit: string, unitWeightGrams: number | null): number {
+  const u = (unit || '').toLowerCase().trim();
+  if (u === 'g' || u === 'гр' || u === 'гр.') return quantity;
+  if (u === 'kg' || u === 'кг') return quantity * 1000;
+  if (u === 'ml' || u === 'мл') return quantity;
+  if (u === 'l' || u === 'л') return quantity * 1000;
+  if (u === 'бр' || u === 'бр.' || u === 'pcs' || u === 'pc' || u === 'piece' || u === 'pieces') return quantity * (unitWeightGrams || 0);
+  if (u === 'ч.л.' || u === 'ч.л' || u === 'tsp') return quantity * 5;
+  if (u === 'с.л.' || u === 'с.л' || u === 'tbsp') return quantity * 15;
+  return quantity;
+}
+
+async function calculateRecipeNutrition(
+  recipeIngredients: { ingredient_name: string; quantity: number | null; unit: string | null }[]
+): Promise<{ calories: number; protein: number; fat: number; carbs: number; net_carbs: number }> {
+  let totalCalories = 0, totalProtein = 0, totalFat = 0, totalCarbs = 0, totalFiber = 0;
+
+  for (const ing of recipeIngredients) {
+    if (!ing.quantity || !ing.ingredient_name) continue;
+
+    const { data: dbIng } = await supabase
+      .from('ingredients_database')
+      .select('calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, fiber_per_100g, unit_weight_grams')
+      .or(`name_en.ilike.%${ing.ingredient_name}%,name_bg.ilike.%${ing.ingredient_name}%`)
+      .limit(1)
+      .maybeSingle();
+
+    if (!dbIng) { console.warn(`Липсва в DB: ${ing.ingredient_name}`); continue; }
+
+    const grams = convertToGrams(ing.quantity, ing.unit || 'g', dbIng.unit_weight_grams);
+    const f = grams / 100;
+    totalCalories += (dbIng.calories_per_100g || 0) * f;
+    totalProtein  += (dbIng.protein_per_100g  || 0) * f;
+    totalFat      += (dbIng.fat_per_100g      || 0) * f;
+    totalCarbs    += (dbIng.carbs_per_100g    || 0) * f;
+    totalFiber    += (dbIng.fiber_per_100g    || 0) * f;
+  }
+
+  return {
+    calories:  Math.round(totalCalories * 10) / 10,
+    protein:   Math.round(totalProtein  * 10) / 10,
+    fat:       Math.round(totalFat      * 10) / 10,
+    carbs:     Math.round(totalCarbs    * 10) / 10,
+    net_carbs: Math.round((totalCarbs - totalFiber) * 10) / 10,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function BaseRecipeDetailPage() {
   const params = useParams();
   const recipeId = params?.id as string;
@@ -140,6 +192,7 @@ export default function BaseRecipeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [recalculating, setRecalculating] = useState(false);
   const [selectedStepsForImages, setSelectedStepsForImages] = useState<Set<number>>(new Set());
   const [generatingImages, setGeneratingImages] = useState(false);
   const [imageGenerationProgress, setImageGenerationProgress] = useState<{current: number, total: number} | null>(null);
@@ -582,6 +635,39 @@ async function generateImagesForSelectedSteps() {
     setImageGenerationProgress(null);
   }
 }
+
+  async function recalculateNutritionFromIngredients() {
+    if (!recipeId) return;
+    setRecalculating(true);
+    try {
+      const { data: ings, error } = await supabase
+        .from('recipe_ingredients')
+        .select('ingredient_name, quantity, unit')
+        .eq('recipe_id', recipeId);
+
+      if (error) throw error;
+      if (!ings || ings.length === 0) {
+        alert('Рецептата няма добавени съставки');
+        return;
+      }
+
+      const nutrition = await calculateRecipeNutrition(ings);
+      setFormData(prev => ({
+        ...prev,
+        total_calories:  nutrition.calories,
+        total_protein:   nutrition.protein,
+        total_fat:       nutrition.fat,
+        total_carbs:     nutrition.carbs,
+        total_net_carbs: nutrition.net_carbs,
+      }));
+      alert(`✅ Преизчислено от ${ings.length} съставки. Провери стойностите и запази.`);
+    } catch (err) {
+      console.error('Грешка при преизчисляване:', err);
+      alert('Грешка при преизчисляване на нутриенти');
+    } finally {
+      setRecalculating(false);
+    }
+  }
 
   async function handleSave() {
     try {
@@ -1327,6 +1413,22 @@ async function generateImagesForSelectedSteps() {
                         onChange={(e) => setFormData({ ...formData, total_net_carbs: Number(e.target.value) })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                       />
+                    </div>
+
+                    {/* Recalculate from ingredients */}
+                    <div className="mt-4 flex items-center gap-4 pt-3 border-t border-gray-100">
+                      <button
+                        type="button"
+                        onClick={recalculateNutritionFromIngredients}
+                        disabled={recalculating || !recipeId}
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                      >
+                        <RefreshCw className={`w-4 h-4 ${recalculating ? 'animate-spin' : ''}`} />
+                        {recalculating ? 'Преизчислява...' : '♻️ Преизчисли от съставки'}
+                      </button>
+                      <p className="text-xs text-gray-500">
+                        Изчислява нутриентите от съставките. Не забравяй да запазиш след това.
+                      </p>
                     </div>
                   </div>
                 ) : (
