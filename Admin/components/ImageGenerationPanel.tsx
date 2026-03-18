@@ -76,12 +76,12 @@ export default function ImageGenerationPanel({
       const data: GenerateRecipeImagesResponse = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Generation failed');
+        throw new Error((data as any).error  || 'Generation failed');
       }
 
       setResults(data);
       
-      if (onImagesGenerated) {
+          if (onImagesGenerated) {
         onImagesGenerated();
       }
 
@@ -126,7 +126,7 @@ export default function ImageGenerationPanel({
       const data: GenerateStepImageResponse = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Generation failed');
+       throw new Error((data as any).error  || 'Generation failed');
       }
 
       alert(`✅ Image generated!\n\n${data.imageUrl}`);

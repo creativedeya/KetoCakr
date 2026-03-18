@@ -164,11 +164,11 @@ async function calculateRecipeNutrition(
   }
 
   return {
-    calories:  Math.round(totalCalories * 10) / 10,
-    protein:   Math.round(totalProtein  * 10) / 10,
-    fat:       Math.round(totalFat      * 10) / 10,
-    carbs:     Math.round(totalCarbs    * 10) / 10,
-    net_carbs: Math.round((totalCarbs - totalFiber) * 10) / 10,
+    calories:  Math.round(totalCalories),
+    protein:   Math.round(totalProtein),
+    fat:       Math.round(totalFat),
+    carbs:     Math.round(totalCarbs),
+    net_carbs: Math.round(totalCarbs - totalFiber),
   };
 }
 
@@ -1332,7 +1332,7 @@ async function generateImagesForSelectedSteps() {
                         <span className="ml-2 font-medium">{recipe.prep_time_minutes} min</span>
                       </div>
                     )}
-                    {recipe.bake_time_minutes > 0 && (
+                    {recipe.bake_time_minutes && recipe.bake_time_minutes > 0 && (
                       <div>
                         <span className="text-gray-500">Bake:</span>
                         <span className="ml-2 font-medium">{recipe.bake_time_minutes} min</span>
@@ -1433,25 +1433,26 @@ async function generateImagesForSelectedSteps() {
                   </div>
                 ) : (
                   <div className="space-y-2 text-sm">
-                    {recipe.total_calories > 0 && (
+                    {(recipe.total_calories ?? 0) > 0 && (
                       <div>
                         <span className="text-gray-500">Calories:</span>
                         <span className="ml-2 font-medium">{recipe.total_calories}</span>
                       </div>
                     )}
-                    {recipe.total_fat > 0 && (
+                    {(recipe.total_fat ?? 0) > 0 && (
+ 
                       <div>
                         <span className="text-gray-500">Fat:</span>
                         <span className="ml-2 font-medium">{recipe.total_fat}g</span>
                       </div>
                     )}
-                    {recipe.total_protein > 0 && (
+                    {(recipe.total_protein ?? 0) > 0 && (
                       <div>
                         <span className="text-gray-500">Protein:</span>
                         <span className="ml-2 font-medium">{recipe.total_protein}g</span>
                       </div>
                     )}
-                    {recipe.total_net_carbs > 0 && (
+                    {(recipe.total_net_carbs ?? 0) > 0 && (
                       <div>
                         <span className="text-gray-500">Net Carbs:</span>
                         <span className="ml-2 font-medium">{recipe.total_net_carbs}g</span>

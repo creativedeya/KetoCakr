@@ -135,11 +135,11 @@ export default function BaseRecipesPage() {
     // Status filter
     if (filterStatus === 'complete') {
       filtered = filtered.filter(
-        (recipe) => recipe.stepCount > 0 && recipe.ingredientCount > 0
+       (recipe) => (recipe.stepCount ?? 0) > 0 && (recipe.ingredientCount ?? 0) > 0
       );
     } else if (filterStatus === 'incomplete') {
       filtered = filtered.filter(
-        (recipe) => recipe.stepCount === 0 || recipe.ingredientCount === 0
+        (recipe) => (recipe.stepCount ?? 0) > 0 && (recipe.ingredientCount ?? 0) > 0
       );
     }
 
@@ -175,12 +175,13 @@ export default function BaseRecipesPage() {
     );
   }
 
-  const stats = {
-    total: recipes.length,
-    complete: recipes.filter((r) => r.stepCount > 0 && r.ingredientCount > 0).length,
-    incomplete: recipes.filter((r) => r.stepCount === 0 || r.ingredientCount === 0).length,
-    withSteps: recipes.filter((r) => r.stepCount > 0).length,
-  };
+ const stats = {
+  total: recipes.length,
+  complete: recipes.filter((r) => (r.stepCount ?? 0) > 0 && (r.ingredientCount ?? 0) > 0).length,
+  incomplete: recipes.filter((r) => (r.stepCount ?? 0) === 0 || (r.ingredientCount ?? 0) === 0).length,
+  withSteps: recipes.filter((r) => (r.stepCount ?? 0) > 0).length,
+};
+ 
 
   if (loading) {
     return (
@@ -394,13 +395,13 @@ export default function BaseRecipesPage() {
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <span className="text-gray-500">📝</span>
-                        <span className={recipe.stepCount > 0 ? 'text-green-600 font-medium' : 'text-gray-400'}>
+                        <span className={(recipe.stepCount ?? 0) > 0 ? 'text-green-600 font-medium' : 'text-gray-400'}>
                           {recipe.stepCount} steps
                         </span>
                       </div>
                       <div className="flex items-center gap-1">
                         <span className="text-gray-500">🥚</span>
-                        <span className={recipe.ingredientCount > 0 ? 'text-green-600 font-medium' : 'text-gray-400'}>
+                        <span className={(recipe.ingredientCount ?? 0) > 0  ? 'text-green-600 font-medium' : 'text-gray-400'}>
                           {recipe.ingredientCount} ingredients
                         </span>
                       </div>
