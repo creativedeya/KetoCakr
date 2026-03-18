@@ -97,7 +97,7 @@ function parseDescriptionIntoSteps(description: string): string[] {
   let steps: string[] = [];
   
   // Try numbered list (1., 2., 3. or 1), 2), 3))
-  const numberedPattern = /(?:^|\n)\s*\d+[\.)]\s+(.+?)(?=\n\s*\d+[\.)]|\n\n|$)/gs;
+  const numberedPattern = new RegExp('(?:^|\\n)\\s*\\d+[\\.))]\\s+(.+?)(?=\\n\\s*\\d+[\\.))]|\\n\\n|$)', 'gs');
   const numberedMatches = Array.from(description.matchAll(numberedPattern));
   
   if (numberedMatches.length > 0) {
