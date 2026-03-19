@@ -1,3 +1,5 @@
-﻿export default function Page() {
-  return <h1>Hello from Vercel!</h1>
+import { redirect } from 'next/navigation';
+
+export default function HomePage() {
+  redirect('/dashboard');
 }
