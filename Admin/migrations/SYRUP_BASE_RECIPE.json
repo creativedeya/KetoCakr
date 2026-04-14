@@ -1,0 +1,392 @@
+{
+  "base_keto_syrup": {
+    "name": "Базова кето пропитка",
+    "name_bg": "Базова кето пропитка",
+    "description": "Universal simple syrup base for keto cakes",
+    "description_bg": "Универсална проста пропитка за кето торти",
+    "ingredients": [
+      {
+        "item": "water",
+        "item_bg": "вода",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "item": "erythritol_powder",
+        "item_bg": "еритритол пудра",
+        "quantity": 80,
+        "unit": "g",
+        "notes": "Adjust sweetness to taste"
+      }
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "instruction": "Bring water to a boil in a small saucepan",
+        "instruction_bg": "Кипнете водата в малка тенджера"
+      },
+      {
+        "step": 2,
+        "instruction": "Remove from heat and add erythritol powder",
+        "instruction_bg": "Махнете от котлона и добавете еритритол пудра"
+      },
+      {
+        "step": 3,
+        "instruction": "Stir until completely dissolved",
+        "instruction_bg": "Разбъркайте докато се разтвори напълно"
+      },
+      {
+        "step": 4,
+        "instruction": "Let cool to room temperature or refrigerate",
+        "instruction_bg": "Оставете да изстине до стайна температура или охладете в хладилник"
+      }
+    ],
+    "pro_tips": [
+      {
+        "category": "technique",
+        "tip": "Cold syrup on cold cake OR warm syrup on cold cake. NEVER hot syrup on warm cake - you'll get pudding texture!",
+        "tip_bg": "Студен сироп върху студен блат ИЛИ топъл сироп върху студен блат. НИКОГА горещ сироп върху топъл блат – ще получите каша (пудинг)!"
+      },
+      {
+        "category": "storage",
+        "tip": "Syrup can be made 2-3 days ahead and stored in refrigerator",
+        "tip_bg": "Сиропът може да се направи 2-3 дни предварително и да се съхранява в хладилник"
+      },
+      {
+        "category": "application",
+        "tip": "Use a pastry brush to apply syrup evenly. Don't pour - brush!",
+        "tip_bg": "Използвайте четка за сладкарство за равномерно нанасяне. Не изливайте - намазвайте!"
+      }
+    ]
+  },
+  "syrup_variations": [
+    {
+      "name": "Vanilla Syrup",
+      "name_bg": "Ванилов сироп",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "vanilla_extract",
+          "item_bg": "ванилов екстракт",
+          "quantity": 1,
+          "unit": "tsp",
+          "when_to_add": "After cooling to 60°C"
+        }
+      ],
+      "best_for": ["vanilla_cake", "red_velvet", "sacher"],
+      "best_for_bg": ["Ванилов блат", "Червено кадифе", "Сахер"],
+      "why": "Enhances classic flavor without overpowering",
+      "why_bg": "Подсилва класическия вкус, без да го доминира"
+    },
+    {
+      "name": "Milk Syrup",
+      "name_bg": "Млечен сироп",
+      "base": "base_keto_syrup",
+      "modifications": [
+        {
+          "change": "Replace 100ml water with 100ml almond or coconut milk",
+          "change_bg": "Заменете 100мл вода със 100мл бадемово или кокосово мляко"
+        }
+      ],
+      "additions": [
+        {
+          "item": "vanilla_extract",
+          "item_bg": "ванилов екстракт",
+          "quantity": 0.5,
+          "unit": "tsp"
+        }
+      ],
+      "best_for": ["vanilla_cake", "red_velvet", "almond_cake"],
+      "best_for_bg": ["Ванилов блат", "Червено кадифе", "Бадемова торта"],
+      "why": "Almonds and milk complement perfectly",
+      "why_bg": "Бадемите и млякото се допълват перфектно"
+    },
+    {
+      "name": "Coffee Syrup",
+      "name_bg": "Сироп кафе",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "instant_coffee",
+          "item_bg": "разтворимо кафе",
+          "quantity": 2,
+          "unit": "tsp",
+          "when_to_add": "While water is hot"
+        }
+      ],
+      "best_for": ["chocolate_cake", "brownie_cake"],
+      "best_for_bg": ["Шоколадов блат", "Брауни блат"],
+      "why": "Coffee opens up cocoa flavor and makes it more intense",
+      "why_bg": "Кафето 'отваря' вкуса на какаото и го прави по-интензивен"
+    },
+    {
+      "name": "Chocolate Syrup",
+      "name_bg": "Шоколадов сироп",
+      "base": "base_keto_syrup",
+      "modifications": [
+        {
+          "change": "Replace 50ml water with 50ml almond milk",
+          "change_bg": "Заменете 50мл вода с 50мл бадемово мляко"
+        }
+      ],
+      "additions": [
+        {
+          "item": "cocoa_powder",
+          "item_bg": "какао на прах",
+          "quantity": 15,
+          "unit": "g",
+          "when_to_add": "While hot, whisk well"
+        },
+        {
+          "item": "salt",
+          "item_bg": "сол",
+          "quantity": 1,
+          "unit": "pinch",
+          "notes": "Makes chocolate flavor deeper",
+          "notes_bg": "Прави шоколадовия вкус по-дълбок"
+        }
+      ],
+      "best_for": ["chocolate_cake", "sacher"],
+      "best_for_bg": ["Шоколадов блат", "Сахер"],
+      "why": "Enhances chocolate richness",
+      "why_bg": "Засилва шоколадовата наситеност"
+    },
+    {
+      "name": "Lemon/Lime Syrup",
+      "name_bg": "Лимонов/Лаймов сироп",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "lemon_or_lime_juice",
+          "item_bg": "лимонов или лаймов сок",
+          "quantity": 30,
+          "unit": "ml",
+          "when_to_add": "After cooling completely"
+        },
+        {
+          "item": "lemon_or_lime_zest",
+          "item_bg": "настъргана кора от лимон или лайм",
+          "quantity": 1,
+          "unit": "tsp",
+          "when_to_add": "While hot, then strain"
+        }
+      ],
+      "best_for": ["lemon_cake", "matcha_cake"],
+      "best_for_bg": ["Лимонов блат", "Матча блат"],
+      "why": "Citrus enhances freshness; balances matcha bitterness",
+      "why_bg": "Цитрусът подсилва свежестта; балансира горчивината на матча"
+    },
+    {
+      "name": "Orange Syrup",
+      "name_bg": "Портокалов сироп",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "fresh_orange_juice",
+          "item_bg": "прясно изцеден портокалов сок",
+          "quantity": 50,
+          "unit": "ml",
+          "when_to_add": "After cooling completely"
+        },
+        {
+          "item": "orange_zest",
+          "item_bg": "настъргана портокалова кора",
+          "quantity": 1,
+          "unit": "tsp",
+          "when_to_add": "While hot, then strain"
+        }
+      ],
+      "best_for": ["carrot_cake"],
+      "best_for_bg": ["Морковен блат"],
+      "why": "Orange and carrots are a classic and very fresh pairing",
+      "why_bg": "Портокалът и морковите са класическа и много свежа двойка"
+    },
+    {
+      "name": "Matcha Syrup",
+      "name_bg": "Сироп матча",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "matcha_powder",
+          "item_bg": "матча на прах",
+          "quantity": 5,
+          "unit": "g",
+          "when_to_add": "At 80°C ONLY - never boil!",
+          "critical_note": "Matcha must NOT be boiled. Boil water with erythritol, cool to 80°C, then whisk in matcha. If boiled, it will turn brown and bitter.",
+          "critical_note_bg": "Матчата НЕ се вари! Кипнете водата с еритритола, охладете до 80°C и тогава разбийте матчата. Ако я вариш, ще стане кафява и горчива."
+        }
+      ],
+      "best_for": ["matcha_cake"],
+      "best_for_bg": ["Матча блат"],
+      "why": "Maintains green color and mellows the tea's bitterness",
+      "why_bg": "Поддържа зеления цвят и тушира леката горчивина на чая"
+    },
+    {
+      "name": "Lavender Syrup",
+      "name_bg": "Лавандулов сироп",
+      "base": "base_keto_syrup",
+      "additions": [
+        {
+          "item": "dried_culinary_lavender",
+          "item_bg": "сушена кулинарна лавандула",
+          "quantity": 1,
+          "unit": "tsp",
+          "when_to_add": "Immediately after boiling, steep 3-5 min MAX then strain",
+          "critical_note": "Lavender is very strong. Strain flowers immediately after steeping or syrup will taste like soap!",
+          "critical_note_bg": "Лавандулата е много силна. Веднага след настояване прецедете цветовете, иначе сиропът ще има вкус на сапун!"
+        }
+      ],
+      "best_for": ["lemon_cake", "vanilla_cake"],
+      "best_for_bg": ["Лимонов блат", "Ванилов блат"],
+      "why": "Lavender adds gourmet floral note",
+      "why_bg": "Лавандулата дава гурме нотка"
+    },
+    {
+      "name": "Berry Syrup (Raspberry/Strawberry)",
+      "name_bg": "Сироп малина/ягода",
+      "base": "base_keto_syrup",
+      "modifications": [
+        {
+          "change": "Blend 100g fresh or frozen berries with water and erythritol before boiling",
+          "change_bg": "Пасирайте 100г свежи или замразени плодове с водата и еритритола преди кипене"
+        }
+      ],
+      "instructions": [
+        {
+          "step": 1,
+          "instruction": "Blend berries, water, and erythritol until smooth",
+          "instruction_bg": "Пасирайте плодовете, водата и еритритола до гладка смес"
+        },
+        {
+          "step": 2,
+          "instruction": "Bring to a boil, stirring constantly",
+          "instruction_bg": "Кипнете, като бъркате непрекъснато"
+        },
+        {
+          "step": 3,
+          "instruction": "Strain through fine mesh sieve to remove seeds",
+          "instruction_bg": "Прецедете през фина цедка, за да премахнете семките"
+        },
+        {
+          "step": 4,
+          "instruction": "Cool completely before use",
+          "instruction_bg": "Охладете напълно преди употреба"
+        }
+      ],
+      "chef_correction": "In keto mode, berries are NOT boiled whole in water (becomes sludgy). Blend first, boil, then strain. You'll get a clear, aromatic pink syrup without seeds.",
+      "chef_correction_bg": "В кето режима плодовете НЕ се варят цели във водата (става блудкаво). Пасирайте плодовете с водата и еритритола, кипнете ги и прецедете през фина цедка. Така ще получите бистър, ароматен розов сироп без семки.",
+      "best_for": ["vanilla_cake", "chocolate_cake", "lemon_cake"],
+      "best_for_bg": ["Ванилов блат", "Шоколадов блат", "Лимонов блат"],
+      "why": "Adds fruity freshness and beautiful color",
+      "why_bg": "Добавя плодова свежест и красив цвят"
+    },
+    {
+      "name": "Neutral Syrup (for Brownie)",
+      "name_bg": "Неутрален сироп (за Брауни)",
+      "base": "base_keto_syrup",
+      "modifications": [
+        {
+          "change": "Reduce erythritol to 50g and water to 150ml",
+          "change_bg": "Намалете еритритола на 50г и водата на 150мл"
+        }
+      ],
+      "additions": [
+        {
+          "item": "vanilla_extract",
+          "item_bg": "ванилов екстракт",
+          "quantity": 0.5,
+          "unit": "tsp",
+          "notes": "Optional"
+        }
+      ],
+      "best_for": ["brownie_cake"],
+      "best_for_bg": ["Брауни блат"],
+      "why": "Brownie cake itself is very moist, needs very little liquid",
+      "why_bg": "Самият блат е много влажен, нуждае се от съвсем малко течност",
+      "application_note": "Use VERY sparingly - just brush lightly",
+      "application_note_bg": "Използвайте МНОГО МАЛКО - само леко намажете"
+    }
+  ],
+  "no_syrup_cakes": [
+    {
+      "name": "Garash Cake",
+      "name_bg": "Торта Гараш",
+      "reason": "Layers are thin and nutty; they absorb moisture directly from the cream",
+      "reason_bg": "Блатовете са тънки и орехови; те поемат влага директно от крема"
+    },
+    {
+      "name": "French Kiss (Dacquoise)",
+      "name_bg": "Френска целувка (Dacquoise)",
+      "reason": "Meringue will dissolve and turn into mush with direct syrup application",
+      "reason_bg": "Целувката ще се разтопи и ще стане на каша при директно сиропиране"
+    }
+  ],
+  "pairing_matrix": {
+    "vanilla_cake": {
+      "best_syrups": ["vanilla", "milk"],
+      "best_syrups_bg": ["Ванилов", "Млечен"],
+      "why": "Enhances classic flavor without overpowering",
+      "why_bg": "Подсилва класическия вкус, без да го доминира"
+    },
+    "chocolate_cake": {
+      "best_syrups": ["coffee", "chocolate"],
+      "best_syrups_bg": ["Кафе", "Шоколадов"],
+      "why": "Coffee opens up cocoa flavor and makes it more intense",
+      "why_bg": "Кафето 'отваря' вкуса на какаото и го прави по-интензивен"
+    },
+    "lemon_cake": {
+      "best_syrups": ["lemon_lime", "lavender"],
+      "best_syrups_bg": ["Лимон/Лайм", "Лавандула"],
+      "why": "Citrus enhances freshness; lavender adds gourmet note",
+      "why_bg": "Цитрусът подсилва свежестта; лавандулата дава гурме нотка"
+    },
+    "carrot_cake": {
+      "best_syrups": ["orange"],
+      "best_syrups_bg": ["Портокалов"],
+      "why": "Orange and carrots are a classic and very fresh pairing",
+      "why_bg": "Портокалът и морковите са класическа и много свежа двойка"
+    },
+    "matcha_cake": {
+      "best_syrups": ["matcha", "lemon_lime"],
+      "best_syrups_bg": ["Матча", "Лимон"],
+      "why": "Maintains green color and mellows the tea's slight bitterness",
+      "why_bg": "Поддържа зеления цвят и тушира леката горчивина на чая"
+    },
+    "red_velvet": {
+      "best_syrups": ["vanilla", "milk"],
+      "best_syrups_bg": ["Ванилов", "Млечен"],
+      "why": "Classic velvet is delicate and doesn't need strong aromas",
+      "why_bg": "Класическото кадифе е нежно и не се нуждае от силни аромати"
+    },
+    "almond_cake": {
+      "best_syrups": ["milk"],
+      "best_syrups_bg": ["Млечен"],
+      "why": "Almonds and milk complement perfectly",
+      "why_bg": "Бадемите и млякото се допълват перфектно"
+    },
+    "garash_cake": {
+      "best_syrups": ["none"],
+      "best_syrups_bg": ["Без пропитка"],
+      "why": "Layers are thin and nutty; they absorb moisture directly from the cream",
+      "why_bg": "Блатовете са тънки и орехови; те поемат влага директно от крема"
+    },
+    "dacquoise": {
+      "best_syrups": ["none"],
+      "best_syrups_bg": ["Без пропитка"],
+      "why": "Meringue will dissolve and turn into mush",
+      "why_bg": "Целувката ще се разтопи и ще стане на каша"
+    },
+    "brownie_cake": {
+      "best_syrups": ["neutral", "coffee"],
+      "best_syrups_bg": ["Неутрален", "Кафе"],
+      "why": "Cake itself is very moist, needs very little liquid",
+      "why_bg": "Самият блат е много влажен, нуждае се от съвсем малко течност"
+    },
+    "sacher": {
+      "best_syrups": ["chocolate", "vanilla"],
+      "best_syrups_bg": ["Шоколадов", "Ванилов"],
+      "why": "Helps coconut flour soften completely",
+      "why_bg": "Помага на кокосовото брашно да омекне напълно"
+    }
+  }
+}

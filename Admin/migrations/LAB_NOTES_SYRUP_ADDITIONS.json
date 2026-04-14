@@ -1,0 +1,249 @@
+{
+  "syrup_lab_notes_additions": [
+    {
+      "recipe_name": "Базова рецепта за въздушни кето блатове",
+      "recipe_name_bg": "Базова рецепта за въздушни кето блатове",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Vanilla or Milk syrup works best. Enhances the classic flavor without overpowering the delicate airy texture.",
+          "content_bg": "Ванилов или Млечен сироп са най-добри. Подсилват класическия вкус, без да доминират върху нежната въздушна текстура."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кето кексово тесто",
+      "recipe_name_bg": "Кето кексово тесто",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Vanilla or Milk syrup recommended for this butter-rich cake base.",
+          "content_bg": "Ванилов или Млечен сироп се препоръчват за тази богата на масло основа."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кокосови блатове",
+      "recipe_name_bg": "Кокосови блатове",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Milk syrup or light Vanilla syrup. The coconut flavor should remain prominent.",
+          "content_bg": "Млечен сироп или лек Ванилов сироп. Кокосовият вкус трябва да остане доминиращ."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Ванилов блат",
+      "recipe_name_bg": "Ванилов блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Milk or Vanilla syrup. Enhances classic flavor without overpowering.",
+          "content_bg": "Млечен или Ванилов сироп. Подсилва класическия вкус, без да го доминира."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Лимонов блат",
+      "recipe_name_bg": "Лимонов блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Lemon/Lime or Lavender syrup. Citrus enhances freshness; lavender adds gourmet floral note.",
+          "content_bg": "Лимон/Лайм или Лавандула сироп. Цитрусът подсилва свежестта; лавандулата дава гурме нотка."
+        },
+        {
+          "category": "technique",
+          "title": "Perfect For Soaking",
+          "title_bg": "Перфектен за сиропиране",
+          "content": "This cake is ideal for syrup soaking because its acidity allows it to absorb more moisture without becoming soggy.",
+          "content_bg": "Този блат е идеален за сиропиране, защото киселинността му позволява да поеме повече влага без да стане клисав."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Морковен блат",
+      "recipe_name_bg": "Морковен блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Orange syrup. Orange and carrots are a classic and very fresh pairing.",
+          "content_bg": "Портокалов сироп. Портокалът и морковите са класическа и много свежа двойка."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Маслен морковен блат",
+      "recipe_name_bg": "Маслен морковен блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Orange syrup works beautifully with the spices and moisture in this cake.",
+          "content_bg": "Портокаловият сироп работи прекрасно с подправките и влагата в този блат."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Матча пандишпан",
+      "recipe_name_bg": "Матча пандишпан",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Matcha syrup or Lemon. Maintains green color and mellows the tea's slight bitterness.",
+          "content_bg": "Сироп матча или Лимон. Поддържа зеления цвят и тушира леката горчивина на чая."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Шоколадов пандишпан",
+      "recipe_name_bg": "Шоколадов пандишпан",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Coffee or Chocolate syrup. Coffee opens up cocoa flavor and makes it more intense.",
+          "content_bg": "Сироп кафе или Шоколадов. Кафето 'отваря' вкуса на какаото и го прави по-интензивен."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Червено кадифе",
+      "recipe_name_bg": "Червено кадифе",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Vanilla or Milk syrup. Classic velvet is delicate and doesn't need strong aromas.",
+          "content_bg": "Ванилов или Млечен сироп. Класическото кадифе е нежно и не се нуждае от силни аромати."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Много шоколадов блат",
+      "recipe_name_bg": "Много шоколадов блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Coffee syrup intensifies the chocolate richness.",
+          "content_bg": "Кафе сироп засилва шоколадовата наситеност."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Френска целувка (Dacquoise)",
+      "recipe_name_bg": "Френска целувка (Dacquoise)",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "NO SYRUP",
+          "title_bg": "БЕЗ ПРОПИТКА",
+          "content": "DO NOT SOAK. Meringue will dissolve and turn into mush with direct syrup application.",
+          "content_bg": "НЕ СЕ ПРОПИВА. Целувката ще се разтопи и ще стане на каша при директно сиропиране."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Бадемови блатове (Swedish Style)",
+      "recipe_name_bg": "Бадемови блатове (шведски стил)",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Milk syrup. Almonds and milk complement perfectly.",
+          "content_bg": "Млечен сироп. Бадемите и млякото се допълват перфектно."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Гараш блатове",
+      "recipe_name_bg": "Гараш блатове",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "NO SYRUP",
+          "title_bg": "БЕЗ ПРОПИТКА",
+          "content": "DO NOT SOAK. Layers are thin and nutty; they absorb moisture directly from the cream.",
+          "content_bg": "НЕ СЕ ПРОПИВА. Блатовете са тънки и орехови; те поемат влага директно от крема."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Брауни блат (Flourless)",
+      "recipe_name_bg": "Брауни блат (без брашно)",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Neutral or Coffee syrup, used VERY sparingly. Cake itself is very moist, needs very little liquid.",
+          "content_bg": "Неутрален или Кафе сироп, използвани МНОГО МАЛКО. Самият блат е много влажен, нуждае се от съвсем малко течност."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Сахер блат",
+      "recipe_name_bg": "Сахер блат",
+      "additional_notes": [
+        {
+          "category": "pairing",
+          "title": "Best Syrup Pairing",
+          "title_bg": "Най-добра пропитка",
+          "content": "Chocolate or Vanilla syrup. Helps coconut flour soften completely.",
+          "content_bg": "Шоколадов или Ванилов сироп. Помага на кокосовото брашно да омекне напълно."
+        }
+      ]
+    }
+  ],
+  "universal_syrup_tips": [
+    {
+      "category": "technique",
+      "title": "Temperature Rule (CRITICAL)",
+      "title_bg": "Правило за температура (КРИТИЧНО)",
+      "content": "Cold syrup on cold cake OR warm syrup on cold cake. NEVER hot syrup on warm cake - you'll get pudding texture!",
+      "content_bg": "Студен сироп върху студен блат ИЛИ топъл сироп върху студен блат. НИКОГА горещ сироп върху топъл блат – ще получите каша (пудинг)!"
+    },
+    {
+      "category": "technique",
+      "title": "Application Method",
+      "title_bg": "Метод на нанасяне",
+      "content": "Use a pastry brush to apply syrup evenly. Don't pour - brush! This ensures even distribution without over-soaking.",
+      "content_bg": "Използвайте четка за сладкарство за равномерно нанасяне. Не изливайте - намазвайте! Това осигурява равномерно разпределение без прекалено накисване."
+    },
+    {
+      "category": "storage",
+      "title": "Make Ahead",
+      "title_bg": "Предварително приготвяне",
+      "content": "Syrup can be made 2-3 days ahead and stored in refrigerator. Bring to room temperature or gently warm before use.",
+      "content_bg": "Сиропът може да се направи 2-3 дни предварително и да се съхранява в хладилник. Оставете да достигне стайна температура или леко затоплете преди употреба."
+    },
+    {
+      "category": "app_advice",
+      "title": "Constructor Smart Suggestions",
+      "title_bg": "Интелигентни предложения в Конструктора",
+      "content": "When user selects a cake base, the app should automatically suggest the best syrup pairing based on the pairing matrix.",
+      "content_bg": "Когато потребителят избере блат, приложението трябва автоматично да предложи най-добрата пропитка според матрицата за комбиниране."
+    }
+  ]
+}

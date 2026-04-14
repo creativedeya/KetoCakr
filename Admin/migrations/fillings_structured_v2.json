@@ -1,0 +1,927 @@
+[
+  {
+    "name": "Кули",
+    "name_en": "Fruit Coulis",
+    "start": 1,
+    "end": 46,
+    "keto": true,
+    "description_bg": "Кули представлява сос от пасирани плодове (напр. малини или ягоди), прецедени и комбинирани с подсладител и лимонов сок. Обикновенно този сос е допълнение към десертите, но ако към него се добави желатин, сложи се във подходяща форма и се охлади, може да се добави като слой от тортата.",
+    "ingredients_list": [
+      "350 г плодово пюре (пасирани и прецедени ягоди или малини)",
+      "70 г еритритол пудра",
+      "10 г желатин на прах (за стабилност при рязане)",
+      "60 г студена вода (за набъбване на желатина)",
+      "10 г лимонов сок (за цвят и баланс)"
+    ],
+    "ingredients_text_bg": "350 г плодово пюре (пасирани и прецедени ягоди или малини)\n70 г еритритол пудра\n10 г желатин на прах (за стабилност при рязане)\n60 г студена вода (за набъбване на желатина)\n10 г лимонов сок (за цвят и баланс)",
+    "instruction_steps": [
+      "Желатин: Залей желатина със студената вода, разбъркай и остави за 10–15 минути.",
+      "Пюре: Сложи плодовото пюре, еритритола и лимоновия сок в касерола. Загрей на среден огън, докато заври. Махни веднага от котлона.",
+      "Обединяване: Добави набъбналия желатин към горещото (но не врящо) пюре. Бъркай, докато желатинът се разтвори напълно.",
+      "Разливане: Раздели сместа по равно в две форми с диаметър 14 или 16 см, покрити със стреч фолио на дъното.",
+      "Защо 16 см? За да имаш 1 см борд от крем около плода, което гарантира, че тортата няма да се \"хлъзне\".",
+      "Замразяване: Остави да се охлади до стайна температура и прибери във фризера за поне 2 часа.",
+      "Важно: Плодовите слоеве се сглобяват в тортата замразени. Така са твърди, лесни за центриране и не размиват крема."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Logic):\nСъвместимост: Кулито си подхожда най-добре с:\n\nВанилов блат + Маскарпоне крем\n\nШоколадов блат + Шоколадов мус (особено вишнево кули)\n\nЛимонов блат + Лимонов крем (малиново кули)\n\nПредупреждение: В приложението добави: \"Винаги прецеждайте пюрето от малини, за да премахнете семките. Това прави текстурата на тортата много по-луксозна.\""
+    ],
+    "description_en": "Coulis is a sauce made from pureed fruits (e.g., raspberries or strawberries), strained and combined with a sweetener and lemon juice. Usually, this sauce is an addition to desserts, but if gelatin is added to it, poured into a suitable mold, and cooled, it can be added as a layer in the cake.",
+    "ingredients_text_en": "350 g fruit puree (pureed and strained strawberries or raspberries)\n70 g powdered erythritol\n10 g powdered gelatin (for stability when cutting)\n60 g cold water (for blooming the gelatin)\n10 g lemon juice (for color and balance)",
+    "instruction_steps_en": [
+      "Gelatin: Pour the gelatin over the cold water, stir, and let it sit for 10–15 minutes.",
+      "Puree: Place the fruit puree, erythritol, and lemon juice in a saucepan. Heat over medium heat until it boils. Remove immediately from the heat.",
+      "Combining: Add the bloomed gelatin to the hot (but not boiling) puree. Stir until the gelatin is completely dissolved.",
+      "Pouring: Divide the mixture evenly into two molds with a diameter of 14 or 16 cm, lined with cling film at the bottom.",
+      "Why 16 cm? To have a 1 cm border of cream around the fruit, which ensures that the cake will not \"slip.\"",
+      "Freezing: Allow to cool to room temperature and place in the freezer for at least 2 hours.",
+      "Important: The fruit layers are assembled in the cake while frozen. This makes them firm, easy to center, and does not dilute the cream."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Logic): Compatibility: The coulis pairs best with:"
+    ]
+  },
+  {
+    "name": "Конфи",
+    "name_en": "Fruit Confit",
+    "start": 47,
+    "end": 83,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "350 г плодово пюре (може да оставиш малки парченца плод за текстура)",
+      "60 г еритритол пудра",
+      "8 г Пектин NH (около 2-2.5% от масата)",
+      "10 г лимонов сок",
+      "щипка ванилия (по желание)"
+    ],
+    "ingredients_text_bg": "350 г плодово пюре (може да оставиш малки парченца плод за текстура)\n60 г еритритол пудра\n8 г Пектин NH (около 2-2.5% от масата)\n10 г лимонов сок\nщипка ванилия (по желание)",
+    "instruction_steps": [
+      "Смесване: Смесете много добре пектина с еритритола в малка купичка.",
+      "Загряване: Загрейте плодовото пюре в касерола до около 40–45°C (топло на пипане, но не врящо).",
+      "Добавяне: Изсипете еритритола с пектина на \"дъжд\" върху пюрето, като бъркате непрекъснато с бъркалка.",
+      "Варене: Увеличете огъня и оставете сместа да заври. Варете 2 минути при постоянно бъркане.",
+      "Финал: Махнете от огъня и добавете лимоновия сок. Разбъркайте.",
+      "Формоване: Разпределете в две форми (ринг или силикон) с диаметър 14 или 16 см. Оставете да изстине и приберете във фризера, за да стегне напълно."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nТекстура: Конфито е идеално за Ваниловия блат и Лимоновия блат, защото е по-меко и естествено от кулито.\n\nРазликата (Tips & Tricks): В приложението обясни на потребителите: \"Ако искате бистро и стегнато плодово петно – изберете Кули. Ако искате мека, сладкоподобна сърцевина с парченца плод – изберете Конфи.\"\n\nЗабележка за Пектин NH: Тъй като това е специализиран продукт, добави в приложението: \"Ако не разполагате с Пектин NH, използвайте рецептата за Кули с желатин, като оставите част от плодовете цели.\""
+    ],
+    "description_en": "Confit",
+    "ingredients_text_en": "350 g fruit puree (you can leave small pieces of fruit for texture)\n60 g powdered erythritol\n8 g Pectin NH (about 2-2.5% of the weight)\n10 g lemon juice\npinch of vanilla (optional)",
+    "instruction_steps_en": [
+      "Mixing: Mix the pectin very well with the erythritol in a small bowl.",
+      "Heating: Heat the fruit puree in a saucepan to about 40–45°C (warm to the touch, but not boiling).",
+      "Adding: Sprinkle the erythritol with pectin over the puree in a \"rain\" manner, while continuously stirring with a whisk.",
+      "Boiling: Increase the heat and bring the mixture to a boil. Cook for 2 minutes while stirring constantly.",
+      "Final: Remove from heat and add the lemon juice. Stir.",
+      "Molding: Distribute into two molds (ring or silicone) with a diameter of 14 or 16 cm. Let cool and place in the freezer to set completely."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Шоколадово Креме",
+    "name_en": "Chocolate Cremeux",
+    "start": 84,
+    "end": 110,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "200 мл ядково или краве мляко",
+      "4 жълтъка (размер L)",
+      "40 г еритритол пудра",
+      "100 г черен шоколад без захар (мин. 70% какао)",
+      "4 г желатин (набъбнал в 24 г студена вода)",
+      "40 г меко краве масло (добавя се накрая)"
+    ],
+    "ingredients_text_bg": "200 мл ядково или краве мляко\n4 жълтъка (размер L)\n40 г еритритол пудра\n100 г черен шоколад без захар (мин. 70% какао)\n4 г желатин (набъбнал в 24 г студена вода)\n40 г меко краве масло (добавя се накрая)",
+    "instruction_steps": [
+      "Направете английски крем с млякото, жълтъците и еритритола до 82°C.",
+      "Добавете набъбналия желатин в горещия крем и разбъркайте.",
+      "Излейте върху начупения шоколад, изчакайте 1 мин. и пасирайте с пасатор (за най-гладка емулсия).",
+      "Когато падне до 35°C, добавете маслото и пасирайте отново.",
+      "Разлейте в две форми по 14-16 см и замразете."
+    ],
+    "lab_notes": [],
+    "description_en": "Chocolate Cream",
+    "ingredients_text_en": "200 ml nut or cow's milk\n4 egg yolks (size L)\n40 g powdered erythritol\n100 g sugar-free dark chocolate (min. 70% cocoa)\n4 g gelatin (soaked in 24 g cold water)\n40 g soft cow's butter (added at the end)",
+    "instruction_steps_en": [
+      "Make an English cream with the milk, egg yolks, and erythritol until it reaches 82°C.",
+      "Add the soaked gelatin to the hot cream and stir.",
+      "Pour over the broken chocolate, wait 1 min., and blend with an immersion blender (for the smoothest emulsion).",
+      "When it cools to 35°C, add the butter and blend again.",
+      "Pour into two molds of 14-16 cm and freeze."
+    ],
+    "lab_notes_en": []
+  },
+  {
+    "name": "Бяла Намелака",
+    "name_en": "White Namelaka",
+    "start": 111,
+    "end": 151,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "200 мл мляко",
+      "4 жълтъка",
+      "40 г еритритол пудра",
+      "4 г желатин (набъбнал в 24 г студена вода)",
+      "120 г бял шоколад без захар (настърган или на капки)",
+      "60 г меко краве масло",
+      "Ванилия (шушулка или екстракт)"
+    ],
+    "ingredients_text_bg": "200 мл мляко\n4 жълтъка\n40 г еритритол пудра\n4 г желатин (набъбнал в 24 г студена вода)\n120 г бял шоколад без захар (настърган или на капки)\n60 г меко краве масло\nВанилия (шушулка или екстракт)",
+    "instruction_steps": [
+      "Следвайте същата технология като при Креме-то, но внимавайте при топенето на белия шоколад – той е по-чувствителен към топлина.",
+      "Задължително пасирайте с пасатор, за да разбиете мастните молекули на маслото и шоколада в една перфектна \"намелака\".",
+      "Стабилизирайте в хладилник или замразете във форми за директно вграждане."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nКомбинации за Креме (Тъмно):\n\nБлат: Шоколадов, Сахер, Гараш.\n\nДопълнение: Малиново кули (комбинацията шоколад-малина е върхът).\n\nКомбинации за Намелака (Бяла):\n\nБлат: Ванилов, Лимонов, Червено кадифе, Матча.\n\nДопълнение: Ягодово конфи или Лимонов кърд.\n\n🛠 Важен съвет за потребителя:\nВ приложението добави: \"Тези пълнежи са много деликатни. Винаги ги поставяйте в центъра на тортата, като оставите 1-2 см борд от по-стегнат крем (например Маскарпоне или Маслен крем), за да не се деформира тортата под собствената си тежест.\""
+    ],
+    "description_en": "White Namelaka",
+    "ingredients_text_en": "200 ml milk\n4 egg yolks\n40 g powdered erythritol\n4 g gelatin (swelled in 24 g cold water)\n120 g sugar-free white chocolate (grated or in drops)\n60 g soft butter\nVanilla (bean or extract)",
+    "instruction_steps_en": [
+      "Follow the same technique as for the Cream, but be careful when melting the white chocolate – it is more sensitive to heat.",
+      "Be sure to blend with an immersion blender to break down the fat molecules of the butter and chocolate into a perfect \"namelaka.\"",
+      "Stabilize in the refrigerator or freeze in molds for direct incorporation."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Без име 1 (lowcarb)",
+    "name_en": "Unnamed 1 (lowcarb)",
+    "start": 155,
+    "end": 192,
+    "keto": false,
+    "description_bg": "",
+    "ingredients_list": [
+      "350 г почистени круши (сорт Конференс или Аббате Фетел са най-добри)",
+      "60-70 г еритритол пудра (в зависимост от сладостта на плода)",
+      "4 г Агар-агар (около 1 равна ч.л.)",
+      "20 мл лимонов сок (предотвратява потъмняването на крушата и балансира сладостта)",
+      "Щипка канела или джинджифил (крушата ги обожава!)"
+    ],
+    "ingredients_text_bg": "350 г почистени круши (сорт Конференс или Аббате Фетел са най-добри)\n60-70 г еритритол пудра (в зависимост от сладостта на плода)\n4 г Агар-агар (около 1 равна ч.л.)\n20 мл лимонов сок (предотвратява потъмняването на крушата и балансира сладостта)\nЩипка канела или джинджифил (крушата ги обожава!)",
+    "instruction_steps": [
+      "Нарежете крушите на ситни кубчета и ги сложете в касерола с еритритола и лимоновия сок.",
+      "Гответе на среден огън, докато крушите пуснат сок и омекнат (около 5-8 минути). Ако сокът е малко, добавете 2 с.л. вода.",
+      "Поръсете агар-агара отгоре и разбъркайте енергично. Оставете сместа да кипи силно за точно 2 минути.",
+      "Махнете от огъня. По желание пасирайте леко с преса за картофи (за рустикална текстура).",
+      "Разлейте веднага в две форми (14-15 см). Важно: Работете бързо, защото агарът започва да стяга още на 40°C!",
+      "Оставете да изстине на плота, след което приберете в хладилник."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Logic):\nНай-добри комбинации:\n\nБлат: Ванилов, Морковен (круша и канела са мечта!), или Бадемов.\n\nКрем: Маскарпоне или Сметана.\n\nКето алтернатива (App Tip): В приложението, под заглавието сложи бутон: \"Искате по-ниски въглехидрати? Заменете крушата с 300 г малини и следвайте същата технология.\"\n\nВнимание: Агар-агар не обича фризера (може да пусне вода при размразяване). Затова тези слоеве се слагат в тортата охладени, но не замразени."
+    ],
+    "description_en": "No name 1 (low carb)",
+    "ingredients_text_en": "350 g peeled pears (Conference or Abate Fetel varieties are best)\n60-70 g powdered erythritol (depending on the sweetness of the fruit)\n4 g agar-agar (about 1 level tsp)\n20 ml lemon juice (prevents the pears from browning and balances the sweetness)\nA pinch of cinnamon or ginger (the pear loves them!)",
+    "instruction_steps_en": [
+      "Cut the pears into small cubes and place them in a saucepan with the erythritol and lemon juice.",
+      "Cook over medium heat until the pears release juice and soften (about 5-8 minutes). If the juice is little, add 2 tbsp of water.",
+      "Sprinkle the agar-agar on top and stir vigorously. Allow the mixture to boil vigorously for exactly 2 minutes.",
+      "Remove from heat. Optionally, mash lightly with a potato masher (for a rustic texture).",
+      "Immediately pour into two molds (14-15 cm). Important: Work quickly, as the agar begins to set at 40°C!",
+      "Let cool on the countertop, then store in the refrigerator."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Logic):"
+    ]
+  },
+  {
+    "name": "Без име 2",
+    "name_en": "Unnamed 2",
+    "start": 193,
+    "end": 242,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "2 цели яйца (L) + 2 жълтъка",
+      "120 г еритритол пудра",
+      "100-110 мл прясно изцеден лимонов сок (около 2-3 лимона)",
+      "Настъргана кора от 1 био лимон",
+      "90 г краве масло (студено, нарязано на кубчета)",
+      "По желание: 2 г желатин (набъбнал в 12 г вода) – само ако се ползва за плънка в торта."
+    ],
+    "ingredients_text_bg": "2 цели яйца (L) + 2 жълтъка\n120 г еритритол пудра\n100-110 мл прясно изцеден лимонов сок (около 2-3 лимона)\nНастъргана кора от 1 био лимон\n90 г краве масло (студено, нарязано на кубчета)\nПо желание: 2 г желатин (набъбнал в 12 г вода) – само ако се ползва за плънка в торта.",
+    "instruction_steps": [
+      "Маслен сос: Загрейте лимоновия сок, кората, еритритола и маслото, докато всичко се разтопи.",
+      "Емулсия: Разбийте яйцата и жълтъците. Налейте горещия сос на тънка струя при тях, като бъркате енергично.",
+      "Готвене: Върнете на слаб огън. Бъркайте непрекъснато с телена бъркалка или силиконова шпатула. Гответе до 80-82°C. Кремът трябва да е гъст и лъскав.",
+      "Финал: Махнете от огъня. Ако ползвате желатин, добавете го сега в горещия кърд.",
+      "Гладкост: Прецедете готовия кърд през фино сито, за да отстраните лимоновите корички и евентуални частици сготвен белтък.",
+      "Охлаждане: Покрийте със стреч фолио \"контактно\" (директно върху крема), за да не хваща коричка. Охладете напълно."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Ванилов, Лимонов, Мак (ако добавиш), или Боровинков.\n\nКрем: Маскарпоне или Италиански маслен крем.\n\nСъвет за стабилност: В приложението инструктирай: \"Когато сглобявате тортата, направете 'борд' от основния крем по края на блата и изсипете лимоновия кърд в центъра. Така ще предотвратите изтичането му.\"\n\nСрок на годност: Кърдът издържа до 2 седмици в хладилник в затворен буркан.\n\nВариации на лимоновия кърд\n\n  1. Портокалов кърд\nГответе по основната рецерта, но вместо лимонов сок и кора използвайте портокалови.\n\n  2. Малинов к"
+    ],
+    "description_en": "Untitled 2",
+    "ingredients_text_en": "2 whole eggs (L) + 2 yolks\n120 g powdered erythritol\n100-110 ml freshly squeezed lemon juice (about 2-3 lemons)\nZest from 1 organic lemon\n90 g unsalted butter (cold, cut into cubes)\nOptional: 2 g gelatin (soaked in 12 g water) – only if used as a filling in a cake.",
+    "instruction_steps_en": [
+      "Butter sauce: Heat the lemon juice, zest, erythritol, and butter until everything melts.",
+      "Emulsion: Whisk the eggs and yolks. Pour the hot sauce in a thin stream while whisking vigorously.",
+      "Cooking: Return to low heat. Stir continuously with a whisk or silicone spatula. Cook until 80-82°C. The cream should be thick and shiny.",
+      "Final: Remove from heat. If using gelatin, add it now to the hot curd.",
+      "Smoothness: Strain the finished curd through a fine sieve to remove the lemon zest and any cooked egg white particles.",
+      "Cooling: Cover with plastic wrap \"contact\" (directly on the cream) to prevent a skin from forming. Cool completely."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Без име 3",
+    "name_en": "Unnamed 3",
+    "start": 243,
+    "end": 276,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "350–400 г плодове (малини, ягоди, къпини или почистен портокал)",
+      "70 г еритритол пудра",
+      "4 г Агар-агар (около 1 пълна ч.л.)",
+      "10 мл лимонов сок (за цвят и блясък)",
+      "30 мл вода (само ако плодовете не са много сочни)"
+    ],
+    "ingredients_text_bg": "350–400 г плодове (малини, ягоди, къпини или почистен портокал)\n70 г еритритол пудра\n4 г Агар-агар (около 1 пълна ч.л.)\n10 мл лимонов сок (за цвят и блясък)\n30 мл вода (само ако плодовете не са много сочни)",
+    "instruction_steps": [
+      "Подготовка: Поставете плодовете и еритритола в касерола. Загрейте, докато плодовете омекнат и пуснат сока си.",
+      "Агар: Поръсете агар-агара равномерно върху сместа и разбъркайте веднага с бъркалка, за да няма бучки.",
+      "Варене: Оставете да ври силно (с големи мехури) за 3 минути. Това е времето, в което агарът \"се събужда\".",
+      "Формоване: Разлейте веднага в две форми (14-16 см).",
+      "Забележка: Агарът стяга много бързо (още при 40°C), така че не се бавете.",
+      "Охлаждане: Оставете на плота. След 30-40 минути ще имате стабилни дискове, които лесно се отделят от силикона или фолиото."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nПортокалова вариация (Fillet technique): За портокаловото желе инструктирай в приложението: \"Използвайте само 'филета' от портокал (без ципите), за да избегнете горчивия вкус и жилавата текстура.\"\n\nСглобяване: За разлика от конфито, желето с агар е по-крехко и \"чупливо\". Съветвай потребителя да го поставя внимателно върху центъра на блата, покрит с тънък слой крем, за да залепне добре.\n\nЗамразяване: Напомни в приложението: \"Агар-агар не обича фризера! Сложете пълнежа в тортата охладен, но не го замразявайте предварително, за да не пусне вода при размраз"
+    ],
+    "description_en": "Untitled 3",
+    "ingredients_text_en": "350–400 g fruits (raspberries, strawberries, blackberries, or peeled orange)\n70 g powdered erythritol\n4 g agar-agar (about 1 full tsp)\n10 ml lemon juice (for color and shine)\n30 ml water (only if the fruits are not very juicy)",
+    "instruction_steps_en": [
+      "Preparation: Place the fruits and erythritol in a saucepan. Heat until the fruits soften and release their juice.",
+      "Agar: Sprinkle the agar-agar evenly over the mixture and stir immediately with a whisk to avoid lumps.",
+      "Boiling: Let it boil vigorously (with large bubbles) for 3 minutes. This is the time when the agar \"wakes up.\"",
+      "Molding: Immediately pour into two molds (14-16 cm).",
+      "Note: The agar sets very quickly (even at 40°C), so do not delay.",
+      "Cooling: Leave on the countertop. After 30-40 minutes, you will have stable discs that easily detach from the silicone or foil."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Плодов мус",
+    "name_en": "Fruit Mousse",
+    "start": 277,
+    "end": 321,
+    "keto": true,
+    "description_bg": "Терминология: В приложението го наречи „Плодов облак“ или „Сметанов мус с плодове“. Тъй като съдържа сметана, той не може да се съхранява като „сладко“ в буркан на стайна температура. Маракуя (Passion Fruit): Това е един от най-добрите кето плодове заради изключително интензивния си вкус. Дори малко",
+    "ingredients_list": [
+      "300 мл млечна сметана (33-35%, много студена)",
+      "100 г плодово пюре (маракуя, ягоди, малини или пасирани кайсии)",
+      "80 г еритритол пудра",
+      "35 мл лимонов сок (важен за стабилизиране на сметаната и вкуса)",
+      "10 г желатин на прах",
+      "50-60 мл студена вода (за желатина)",
+      "Начин на приготвяне (Стъпка по стъпка):",
+      "Желатин: Залейте желатина със студената вода и го оставете да набъбне за 10-15 минути.",
+      "Плодова база: Смесете плодовото пюре с еритритола и лимоновия сок. Загрейте ги леко в касерола (до около 50-60°C), докато еритритолът се разтвори. Не варите!",
+      "Активация: Добавете набъбналия желатин към топлото пюре и бъркайте, докато се разтопи напълно. Оставете сместа да се охлади до стайна температура (но да не стяга още).",
+      "Сметана: В отделен съд разбийте студената сметана до меки върхове (не я правете прекалено гъста, за да остане мусът фин).",
+      "Обединяване: Към плодовата смес добавете 2-3 лъжици от сметаната и разбъркайте енергично. След това внимателно добавете останалата сметана, като бъркате с шпатула отдолу-нагоре.",
+      "Формоване: Разлейте веднага в две форми (14-16 см). Почукайте ги леко в плота, за да излязат балончетата въздух.",
+      "Замразяване: Приберете във фризера за поне 3-4 часа. Мусът трябва да е напълно \"кокал\", за да го вградите лесно в центъра на тортата."
+    ],
+    "ingredients_text_bg": "300 мл млечна сметана (33-35%, много студена)\n100 г плодово пюре (маракуя, ягоди, малини или пасирани кайсии)\n80 г еритритол пудра\n35 мл лимонов сок (важен за стабилизиране на сметаната и вкуса)\n10 г желатин на прах\n50-60 мл студена вода (за желатина)\nНачин на приготвяне (Стъпка по стъпка):\nЖелатин: Залейте желатина със студената вода и го оставете да набъбне за 10-15 минути.\nПлодова база: Смесете плодовото пюре с еритритола и лимоновия сок. Загрейте ги леко в касерола (до около 50-60°C), докато еритритолът се разтвори. Не варите!\nАктивация: Добавете набъбналия желатин към топлото пюре и бъркайте, докато се разтопи напълно. Оставете сместа да се охлади до стайна температура (но да не стяга още).\nСметана: В отделен съд разбийте студената сметана до меки върхове (не я правете прекалено гъста, за да остане мусът фин).\nОбединяване: Към плодовата смес добавете 2-3 лъжици от сметаната и разбъркайте енергично. След това внимателно добавете останалата сметана, като бъркате с шпатула отдолу-нагоре.\nФормоване: Разлейте веднага в две форми (14-16 см). Почукайте ги леко в плота, за да излязат балончетата въздух.\nЗамразяване: Приберете във фризера за поне 3-4 часа. Мусът трябва да е напълно \"кокал\", за да го вградите лесно в центъра на тортата.",
+    "instruction_steps": [
+      "Желатин: Залейте желатина със студената вода и го оставете да набъбне за 10-15 минути.",
+      "Плодова база: Смесете плодовото пюре с еритритола и лимоновия сок. Загрейте ги леко в касерола (до около 50-60°C), докато еритритолът се разтвори. Не варите!",
+      "Активация: Добавете набъбналия желатин към топлото пюре и бъркайте, докато се разтопи напълно. Оставете сместа да се охлади до стайна температура (но да не стяга още).",
+      "Сметана: В отделен съд разбийте студената сметана до меки върхове (не я правете прекалено гъста, за да остане мусът фин).",
+      "Обединяване: Към плодовата смес добавете 2-3 лъжици от сметаната и разбъркайте енергично. След това внимателно добавете останалата сметана, като бъркате с шпатула отдолу-нагоре.",
+      "Формоване: Разлейте веднага в две форми (14-16 см). Почукайте ги леко в плота, за да излязат балончетата въздух.",
+      "Замразяване: Приберете във фризера за поне 3-4 часа. Мусът трябва да е напълно \"кокал\", за да го вградите лесно в центъра на тортата."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nСъвместимост: * Маракуя мус си отива уникално с Кокосов блат или Ванилов блат.\n\nБери мус (ягода/малина) е перфектен за Шоколадов блат.\n\nРазлика в плодовете: Инструктирай потребителя: \"Ако ползвате круши или ябълки, първо ги сварете до пълно омекване с еритритола и малко вода, пасирайте ги на гладко пюре и тогава добавете желатина и сметаната.\""
+    ],
+    "description_en": "Terminology: In the application, call it \"Fruit Cloud\" or \"Cream Mousse with Fruits.\" Since it contains cream, it cannot be stored like \"jam\" in a jar at room temperature. Passion Fruit: This is one of the best keto fruits due to its extremely intense flavor. Even a little.",
+    "ingredients_text_en": "300 ml heavy cream (33-35%, very cold)\n100 g fruit puree (passion fruit, strawberries, raspberries, or pureed apricots)\n80 g powdered erythritol\n35 ml lemon juice (important for stabilizing the cream and flavor)\n10 g powdered gelatin\n50-60 ml cold water (for the gelatin)\nMethod of preparation (Step by step):\nGelatin: Pour the gelatin over the cold water and let it swell for 10-15 minutes.\nFruit base: Mix the fruit puree with the erythritol and lemon juice. Gently heat them in a saucepan (to about 50-60°C) until the erythritol dissolves. Do not boil!\nActivation: Add the swollen gelatin to the warm puree and stir until completely melted. Allow the mixture to cool to room temperature (but do not let it set yet).\nCream: In a separate bowl, whip the cold cream to soft peaks (do not make it too thick so that the mousse remains fine).\nCombining: Add 2-3 tablespoons of the cream to the fruit mixture and stir vigorously. Then gently fold in the remaining cream using a spatula, stirring from the bottom up.\nMolding: Immediately pour into two molds (14-16 cm). Tap them lightly on the counter to release any air bubbles.\nFreezing: Place in the freezer for at least 3-4 hours. The mousse should be completely \"set\" so that you can easily embed it in the center of the cake.",
+    "instruction_steps_en": [
+      "Gelatin: Pour the gelatin over the cold water and let it swell for 10-15 minutes.",
+      "Fruit base: Mix the fruit puree with the erythritol and lemon juice. Gently heat them in a saucepan (to about 50-60°C) until the erythritol dissolves. Do not boil!",
+      "Activation: Add the swollen gelatin to the warm puree and stir until completely melted. Allow the mixture to cool to room temperature (but do not let it set yet).",
+      "Cream: In a separate bowl, whip the cold cream to soft peaks (do not make it too thick so that the mousse remains fine).",
+      "Combining: Add 2-3 tablespoons of the cream to the fruit mixture and stir vigorously. Then gently fold in the remaining cream using a spatula, stirring from the bottom up.",
+      "Molding: Immediately pour into two molds (14-16 cm). Tap them lightly on the counter to release any air bubbles.",
+      "Freezing: Place in the freezer for at least 3-4 hours. The mousse should be completely \"set\" so that you can easily embed it in the center of the cake."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice): Compatibility: * Passion fruit mousse pairs uniquely with Coconut sponge or Vanilla sponge. Berry mousse (strawberry/raspberry) is perfect for Chocolate sponge. Difference in fruits: Instruct the user: \"If using pears or apples, first boil them until completely soft with erythritol and a little water, puree them into a smooth puree, and then add the gelatin and cream.\""
+    ]
+  },
+  {
+    "name": "Плънка Матча",
+    "name_en": "Matcha Filling",
+    "start": 322,
+    "end": 365,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "300 мл млечна сметана (33-35%)",
+      "80 г еритритол пудра",
+      "10-12 г чай матча (за по-наситен цвят и вкус)",
+      "10 г желатин на прах",
+      "60 мл студена вода",
+      "Начин на приготвяне (Стъпка по стъпка):",
+      "Желатин: Залей желатина със студената вода и го остави да набъбне (10 мин).",
+      "Загряване: Сложи сметаната и еритритола в касерола. Загрей до около 75-80°C (когато започне да пуши силно, но преди да заври). Махни от огъня.",
+      "Разтваряне на матчата: В малка купичка сложи матчата. Добави 3-4 с.л. от горещата сметана и разбъркай енергично (най-добре с бамбукова бъркалка или малка телена бъркалка), докато стане гладка паста без бучки. Изсипи пастата обратно в тенджерата със сметаната.",
+      "Желатин: Добави набъбналия желатин в топлата матча-сметана. Разбъркай добре, докато се разтвори напълно.",
+      "Емулсия (Шеф трик): Препоръчвам да минеш сместа с пасатор за 30 секунди. Това ще разбие и най-микроскопичните частици чай и ще направи цвета абсолютно равномерен и искрящ.",
+      "Формоване: Разлей по равно в две форми (14-16 см). Покрий със стреч фолио.",
+      "Стабилизация: Остави в хладилник за поне 4 часа или във фризер за 2 часа."
+    ],
+    "ingredients_text_bg": "300 мл млечна сметана (33-35%)\n80 г еритритол пудра\n10-12 г чай матча (за по-наситен цвят и вкус)\n10 г желатин на прах\n60 мл студена вода\nНачин на приготвяне (Стъпка по стъпка):\nЖелатин: Залей желатина със студената вода и го остави да набъбне (10 мин).\nЗагряване: Сложи сметаната и еритритола в касерола. Загрей до около 75-80°C (когато започне да пуши силно, но преди да заври). Махни от огъня.\nРазтваряне на матчата: В малка купичка сложи матчата. Добави 3-4 с.л. от горещата сметана и разбъркай енергично (най-добре с бамбукова бъркалка или малка телена бъркалка), докато стане гладка паста без бучки. Изсипи пастата обратно в тенджерата със сметаната.\nЖелатин: Добави набъбналия желатин в топлата матча-сметана. Разбъркай добре, докато се разтвори напълно.\nЕмулсия (Шеф трик): Препоръчвам да минеш сместа с пасатор за 30 секунди. Това ще разбие и най-микроскопичните частици чай и ще направи цвета абсолютно равномерен и искрящ.\nФормоване: Разлей по равно в две форми (14-16 см). Покрий със стреч фолио.\nСтабилизация: Остави в хладилник за поне 4 часа или във фризер за 2 часа.",
+    "instruction_steps": [
+      "Желатин: Залей желатина със студената вода и го остави да набъбне (10 мин).",
+      "Загряване: Сложи сметаната и еритритола в касерола. Загрей до около 75-80°C (когато започне да пуши силно, но преди да заври). Махни от огъня.",
+      "Разтваряне на матчата: В малка купичка сложи матчата. Добави 3-4 с.л. от горещата сметана и разбъркай енергично (най-добре с бамбукова бъркалка или малка телена бъркалка), докато стане гладка паста без бучки. Изсипи пастата обратно в тенджерата със сметаната.",
+      "Желатин: Добави набъбналия желатин в топлата матча-сметана. Разбъркай добре, докато се разтвори напълно.",
+      "Емулсия (Шеф трик): Препоръчвам да минеш сместа с пасатор за 30 секунди. Това ще разбие и най-микроскопичните частици чай и ще направи цвета абсолютно равномерен и искрящ.",
+      "Формоване: Разлей по равно в две форми (14-16 см). Покрий със стреч фолио.",
+      "Стабилизация: Остави в хладилник за поне 4 часа или във фризер за 2 часа."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Матча пандишпан (за монохромна торта), Шоколадов блат (за контраст), или Ванилов блат.\n\nКрем: Бял шоколад (Намелака) или лек Маскарпоне крем.\n\nЗабележка за вкуса: Матчата има леко горчив, \"тревист\" вкус. В приложението отбележи: \"За по-мек вкус на муса, може да добавите 1/2 ч.л. ванилия.\"\n\nСглобяване: Този слой е по-плътен и \"гумен\" (тип панакота), така че се съчетава отлично с по-меки и въздушни кремове.\n\n**Вариации:**\n\nВкусът може да бъде подсилен и с подправки( пръчки канела, звездовиден анасон ), индийско орехче или вани"
+    ],
+    "description_en": "Matcha Filling",
+    "ingredients_text_en": "300 ml heavy cream (33-35%)\n80 g powdered erythritol\n10-12 g matcha tea (for a more intense color and flavor)\n10 g powdered gelatin\n60 ml cold water\nPreparation method (Step by step):\nGelatin: Pour the gelatin over the cold water and let it swell (10 min).\nHeating: Place the cream and erythritol in a saucepan. Heat to about 75-80°C (when it starts to smoke heavily, but before it boils). Remove from heat.\nDissolving the matcha: In a small bowl, place the matcha. Add 3-4 tablespoons of the hot cream and stir vigorously (best with a bamboo whisk or a small wire whisk) until it becomes a smooth paste without lumps. Pour the paste back into the saucepan with the cream.\nGelatin: Add the swollen gelatin to the warm matcha-cream mixture. Stir well until completely dissolved.\nEmulsion (Chef trick): I recommend blending the mixture with an immersion blender for 30 seconds. This will break down even the most microscopic tea particles and make the color absolutely uniform and sparkling.\nMolding: Divide evenly into two molds (14-16 cm). Cover with cling film.\nStabilization: Leave in the refrigerator for at least 4 hours or in the freezer for 2 hours.",
+    "instruction_steps_en": [
+      "Gelatin: Pour the gelatin over the cold water and let it swell (10 min).",
+      "Heating: Place the cream and erythritol in a saucepan. Heat to about 75-80°C (when it starts to smoke heavily, but before it boils). Remove from heat.",
+      "Dissolving the matcha: In a small bowl, place the matcha. Add 3-4 tablespoons of the hot cream and stir vigorously (best with a bamboo whisk or a small wire whisk) until it becomes a smooth paste without lumps. Pour the paste back into the saucepan with the cream.",
+      "Gelatin: Add the swollen gelatin to the warm matcha-cream mixture. Stir well until completely dissolved.",
+      "Emulsion (Chef trick): I recommend blending the mixture with an immersion blender for 30 seconds. This will break down even the most microscopic tea particles and make the color absolutely uniform and sparkling.",
+      "Molding: Divide evenly into two molds (14-16 cm). Cover with cling film.",
+      "Stabilization: Leave in the refrigerator for at least 4 hours or in the freezer for 2 hours."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Мус Лате",
+    "name_en": "Latte Mousse",
+    "start": 366,
+    "end": 404,
+    "keto": true,
+    "description_bg": "За два стабилни диска (14-16 см), количеството е точно, но ще го прецизираме за максимална гладкост.",
+    "ingredients_list": [
+      "125 г крема сирене (тип Филаделфия, стайна температура)",
+      "200 мл млечна сметана (33-35%)",
+      "70 г еритритол пудра",
+      "10 г инстантно кафе (фино, тип \"espresso gold\")",
+      "4 г Агар-агар (увеличавам го с 1 г, тъй като млечните мазнини понякога \"отпускат\" агара)",
+      "20 мл гореща вода (за разтваряне на кафето)",
+      "Начин на приготвяне (Стъпка по стъпка):",
+      "Кафе паста: Разтворете инстантното кафе в 20 мл гореща вода. Това гарантира, че няма да има тъмни точки/песъчинки в муса.",
+      "Смесване: В касерола смесете сметаната, еритритола и разтвореното кафе. Загрейте до около 60°C.",
+      "Емулсия: Добавете крема сиренето на части към топлата сметана и разбийте с бъркалка, докато сместа стане напълно гладка и без бучки.",
+      "Варене с Агар: Поръсете агар-агара отгоре. Увеличете огъня и оставете сместа да заври, като бъркате енергично. Варете точно 2 минути на умерен огън.",
+      "Финал: Махнете от огъня. За перфектен резултат, минете сместа с пасатор за 20 секунди – това ще я направи копринена.",
+      "Формоване: Разлейте веднага в две форми (14-16 см). Покрийте със стреч фолио.",
+      "Стабилизация: Оставете на стайна температура за 1 час (агарът ще стегне още тогава), след което приберете в хладилник."
+    ],
+    "ingredients_text_bg": "125 г крема сирене (тип Филаделфия, стайна температура)\n200 мл млечна сметана (33-35%)\n70 г еритритол пудра\n10 г инстантно кафе (фино, тип \"espresso gold\")\n4 г Агар-агар (увеличавам го с 1 г, тъй като млечните мазнини понякога \"отпускат\" агара)\n20 мл гореща вода (за разтваряне на кафето)\nНачин на приготвяне (Стъпка по стъпка):\nКафе паста: Разтворете инстантното кафе в 20 мл гореща вода. Това гарантира, че няма да има тъмни точки/песъчинки в муса.\nСмесване: В касерола смесете сметаната, еритритола и разтвореното кафе. Загрейте до около 60°C.\nЕмулсия: Добавете крема сиренето на части към топлата сметана и разбийте с бъркалка, докато сместа стане напълно гладка и без бучки.\nВарене с Агар: Поръсете агар-агара отгоре. Увеличете огъня и оставете сместа да заври, като бъркате енергично. Варете точно 2 минути на умерен огън.\nФинал: Махнете от огъня. За перфектен резултат, минете сместа с пасатор за 20 секунди – това ще я направи копринена.\nФормоване: Разлейте веднага в две форми (14-16 см). Покрийте със стреч фолио.\nСтабилизация: Оставете на стайна температура за 1 час (агарът ще стегне още тогава), след което приберете в хладилник.",
+    "instruction_steps": [
+      "Кафе паста: Разтворете инстантното кафе в 20 мл гореща вода. Това гарантира, че няма да има тъмни точки/песъчинки в муса.",
+      "Смесване: В касерола смесете сметаната, еритритола и разтвореното кафе. Загрейте до около 60°C.",
+      "Емулсия: Добавете крема сиренето на части към топлата сметана и разбийте с бъркалка, докато сместа стане напълно гладка и без бучки.",
+      "Варене с Агар: Поръсете агар-агара отгоре. Увеличете огъня и оставете сместа да заври, като бъркате енергично. Варете точно 2 минути на умерен огън.",
+      "Финал: Махнете от огъня. За перфектен резултат, минете сместа с пасатор за 20 секунди – това ще я направи копринена.",
+      "Формоване: Разлейте веднага в две форми (14-16 см). Покрийте със стреч фолио.",
+      "Стабилизация: Оставете на стайна температура за 1 час (агарът ще стегне още тогава), след което приберете в хладилник."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Шоколадов (тип \"Мока\"), Ванилов или Бадемов.\n\nКрем: Кето Шоколадов Ганаш или Маскарпоне крем."
+    ],
+    "description_en": "For two stable discs (14-16 cm), the quantity is exact, but we will refine it for maximum smoothness.",
+    "ingredients_text_en": "125 g cream cheese (Philadelphia type, at room temperature)\n200 ml heavy cream (33-35%)\n70 g powdered erythritol\n10 g instant coffee (fine, \"espresso gold\" type)\n4 g agar-agar (I am increasing it by 1 g, as dairy fats sometimes \"loosen\" the agar)\n20 ml hot water (for dissolving the coffee)\nMethod of preparation (Step by step):\nCoffee paste: Dissolve the instant coffee in 20 ml of hot water. This ensures that there will be no dark spots/grains in the mousse.\nMixing: In a saucepan, combine the cream, erythritol, and dissolved coffee. Heat to about 60°C.\nEmulsion: Gradually add the cream cheese to the warm cream and whisk until the mixture is completely smooth and lump-free.\nCooking with Agar: Sprinkle the agar-agar on top. Increase the heat and bring the mixture to a boil, stirring vigorously. Cook for exactly 2 minutes over medium heat.\nFinal: Remove from heat. For a perfect result, blend the mixture with an immersion blender for 20 seconds – this will make it silky.\nMolding: Immediately pour into two molds (14-16 cm). Cover with plastic wrap.\nStabilization: Leave at room temperature for 1 hour (the agar will set further then), after which refrigerate.",
+    "instruction_steps_en": [
+      "Coffee paste: Dissolve the instant coffee in 20 ml of hot water. This ensures that there will be no dark spots/grains in the mousse.",
+      "Mixing: In a saucepan, combine the cream, erythritol, and dissolved coffee. Heat to about 60°C.",
+      "Emulsion: Gradually add the cream cheese to the warm cream and whisk until the mixture is completely smooth and lump-free.",
+      "Cooking with Agar: Sprinkle the agar-agar on top. Increase the heat and bring the mixture to a boil, stirring vigorously. Cook for exactly 2 minutes over medium heat.",
+      "Final: Remove from heat. For a perfect result, blend the mixture with an immersion blender for 20 seconds – this will make it silky.",
+      "Molding: Immediately pour into two molds (14-16 cm). Cover with plastic wrap.",
+      "Stabilization: Leave at room temperature for 1 hour (the agar will set further then), after which refrigerate."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Без име 4 (lowcarb)",
+    "name_en": "Unnamed 4 (lowcarb)",
+    "start": 457,
+    "end": 503,
+    "keto": false,
+    "description_bg": "Почистване (Fillet): Твоето указание за премахване на бялата ципа е ключово. Ако тя остане, след термичната обработка желето ще нагорчава осезаемо. Желатинът (5 г): За 350 г плод, 5 г желатин ще даде много нежно, почти кремообразно желе. Шеф съвет: Ако потребителят иска по-стабилен диск, който се ва",
+    "ingredients_list": [
+      "350 г филета от портокал (чисто месо, без ципи и семки)",
+      "65 г еритритол пудра",
+      "7 г желатин на прах (за по-сигурна стабилност)",
+      "42 мл студена вода (за желатина)",
+      "10 мл лимонов сок (за да „светне“ вкусът на портокала)"
+    ],
+    "ingredients_text_bg": "350 г филета от портокал (чисто месо, без ципи и семки)\n65 г еритритол пудра\n7 г желатин на прах (за по-сигурна стабилност)\n42 мл студена вода (за желатина)\n10 мл лимонов сок (за да „светне“ вкусът на портокала)",
+    "instruction_steps": [
+      "Желатин: Залейте желатина със студената вода и го оставете да набъбне (10-15 мин).",
+      "Плодове: Сложете портокаловите филета, еритритола и лимоновия сок в касерола. Загрейте на среден огън, докато плодовете омекнат и пуснат сок (около 5 мин). Не е нужно да врят дълго.",
+      "Обединяване: Махнете от огъня. Изчакайте 1-2 минути (температурата да падне до около 70-80°C) и добавете набъбналия желатин. Бъркайте, докато се разтвори напълно.",
+      "Текстура (Опция): Може да оставите парченцата цели за рустикален вид или да ги пасирате леко с пасатор за гладко, елегантно желе.",
+      "Формоване: Разлейте в две форми по 14-16 см. Оставете да се охладят на стайна температура и приберете в хладилник за поне 3 часа (или във фризер за 1 час за по-лесно изваждане)."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Морковен блат (портокалът е задължителен тук!), Шоколадов блат (тип Jaffa cake) или Бадемов блат.\n\nКрем: Кето шоколадов ганаш или Маскарпоне крем.\n\nВариация \"Зимна магия\": В приложението добави съвет: \"Добавете щипка карамфил или канела към портокалите за истински празничен вкус.\"\n\nСглобяване: Тъй като желето с желатин е „плъзгаво“, винаги слагайте тънък слой крем върху него, преди да поставите следващия блат, за да фиксирате конструкцията.\n\n**Вариации:**"
+    ],
+    "description_en": "Cleaning (Fillet): Your instruction for removing the white membrane is crucial. If it remains, the jelly will become noticeably bitter after cooking. Gelatin (5 g): For 350 g of fruit, 5 g of gelatin will yield a very delicate, almost creamy jelly. Chef tip: If the user wants a more stable disc, which can be...",
+    "ingredients_text_en": "350 g orange fillets (pure meat, without membranes and seeds)\n65 g powdered erythritol\n7 g powdered gelatin (for more reliable stability)\n42 ml cold water (for the gelatin)\n10 ml lemon juice (to \"brighten\" the flavor of the orange)",
+    "instruction_steps_en": [
+      "Gelatin: Pour the gelatin over the cold water and let it swell (10-15 min).",
+      "Fruits: Place the orange fillets, erythritol, and lemon juice in a saucepan. Heat over medium heat until the fruit softens and releases juice (about 5 min). It does not need to boil for long.",
+      "Combining: Remove from heat. Wait 1-2 minutes (for the temperature to drop to about 70-80°C) and add the swollen gelatin. Stir until completely dissolved.",
+      "Texture (Option): You can leave the pieces whole for a rustic look or lightly puree them with an immersion blender for a smooth, elegant jelly.",
+      "Molding: Pour into two molds of 14-16 cm. Allow to cool at room temperature and refrigerate for at least 3 hours (or freeze for 1 hour for easier removal)."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Кето Мармелад",
+    "name_en": "Keto Jam",
+    "start": 504,
+    "end": 592,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "170 г плодово пюре (кайсия, ягода, малина, вишна)",
+      "170 мл вода",
+      "50 г еритритол пудра",
+      "10 г Пектин (за предпочитане Пектин NH за стабилност)",
+      "5 г желатин (набъбнал в 30 мл студена вода)",
+      "5 мл лимонов сок (задължителен за активиране на пектина)"
+    ],
+    "ingredients_text_bg": "170 г плодово пюре (кайсия, ягода, малина, вишна)\n170 мл вода\n50 г еритритол пудра\n10 г Пектин (за предпочитане Пектин NH за стабилност)\n5 г желатин (набъбнал в 30 мл студена вода)\n5 мл лимонов сок (задължителен за активиране на пектина)",
+    "instruction_steps": [
+      "Подготовка: Залей желатина с водата. Смеси еритритола с пектина в суха купичка.",
+      "Загряване: Сложи пюрето и водата в тенджерка. Загрей до около 40-45°C.",
+      "Сгъстяване: Изсипи сместа от еритритол и пектин на тънка струя, като бъркаш непрекъснато с бъркалка.",
+      "Кипене: Доведи до кипене и вари 2 минути. Добави лимоновия сок в края.",
+      "Желатин: Свали от котлона и добави набъбналия желатин. Разбъркай до пълно разтваряне.",
+      "За Сахер: Намажи блатовете, докато сладкото е още топло (но не врящо) – така ще попие леко в блата.",
+      "За плънка: Излей в два ринга (14-15 см) и остави да стегне в хладилник."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nСладко от горски плодове (low carb): В приложението обясни: „Този вариант използва повече вода и по-малко плод, като пектинът и желатинът компенсират плътността. Идеален за хора, следящи стриктно въглехидратите.“\n\nТекстура: Отбележи, че тези сладка са по-матови на цвят заради еритритола, което е нормално.\n\nФункция: Тези рецепти са идеални за „изолация“ – намазват се тънко върху блата, за да не попива крема твърде бързо и да се запази свежестта на плода."
+    ],
+    "description_en": "Keto Jam",
+    "ingredients_text_en": "170 g fruit puree (apricot, strawberry, raspberry, cherry)\n170 ml water\n50 g powdered erythritol\n10 g pectin (preferably Pectin NH for stability)\n5 g gelatin (swelled in 30 ml cold water)\n5 ml lemon juice (mandatory for activating the pectin)",
+    "instruction_steps_en": [
+      "Preparation: Pour the gelatin with the water. Mix the erythritol with the pectin in a dry bowl.",
+      "Heating: Place the puree and water in a saucepan. Heat to about 40-45°C.",
+      "Thickening: Pour the erythritol and pectin mixture in a thin stream while continuously stirring with a whisk.",
+      "Boiling: Bring to a boil and cook for 2 minutes. Add the lemon juice at the end.",
+      "Gelatin: Remove from heat and add the swollen gelatin. Stir until completely dissolved.",
+      "For Sacher: Spread the jam on the layers while it is still warm (but not boiling) – this way it will slightly soak into the layers.",
+      "For filling: Pour into two rings (14-15 cm) and let set in the refrigerator."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Карамелизиран кокос",
+    "name_en": "Coconut Toffee",
+    "start": 593,
+    "end": 708,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "1 бр. свеж кокосов орех (настърган на едро ренде или нарязан на тънки ленти с белачка за картофи);",
+      "50 г Алулоза (задължително за цвят и лепкавост) или Еритритол GOLD;",
+      "30 г краве масло или кокосово масло (за веган вариант);",
+      "1/2 ч.л. морска сол (засилва кокосовия аромат);",
+      "Щипка ванилия."
+    ],
+    "ingredients_text_bg": "1 бр. свеж кокосов орех (настърган на едро ренде или нарязан на тънки ленти с белачка за картофи);\n50 г Алулоза (задължително за цвят и лепкавост) или Еритритол GOLD;\n30 г краве масло или кокосово масло (за веган вариант);\n1/2 ч.л. морска сол (засилва кокосовия аромат);\nЩипка ванилия.",
+    "instruction_steps": [
+      "Подготовка: След като настържеш кокоса, го попий леко с кухненска хартия. Свежият кокос е мокър и ако влезе директно в карамела, ще го разводни.",
+      "Затопляне: В тиган с дебело дъно разтопи маслото заедно с алулозата (или еритритола) на среден огън. Бъркай, докато подсладителят се разтвори напълно.",
+      "Готвене: Добави настъргания кокос в тигана. В началото кокосът ще пусне още малко влага – не се притеснявай. Продължи да бъркаш непрекъснато.",
+      "Карамелизация: Готви 8-10 минути на умерен огън. Кокосът трябва първо да се изсуши, а след това алулозата ще започне да го обвива и да променя цвета му към златисто-кафяв.",
+      "Финал: Когато усетиш интензивен аромат на печен кокос и парченцата станат кехлибарени, добави солта и ванилията.",
+      "Охлаждане: Изсипи веднага върху хартия за печене и го разстели на тънък слой. Когато изстине, кокосът ще стане хрупкав и леко лепкав (тип „тофи“)."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Кокосов блат, Бадемов блат или Червено кадифе.\n\nКрем: Маскарпоне с лайм или Бяла намелака.\n\nТекстура: В приложението отбележи: „Този кокос е перфектен за декорация на страните на тортата или като хрупкав слой между блатовете. Дава автентичен тропически вкус, който сухият кокос не притежава.“\n\nШеф съвет: Ако кокосът е нарязан на ленти (чипс) с белачката, той става страхотен за украса отгоре – изглежда много професионално и „бутиково“."
+    ],
+    "description_en": "Caramelized Coconut",
+    "ingredients_text_en": "1 fresh coconut (grated on a coarse grater or sliced into thin strips with a vegetable peeler);\n50 g Allulose (essential for color and stickiness) or Erythritol GOLD;\n30 g butter or coconut oil (for a vegan option);\n1/2 tsp sea salt (enhances the coconut aroma);\nA pinch of vanilla.",
+    "instruction_steps_en": [
+      "Preparation: After grating the coconut, lightly pat it dry with kitchen paper. Fresh coconut is wet, and if it goes directly into the caramel, it will dilute it.",
+      "Heating: In a heavy-bottomed pan, melt the butter together with the allulose (or erythritol) over medium heat. Stir until the sweetener is completely dissolved.",
+      "Cooking: Add the grated coconut to the pan. Initially, the coconut will release a little more moisture – don't worry. Keep stirring continuously.",
+      "Caramelization: Cook for 8-10 minutes over moderate heat. The coconut should first dry out, and then the allulose will start to coat it and change its color to golden-brown.",
+      "Final: When you smell an intense aroma of roasted coconut and the pieces turn amber, add the salt and vanilla.",
+      "Cooling: Immediately pour onto parchment paper and spread it into a thin layer. Once cooled, the coconut will become crispy and slightly sticky (like toffee)."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Мус Супер Кокос",
+    "name_en": "Super Coconut Mousse",
+    "start": 709,
+    "end": 755,
+    "keto": true,
+    "description_bg": "Сметаната: За да бъде мус, а не просто желиран крем, ни трябват около 150-200 мл разбита сметана. Без нея текстурата ще бъде по-скоро като пудинг. Техника на варене: Казваш „до първите въздушни мехури“. Шеф корекция: Тъй като имаш жълтъци, внимавай да не заври силно, за да не се пресекат. Идеалната",
+    "ingredients_list": [
+      "300 мл кокосово мляко (от консерва);",
+      "2 жълтъка (L);",
+      "70 г еритритол пудра;",
+      "15-20 г фини кокосови стърготини;",
+      "10 г желатин + 60 мл студена вода;",
+      "150 мл разбита млечна сметана (33-35%) – за ефирност."
+    ],
+    "ingredients_text_bg": "300 мл кокосово мляко (от консерва);\n2 жълтъка (L);\n70 г еритритол пудра;\n15-20 г фини кокосови стърготини;\n10 г желатин + 60 мл студена вода;\n150 мл разбита млечна сметана (33-35%) – за ефирност.",
+    "instruction_steps": [
+      "Основа: Накиснете желатина във водата. Разбийте жълтъците с еритритола.",
+      "Темпериране: Загрейте кокосовото мляко до завиране. Налейте го на тънка струя при жълтъците, като бъркате постоянно.",
+      "Сгъстяване: Върнете сместа на водна баня (или на много слаб огън) и гответе до леко сгъстяване (82°C). Махнете от огъня и добавете набъбналия желатин.",
+      "Емулсия: Пасирайте горещата смес с пасатор за 30 секунди. Оставете я да се охлади до стайна температура.",
+      "Финал: Разбийте студената сметана до меки върхове. Смесете я внимателно с охладения кокосов крем и добавете кокосовите стърготини.",
+      "Формоване: Разлейте в две форми (14-16 см) и замразете за поне 3 часа."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Кокосов блат, Бадемов блат или Шоколадов (тип „Баунти“).\n\nДопълнение: Върху този мус си подхождат Карамелизиран свеж кокос или Ягодово конфи.\n\nШеф съвет: В приложението отбележи: „За по-интензивен вкус, запечете леко кокосовите стърготини на тиган, преди да ги добавите в муса.“"
+    ],
+    "description_en": "The cream: To achieve a mousse rather than just a jellied cream, we need about 150-200 ml of whipped cream. Without it, the texture will be more like pudding. Cooking technique: You say \"until the first air bubbles.\" Chef's correction: Since you have egg yolks, be careful not to let it boil too hard, so it doesn't curdle. The ideal.",
+    "ingredients_text_en": "300 ml coconut milk (from a can);\n2 egg yolks (L);\n70 g powdered erythritol;\n15-20 g fine coconut flakes;\n10 g gelatin + 60 ml cold water;\n150 ml whipped heavy cream (33-35%) – for fluffiness.",
+    "instruction_steps_en": [
+      "Base: Soak the gelatin in the water. Whisk the egg yolks with the erythritol.",
+      "Tempering: Heat the coconut milk to boiling. Pour it in a thin stream over the egg yolks while constantly stirring.",
+      "Thickening: Return the mixture to a water bath (or on very low heat) and cook until slightly thickened (82°C). Remove from heat and add the bloomed gelatin.",
+      "Emulsification: Blend the hot mixture with an immersion blender for 30 seconds. Let it cool to room temperature.",
+      "Final: Whip the cold cream to soft peaks. Gently fold it into the cooled coconut cream and add the coconut flakes.",
+      "Molding: Pour into two molds (14-16 cm) and freeze for at least 3 hours."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Кето Карамел",
+    "name_en": "Keto Caramel",
+    "start": 756,
+    "end": 907,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "100 г краве масло (мин. 82%);",
+      "60-80 г Алулоза (за по-гъст карамел сложи 80 г);",
+      "100 мл течна сметана (30-35%, гореща);",
+      "Щипка морска сол (за Salted Caramel);",
+      "5 г желатин + 30 мл вода (само ако искаш стабилен диск за плънка)."
+    ],
+    "ingredients_text_bg": "100 г краве масло (мин. 82%);\n60-80 г Алулоза (за по-гъст карамел сложи 80 г);\n100 мл течна сметана (30-35%, гореща);\nЩипка морска сол (за Salted Caramel);\n5 г желатин + 30 мл вода (само ако искаш стабилен диск за плънка).",
+    "instruction_steps": [
+      "Карамелизация: В съд с дебело дъно разтопи маслото и добави алулозата. Готви на среден огън, като разбъркваш от време на време. Изчакай сместа да стане с цвят на тъмен кехлибар (това дава истинския вкус).",
+      "Деглазиране: Махни за секунда от огъня и налей горещата сметана на тънка струя. Внимавай, ще кипи силно! Бъркай енергично с дървена лъжица или бъркалка.",
+      "Емулсия: Върни на огъня и готви още 2-3 минути, докато сосът стане гладък и започне леко да се сгъстява (при охлаждане ще стегне много повече).",
+      "Финал: Добави солта. Ако ще правиш стабилен слой за торта, сега е момента да добавиш набъбналия желатин в горещия карамел.",
+      "Охлаждане: Пресипи в стъклен буркан. Когато изстине напълно в хладилника, ще придобие текстурата на мека дъвка."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Шоколадов (тип „Сникърс“), Пандишпан с орехи, Морковен блат.\n\nДопълнение: Идеален за заливане върху Карамелизираните ядки или като пропитка за по-сухи блатове.\n\nВариация „Кето Сникърс“: В приложението предложи: „Добавете 50 г печени фъстъци към готовия карамел за класически Сникърс вкус.“\n\nВариация „Веган Карамел“: Използвай кокосова сметана (гъстата част от консерва) и кокосово масло – технологията е същата.\n  *Кето Малинов кърд\nПродукти:\n\n150 г малини (пресни или замразени);\n\n1 голям жълтък (L);\n\n100 г еритритол пудра;\n\n50"
+    ],
+    "description_en": "Keto Caramel",
+    "ingredients_text_en": "100 g butter (min. 82%);\n60-80 g Allulose (for thicker caramel use 80 g);\n100 ml liquid cream (30-35%, hot);\nA pinch of sea salt (for Salted Caramel);\n5 g gelatin + 30 ml water (only if you want a stable disk for filling).",
+    "instruction_steps_en": [
+      "Caramelization: In a heavy-bottomed pot, melt the butter and add the allulose. Cook over medium heat, stirring occasionally. Wait for the mixture to turn a dark amber color (this gives the true flavor).",
+      "Deglazing: Remove from heat for a second and pour in the hot cream in a thin stream. Be careful, it will boil vigorously! Stir vigorously with a wooden spoon or whisk.",
+      "Emulsion: Return to heat and cook for another 2-3 minutes until the sauce becomes smooth and starts to thicken slightly (it will firm up much more when cooled).",
+      "Final: Add the salt. If you are going to make a stable layer for a cake, now is the time to add the bloomed gelatin to the hot caramel.",
+      "Cooling: Transfer to a glass jar. When it cools completely in the refrigerator, it will acquire the texture of soft candy."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Базов Крем Англез",
+    "name_en": "Creme Anglaise Base",
+    "start": 924,
+    "end": 961,
+    "keto": true,
+    "description_bg": "Това количество е универсално за добавяне към шоколад или плодови пюрета.",
+    "ingredients_list": [
+      "250 мл течна млечна сметана (33-35%);",
+      "3 големи жълтъка (L);",
+      "50-60 г еритритол пудра;",
+      "1 бр. ванилова шушулка или качествен екстракт;",
+      "Щипка сол (изостря вкуса на ванилията).",
+      "Начин на приготвяне (Техника \"Nappe\"):",
+      "Инфузия: Загрейте сметаната с ванилията в касерола почти до кипене.",
+      "Застройка: В отделна купа разбийте жълтъците с еритритола, докато станат бледожълти.",
+      "Темпериране: Налейте около 1/3 от горещата сметана при жълтъците на тънка струя, като бъркате непрекъснато. Това ги \"затопля\" бавно, за да не се пресекат.",
+      "Готвене: Върнете сместа в касеролата на слаб огън. Бъркайте постоянно с шпатула (не с бъркалка), като минавате по дъното и ъглите.",
+      "Тестът \"Lapping\": Гответе до 82°C. Кремът е готов, когато покрие гърба на лъжицата и ако прокарате пръст по нея, остане ясна и чиста следа (това се нарича nappe).",
+      "Финал: Веднага дръпнете от огъня и прецедете през фина цедка в студена купа, за да спрете процеса на готвене."
+    ],
+    "ingredients_text_bg": "250 мл течна млечна сметана (33-35%);\n3 големи жълтъка (L);\n50-60 г еритритол пудра;\n1 бр. ванилова шушулка или качествен екстракт;\nЩипка сол (изостря вкуса на ванилията).\nНачин на приготвяне (Техника \"Nappe\"):\nИнфузия: Загрейте сметаната с ванилията в касерола почти до кипене.\nЗастройка: В отделна купа разбийте жълтъците с еритритола, докато станат бледожълти.\nТемпериране: Налейте около 1/3 от горещата сметана при жълтъците на тънка струя, като бъркате непрекъснато. Това ги \"затопля\" бавно, за да не се пресекат.\nГотвене: Върнете сместа в касеролата на слаб огън. Бъркайте постоянно с шпатула (не с бъркалка), като минавате по дъното и ъглите.\nТестът \"Lapping\": Гответе до 82°C. Кремът е готов, когато покрие гърба на лъжицата и ако прокарате пръст по нея, остане ясна и чиста следа (това се нарича nappe).\nФинал: Веднага дръпнете от огъня и прецедете през фина цедка в студена купа, за да спрете процеса на готвене.",
+    "instruction_steps": [
+      "Инфузия: Загрейте сметаната с ванилията в касерола почти до кипене.",
+      "Застройка: В отделна купа разбийте жълтъците с еритритола, докато станат бледожълти.",
+      "Темпериране: Налейте около 1/3 от горещата сметана при жълтъците на тънка струя, като бъркате непрекъснато. Това ги \"затопля\" бавно, за да не се пресекат.",
+      "Готвене: Върнете сместа в касеролата на слаб огън. Бъркайте постоянно с шпатула (не с бъркалка), като минавате по дъното и ъглите.",
+      "Тестът \"Lapping\": Гответе до 82°C. Кремът е готов, когато покрие гърба на лъжицата и ако прокарате пръст по нея, остане ясна и чиста следа (това се нарича nappe).",
+      "Финал: Веднага дръпнете от огъня и прецедете през фина цедка в студена купа, за да спрете процеса на готвене."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nКак се използва? В приложението обясни на потребителя:\n\n\"Това е полуфабрикат. Добавете 100 г черен шоколад към топлия Англез и ще получите Крем Патисиер.\"\n\n\"Добавете 10 г желатин и 200 мл разбита сметана към него и ще получите Баварски мус.\"\n\nБезопасност: Винаги съветвай използването на термометър за тази рецепта. Тя е тест за майсторство!"
+    ],
+    "description_en": "This quantity is universal for adding to chocolate or fruit purees.",
+    "ingredients_text_en": "250 ml liquid heavy cream (33-35%);\n3 large egg yolks (L);\n50-60 g powdered erythritol;\n1 vanilla bean or quality extract;\nA pinch of salt (enhances the flavor of the vanilla).\nMethod of preparation (Technique \"Nappe\"):\nInfusion: Heat the cream with the vanilla in a saucepan almost to boiling.\nBase: In a separate bowl, whisk the egg yolks with the erythritol until they become pale yellow.\nTempering: Pour about 1/3 of the hot cream into the yolks in a thin stream, whisking continuously. This \"warms\" them slowly to prevent curdling.\nCooking: Return the mixture to the saucepan over low heat. Stir constantly with a spatula (not a whisk), making sure to reach the bottom and corners.\nThe \"Lapping\" test: Cook until 82°C. The cream is ready when it coats the back of a spoon and if you run your finger through it, it leaves a clear and clean trail (this is called nappe).\nFinal: Immediately remove from heat and strain through a fine sieve into a cold bowl to stop the cooking process.",
+    "instruction_steps_en": [
+      "Infusion: Heat the cream with the vanilla in a saucepan almost to boiling.",
+      "Base: In a separate bowl, whisk the egg yolks with the erythritol until they become pale yellow.",
+      "Tempering: Pour about 1/3 of the hot cream into the yolks in a thin stream, whisking continuously. This \"warms\" them slowly to prevent curdling.",
+      "Cooking: Return the mixture to the saucepan over low heat. Stir constantly with a spatula (not a whisk), making sure to reach the bottom and corners.",
+      "The \"Lapping\" test: Cook until 82°C. The cream is ready when it coats the back of a spoon and if you run your finger through it, it leaves a clear and clean trail (this is called nappe).",
+      "Final: Immediately remove from heat and strain through a fine sieve into a cold bowl to stop the cooking process."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Кето Заварен крем",
+    "name_en": "Pastry Cream Base",
+    "start": 962,
+    "end": 1001,
+    "keto": true,
+    "description_bg": "Липсата на нишесте: В класическото сладкарство нишестето стабилизира жълтъците и им позволява да заврят. В кето варианта кремът НЕ трябва да завира. Ако заври без нишесте, ще се пресече на момента. Готвенето (7 минути): Времето е относително, затова в приложението винаги акцентирай върху температура",
+    "ingredients_list": [
+      "6 жълтъка (размер L);",
+      "80-100 г еритритол пудра (зависи колко сладко обичате);",
+      "180-200 мл млечна сметана (33-35%);",
+      "5 г ванилов или бадемов екстракт;",
+      "Шеф добавка за стабилност: 80 г студено краве масло (добавя се след сваряването)."
+    ],
+    "ingredients_text_bg": "6 жълтъка (размер L);\n80-100 г еритритол пудра (зависи колко сладко обичате);\n180-200 мл млечна сметана (33-35%);\n5 г ванилов или бадемов екстракт;\nШеф добавка за стабилност: 80 г студено краве масло (добавя се след сваряването).",
+    "instruction_steps": [
+      "Основа: Разбийте жълтъците с еритритола в касерола, докато изсветлеят.",
+      "Темпериране: Налейте сметаната на тънка струя, като бъркате непрекъснато. Добавете екстракта.",
+      "Готвене: Поставете на слаб до среден огън. Бъркайте постоянно с шпатула, за да не загори по дъното. Гответе до 82°C или докато кремът покрие гърба на лъжицата (тестът с пръста).",
+      "Емулсия (Важно!): Веднага след като го свалите от огъня, добавете студеното масло на кубчета и пасирайте с пасатор. Това ще направи крема по-гъст и много по-стабилен след охлаждане.",
+      "Охлаждане: Покрийте със стреч фолио \"контактно\" (директно върху крема), за да не хване коричка. Оставете го на плота, а след това в хладилник за поне 4 часа."
+    ],
+    "lab_notes": [
+      "💡 Варианти за \"Конструктора\" (App Advice):\nШоколадов заварен крем: Към горещия готов крем добавете 80 г черен шоколад (85%) и разбъркайте до пълно разтапяне.\n\nКрем Дипломат (Пухкав): След като завареният крем изстине напълно в хладилника, го разбийте леко и го смесете с 150 мл разбита сметана. Това е най-въздушната плънка за торти.\n\nКрем Муселин (Стабилен): Разбийте охладения крем с 100 г меко масло. Това е изключително стабилен крем, подходящ дори за измазване отвън.\n  \n  Дипломат, Муселин и Шоколадов кремКрем Дипломат (Въздушният):Критична точка: Температурата от 30°C е перфектна. Ако кремът"
+    ],
+    "description_en": "The absence of starch: In classic pastry, starch stabilizes the yolks and allows them to boil. In the keto version, the cream MUST NOT boil. If it boils without starch, it will curdle immediately. Cooking (7 minutes): The time is relative, so always emphasize temperature in the application.",
+    "ingredients_text_en": "6 egg yolks (size L);\n80-100 g powdered erythritol (depends on how sweet you like it);\n180-200 ml heavy cream (33-35%);\n5 g vanilla or almond extract;\nChef's addition for stability: 80 g cold unsalted butter (added after cooking).",
+    "instruction_steps_en": [
+      "Base: Whisk the yolks with the erythritol in a saucepan until they lighten in color.",
+      "Tempering: Pour the cream in a thin stream while continuously stirring. Add the extract.",
+      "Cooking: Place over low to medium heat. Stir constantly with a spatula to prevent burning on the bottom. Cook until 82°C or until the cream coats the back of a spoon (finger test).",
+      "Emulsion (Important!): As soon as you remove it from the heat, add the cold butter in cubes and blend with an immersion blender. This will make the cream thicker and much more stable after cooling.",
+      "Cooling: Cover with plastic wrap \"contact\" (directly on the cream) to prevent a skin from forming. Leave it on the countertop, then refrigerate for at least 4 hours."
+    ],
+    "lab_notes_en": [
+      "💡 Variants for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Кето Плодов Кърд",
+    "name_en": "Fruit Curd",
+    "start": 1003,
+    "end": 1034,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "180–200 г плодово пюре (ягоди, малини, боровинки или лимон/лайм);",
+      "6 жълтъка (L);",
+      "80–100 г еритритол пудра;",
+      "80 г студено краве масло (добавя се накрая за копринен финиш)."
+    ],
+    "ingredients_text_bg": "180–200 г плодово пюре (ягоди, малини, боровинки или лимон/лайм);\n6 жълтъка (L);\n80–100 г еритритол пудра;\n80 г студено краве масло (добавя се накрая за копринен финиш).",
+    "instruction_steps": [
+      "База: Пасирайте плодовете и ги прецедете. Трябва да имате чисто пюре.",
+      "Смесване: В тенджерка разбийте жълтъците с еритритола, докато побелеят. Добавете плодовото пюре и разбъркайте до хомогенност.",
+      "Готвене: Гответе на слаб огън (най-добре на водна баня), като бъркате непрекъснато. Целта отново е 82°C. Кремът ще започне да се сгъстява и да става лъскав.",
+      "Емулсия: Свалете от огъня и добавете кубчетата студено масло. Пасирайте с пасатор. Маслото ще „заключи“ плодовия вкус и ще придаде невероятна гладкост.",
+      "Охлаждане: Покрийте със стреч фолио в контакт и оставете да стегне в хладилник."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Лимонов пандишпан или Ванилов блат.\n\nКрем: Смесете този плодов крем с 150 г разбита сметана, за да получите Плодов Дипломат.\n\nФункция: В приложението отбележи: „Този крем е идеален за запълване на 'кладенчета' в блатовете или като интензивен плодов слой под основния крем.“"
+    ],
+    "description_en": "Keto Fruit Curd",
+    "ingredients_text_en": "180–200 g fruit puree (strawberries, raspberries, blueberries, or lemon/lime);\n6 egg yolks (L);\n80–100 g powdered erythritol;\n80 g cold unsalted butter (added at the end for a silky finish).",
+    "instruction_steps_en": [
+      "Base: Puree the fruits and strain them. You should have a clean puree.",
+      "Mixing: In a saucepan, whisk the egg yolks with the erythritol until they turn pale. Add the fruit puree and stir until homogeneous.",
+      "Cooking: Cook over low heat (preferably in a water bath), stirring continuously. The goal is again 82°C. The cream will start to thicken and become glossy.",
+      "Emulsion: Remove from heat and add the cold butter cubes. Blend with an immersion blender. The butter will \"lock in\" the fruit flavor and provide incredible smoothness.",
+      "Cooling: Cover with plastic wrap in contact and let it set in the refrigerator."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Builder\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Без име 5",
+    "name_en": "Unnamed 5",
+    "start": 1035,
+    "end": 1064,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "Черен Ганаш: 200 мл сметана (35%) + 200 г черен шоколад (85%) – Класическо 1:1 за стабилност.",
+      "Бял Ганаш: 150 мл сметана (35%) + 300 г бял кето шоколад.",
+      "Опция за пухкавост: След 4 часа в хладилника, разбийте студения ганаш с миксер за 1 минута. Ще получите \"Разбит ганаш\" (Whipped Ganache), който е идеален за шприцоване на розички."
+    ],
+    "ingredients_text_bg": "Черен Ганаш: 200 мл сметана (35%) + 200 г черен шоколад (85%) – Класическо 1:1 за стабилност.\nБял Ганаш: 150 мл сметана (35%) + 300 г бял кето шоколад.\nОпция за пухкавост: След 4 часа в хладилника, разбийте студения ганаш с миксер за 1 минута. Ще получите \"Разбит ганаш\" (Whipped Ganache), който е идеален за шприцоване на розички.",
+    "instruction_steps": [
+      "Нагряване: Загрейте сметаната (или плодовото пюре) до точка на кипене, но не я оставяйте да ври дълго.",
+      "Заливане: Залейте начупения шоколад. Изчакайте 2 минути, без да пипате.",
+      "Емулсия: Разбъркайте с шпатула от центъра навън. Добавете алкохола или маслото (ако ползвате) и пасирайте с пасатор за фина структура.",
+      "Стабилизация: Покрийте със стреч фолио (контактно) и приберете в хладилник за минимум 4 часа."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Шоколадов, Лешников, „Червено кадифе“.\n\nДопълнение: Върху ганаша поръсете Карамелизирани ядки или добавете Малиново кули.\n\nФункция „Измазване“: В приложението обясни: \"Ако искате перфектно прави стени на тортата, използвайте Ганаш с добавено масло (30-50 г). Той стяга като броня и държи тортата стабилна дори на стайна температура.\"\n\nВариация „Плодов Ганаш“: Отбележи, че плодовото пюре трябва да е прецедено и гъсто, за да не разводни крема."
+    ],
+    "description_en": "Untitled 5",
+    "ingredients_text_en": "Dark Ganache: 200 ml cream (35%) + 200 g dark chocolate (85%) – Classic 1:1 for stability.\nWhite Ganache: 150 ml cream (35%) + 300 g white keto chocolate.\nFluffiness Option: After 4 hours in the refrigerator, whip the cold ganache with a mixer for 1 minute. You will get \"Whipped Ganache,\" which is perfect for piping roses.",
+    "instruction_steps_en": [
+      "Heating: Heat the cream (or fruit puree) to the boiling point, but do not let it boil for long.",
+      "Pouring: Pour over the chopped chocolate. Wait 2 minutes without touching.",
+      "Emulsification: Stir with a spatula from the center outwards. Add the alcohol or butter (if using) and blend with an immersion blender for a fine texture.",
+      "Stabilization: Cover with plastic wrap (contact) and refrigerate for at least 4 hours."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Builder\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Без име 6",
+    "name_en": "Unnamed 6",
+    "start": 1065,
+    "end": 1100,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "100 мл сметана (част 1 - за загряване);",
+      "200 мл сметана (част 2 - студена);",
+      "100 г кето шоколад (бял или черен);",
+      "2 г желатин + 12 мл студена вода;",
+      "30 г еритритол пудра (само ако шоколадът е много горчив)."
+    ],
+    "ingredients_text_bg": "100 мл сметана (част 1 - за загряване);\n200 мл сметана (част 2 - студена);\n100 г кето шоколад (бял или черен);\n2 г желатин + 12 мл студена вода;\n30 г еритритол пудра (само ако шоколадът е много горчив).",
+    "instruction_steps": [
+      "База: Накиснете желатина във водата. Загрейте Сметана (част 1) с еритритола до кипене.",
+      "Емулсия: Залейте шоколада с горещата сметана, добавете набъбналия желатин и пасирайте с пасатор (не миксер!), докато стане лъскаво и гладко.",
+      "Обединяване (течно): Налейте студената Сметана (част 2) към топлата шоколадова смес. Пасирайте отново за 30 секунди. В този момент сместа е напълно течна – това е нормално!",
+      "Узряване: Покрийте със стреч фолио (контактно) и приберете в хладилник за минимум 8-12 часа. Това е най-важната стъпка за кристализация на мазнините.",
+      "Финално разбиване: Извадете ледената смес от хладилника и я разбийте с миксер на средна скорост, докато стане на пухкав, стабилен крем (като гъста разбита сметана). Внимавайте да не го преразбиете на масло!"
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Всички видове (универсален крем).\n\nДекорация: Това е най-добрият крем за шприцоване на високи \"шапки\" на къпкейкове или сложни рози върху торта.\n\nФункция: В приложението обясни: \"Разбитият ганаш е облак от шоколад. Той е по-лек от маслените кремове, но стои перфектно без да тече.\"\n\nВариация \"Плодов ганаш\": При замяната на Сметана (част 1) с пюре, напомни на потребителя да прецеди пюрето, за да не се запуши накрайникът на поша при шприцоване."
+    ],
+    "description_en": "Untitled 6",
+    "ingredients_text_en": "100 ml cream (part 1 - for heating);\n200 ml cream (part 2 - cold);\n100 g keto chocolate (white or dark);\n2 g gelatin + 12 ml cold water;\n30 g powdered erythritol (only if the chocolate is very bitter).",
+    "instruction_steps_en": [
+      "Base: Soak the gelatin in the water. Heat the cream (part 1) with the erythritol until boiling.",
+      "Emulsion: Pour the hot cream over the chocolate, add the bloomed gelatin, and blend with an immersion blender (not a mixer!) until shiny and smooth.",
+      "Combining (liquid): Pour the cold cream (part 2) into the warm chocolate mixture. Blend again for 30 seconds. At this point, the mixture is completely liquid – this is normal!",
+      "Maturation: Cover with cling film (contact) and refrigerate for at least 8-12 hours. This is the most important step for fat crystallization.",
+      "Final whipping: Remove the chilled mixture from the refrigerator and whip with a mixer on medium speed until it becomes a fluffy, stable cream (like thick whipped cream). Be careful not to over-whip it into butter!"
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Constructor\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Кето Шантили",
+    "name_en": "Keto Chantilly",
+    "start": 1101,
+    "end": 1132,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "300 мл млечна сметана (33-35% масленост, ледено студена);",
+      "60-80 г еритритол пудра (90 г може да дойде твърде сладко при липса на плодове);",
+      "1 ч.л. истински ванилов екстракт или семена от шушулка;",
+      "Опция за стабилност (Шеф трик): Добавете 100 г студено Маскарпоне. Това прави крема „Шантили-Маскарпоне“, който е много по-издръжлив и подходящ за измазване на торта."
+    ],
+    "ingredients_text_bg": "300 мл млечна сметана (33-35% масленост, ледено студена);\n60-80 г еритритол пудра (90 г може да дойде твърде сладко при липса на плодове);\n1 ч.л. истински ванилов екстракт или семена от шушулка;\nОпция за стабилност (Шеф трик): Добавете 100 г студено Маскарпоне. Това прави крема „Шантили-Маскарпоне“, който е много по-издръжлив и подходящ за измазване на торта.",
+    "instruction_steps": [
+      "Подготовка: Сложете купата и бъркалките във фризера за 10 минути преди работа.",
+      "Смесване: Изсипете сметаната в купата, добавете пресятия еритритол и ванилията.",
+      "Разбиване: Започнете на ниска скорост, за да се разтвори подсладителят, и постепенно увеличете до висока. Разбивайте, докато се образуват твърди върхове (stiff peaks).",
+      "Внимание: Спрете веднага щом кремът стане стабилен и спре да бъде лъскав."
+    ],
+    "lab_notes": [
+      "💡 Логика за \"Конструктора\" (App Advice):\nНай-добри комбинации:\n\nБлат: Пандишпан, Лимонов блат, Павлова (кето вариант).\n\nДопълнение: Този крем „обича“ свежи плодове. Най-добрата комбинация е с твоите Мариновани ягоди с розова вода.\n\nФункция: В приложението опиши: \"Шантили е най-лекият крем. Използвайте го за торти, които ще се консумират веднага, или като допълнителен слой свежест.\"\n\nВажно съотношение: Ако потребителят реши да добави Маскарпоне, кажи му да разбие сметаната и маскарпонето заедно от самото начало за най-гладка емулсия."
+    ],
+    "description_en": "Keto Chantilly",
+    "ingredients_text_en": "300 ml heavy cream (33-35% fat content, ice cold);\n60-80 g powdered erythritol (90 g may be too sweet in the absence of fruits);\n1 tsp pure vanilla extract or seeds from a vanilla pod;\nStability option (Chef trick): Add 100 g cold Mascarpone. This makes the cream \"Chantilly-Mascarpone,\" which is much more durable and suitable for frosting a cake.",
+    "instruction_steps_en": [
+      "Preparation: Place the bowl and beaters in the freezer for 10 minutes before starting.",
+      "Mixing: Pour the cream into the bowl, add the sifted erythritol and vanilla.",
+      "Whipping: Start on low speed to dissolve the sweetener, and gradually increase to high. Whip until stiff peaks form.",
+      "Attention: Stop as soon as the cream becomes stable and stops being glossy."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Builder\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Крем със заквасена сметана",
+    "name_en": "Sour Cream Frosting",
+    "start": 1133,
+    "end": 1160,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "400 г заквасена сметана (минимум 25-30% масленост, ледено студена);",
+      "100–120 г еритритол пудра (150 г може да прекъсне баланса на киселинността);",
+      "1 ч.л. ванилия или настъргана лимонова кора."
+    ],
+    "ingredients_text_bg": "400 г заквасена сметана (минимум 25-30% масленост, ледено студена);\n100–120 г еритритол пудра (150 г може да прекъсне баланса на киселинността);\n1 ч.л. ванилия или настъргана лимонова кора.",
+    "instruction_steps": [
+      "Отцеждане (Шеф трик): Ако искате кремът да е „бетон“ и да измажете тортата с него, оставете заквасената сметана в тензух над купа за 2 часа в хладилника, за да изтече излишната суроватка.",
+      "Смесване: Сложете студената сметана в купа, добавете еритритола и ванилията.",
+      "Разбиване: Започнете на ниска скорост, за да се смесят, и увеличете до средно-висока. Разбивайте само докато видите, че бъркалките оставят ясни, стабилни следи и кремът стане „въздушен“. Спрете веднага, щом достигне този етап!",
+      "Стабилизация: Оставете в хладилника за 30 минути преди употреба – еритритолът ще помогне на мазнините да стегнат още малко."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Шоколадов блат, Пандишпан с орехи, Бисквитена кето торта.\n\nДопълнение: Този крем е „създаден“ за Сладко от вишни или Малинов кърд. Кисело-сладкият профил е невероятен.\n\nФункция: В приложението опиши: „Това е най-уютният домашен крем. Той попива отлично в блатовете и прави тортата много сочна. Идеален за торти, които трябва да престоят една нощ.“"
+    ],
+    "description_en": "Cream with sour cream",
+    "ingredients_text_en": "400 g sour cream (minimum 25-30% fat content, ice cold);\n100–120 g powdered erythritol (150 g may disrupt the acidity balance);\n1 tsp vanilla or grated lemon zest.",
+    "instruction_steps_en": [
+      "Draining (Chef trick): If you want the cream to be \"concrete\" and to frost the cake with it, leave the sour cream in cheesecloth over a bowl for 2 hours in the refrigerator to drain the excess whey.",
+      "Mixing: Place the cold sour cream in a bowl, add the erythritol and vanilla.",
+      "Whipping: Start on low speed to combine, then increase to medium-high. Whip only until you see clear, stable trails left by the beaters and the cream becomes \"airy.\" Stop immediately as soon as it reaches this stage!",
+      "Stabilization: Leave in the refrigerator for 30 minutes before use – the erythritol will help the fats firm up a bit more."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Builder\" (App Advice):"
+    ]
+  },
+  {
+    "name": "Стабилен Розов Крем",
+    "name_en": "Stable Rose Cream",
+    "start": 1161,
+    "end": 1196,
+    "keto": true,
+    "description_bg": "",
+    "ingredients_list": [
+      "250 г Маскарпоне (ледено студено);",
+      "200 мл Течна сметана (33-35% масленост, ледено студена);",
+      "50-60 г Еритритол пудра (пресят);",
+      "15 г Вода от рози (без захар);",
+      "Щипка ванилия (помага на розата да изпъкне)."
+    ],
+    "ingredients_text_bg": "250 г Маскарпоне (ледено студено);\n200 мл Течна сметана (33-35% масленост, ледено студена);\n50-60 г Еритритол пудра (пресят);\n15 г Вода от рози (без захар);\nЩипка ванилия (помага на розата да изпъкне).",
+    "instruction_steps": [
+      "Ароматизиране: В купа разбийте за кратко маскарпонето с еритритола и розовата вода – само колкото да стане гладко (около 30 секунди). Не прекалявайте!",
+      "Обем: В отделна ледена купа разбийте сметаната до „твърди върхове“.",
+      "Обединяване: Добавете 1/3 от сметаната към маскарпонето и разбъркайте енергично, за да „отпуснете“ сиренето. След това добавете останалата сметана и бъркайте внимателно с шпатула (отдолу нагоре), докато получите копринен, гъст крем.",
+      "Отлежаване: Оставете го в хладилник за 30 минути. Това ще позволи на вкусовете да се „омъжат“ и кремът да стане още по-стабилен за шприцоване."
+    ],
+    "lab_notes": [
+      "💡 Логика за „Конструктора“ (App Advice):\nНай-добри комбинации:\n\nБлат: Шамфъстък (класика!), Ванилов пандишпан или Бадемов блат.\n\nДопълнение: Този крем плаче за твоите Мариновани ягоди с розова вода като инсърт (плънка) в средата.\n\nФункция: В приложението опиши: „Този крем е достатъчно здрав, за да издържи тежестта на три блата. Той е идеален за елегантни празнични торти.“\n\nПредупреждение: Съветвай потребителите: \"Винаги опитвайте розовата вода преди употреба – силата ѝ варира според марката. Търсете натурална дестилирана вода, а не сироп.\""
+    ],
+    "description_en": "Stable Pink Cream",
+    "ingredients_text_en": "250 g Mascarpone (ice cold);\n200 ml Heavy cream (33-35% fat content, ice cold);\n50-60 g Powdered erythritol (sifted);\n15 g Rose water (sugar-free);\nA pinch of vanilla (helps the rose flavor to stand out).",
+    "instruction_steps_en": [
+      "Flavoring: In a bowl, briefly beat the mascarpone with the erythritol and rose water – just enough to make it smooth (about 30 seconds). Do not overmix!",
+      "Volume: In a separate ice-cold bowl, whip the cream to \"stiff peaks.\"",
+      "Combining: Add 1/3 of the whipped cream to the mascarpone and mix vigorously to \"loosen\" the cheese. Then add the remaining cream and gently fold with a spatula (from bottom to top) until you achieve a silky, thick cream.",
+      "Resting: Leave it in the refrigerator for 30 minutes. This will allow the flavors to \"marry\" and the cream to become even more stable for piping."
+    ],
+    "lab_notes_en": [
+      "💡 Logic for the \"Builder\" (App Advice):"
+    ]
+  }
+]
