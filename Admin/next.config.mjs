@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['@google-cloud/text-to-speech', '@grpc/grpc-js'],
+  },
+};
 
 export default nextConfig;
