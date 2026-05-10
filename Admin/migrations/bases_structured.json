@@ -1,0 +1,890 @@
+[
+  {
+    "name": "Базов въздушен кето блат",
+    "name_en": "Basic Airy Keto Base",
+    "line_start": 1,
+    "line_end": 52,
+    "is_variant": false,
+    "difficulty": 3,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "- Базова рецепта за въздушни кето блатове (Ревизирана)",
+    "ingredients_list": [
+      "За белтъчния сняг (Меренг):",
+      "6 белтъка (стайна температура)",
+      "90 г еритритол пудра (намалихме го леко за по-добра стабилност)",
+      "Щипка сол или 1/4 ч.л. лимонена киселина (за стабилизиране на протеина)",
+      "За жълтъчната смес:",
+      "6 жълтъка",
+      "60 г еритритол пудра",
+      "1 ч.л. ванилов екстракт (за премахване на яйчния аромат)",
+      "70 г бадемово брашно (фино смляно)",
+      "10 г кокосово брашно",
+      "10 г псилиум хуск (фино смлян на брашно)",
+      "1 г ксантанова гума (задължителна тук!)"
+    ],
+    "ingredients_text_bg": "За белтъчния сняг (Меренг):\n6 белтъка (стайна температура)\n90 г еритритол пудра (намалихме го леко за по-добра стабилност)\nЩипка сол или 1/4 ч.л. лимонена киселина (за стабилизиране на протеина)\nЗа жълтъчната смес:\n6 жълтъка\n60 г еритритол пудра\n1 ч.л. ванилов екстракт (за премахване на яйчния аромат)\n70 г бадемово брашно (фино смляно)\n10 г кокосово брашно\n10 г псилиум хуск (фино смлян на брашно)\n1 г ксантанова гума (задължителна тук!)",
+    "instruction_steps": [
+      "Подготовка: Загрейте фурната на 160°C (с вентилатор). При тази рецепта високата температура (180°C) ще накара блата да избухне и след това да колабира (да спадне в средата).",
+      "Сух микс: Смесете бадемовото, кокосовото брашно, псилиума и ксантановата гума. Пресейте ги два пъти. В кето сладкарството пресяването на \"тежките\" ядкови брашна е жизненоважно за \"въздушния\" ефект.",
+      "Жълтъци: Разбийте жълтъците с 60 г еритритол, докато сместа стане гъста, бледа и увеличи обема си тройно. Това отнема около 5 минути с мощен миксер.",
+      "Белтъци (Меринг): Разбийте белтъците със солта до меки върхове. Започнете да добавяте останалия еритритол (90 г) лъжица по лъжица. Разбивайте до твърди, лъскави върхове.",
+      "Темпериране на сместа: Вземете 1/4 от белтъците и ги добавете към жълтъците. Разбъркайте смело – целта е да втечните жълтъците, за да не \"счупят\" останалия белтък по-късно.",
+      "Обединяване: Изсипете жълтъчната смес върху останалите белтъци. Добавете сухите съставки на три етапа през сито. Смесвайте с шпатула с движение \"J\" (загребване от дъното и обръщане), като завъртате купата. Спрете веднага щом не виждате сухи бучици!",
+      "Печене: Изсипете в ринг (18 см). Не мажете стените на ринга с мазнина! Пандишпанът трябва да се \"катери\" по стените. Печете 35–40 минути на 160°C."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "важно за \"въздушния\" ефект.\n\nЖълтъци",
+        "content": "Разбийте жълтъците с 60 г еритритол, докато сместа стане гъста, бледа и увеличи обема си тройно. Това отнема около 5 минути с мощен миксер.",
+        "content_en": "Beat the egg yolks with 60 g of erythritol until the mixture becomes thick, pale, and triples in volume. This takes about 5 minutes with a powerful mixer."
+      },
+      {
+        "title_bg": "Шеф трик за охлаждане",
+        "content": "След като извадите блата, го обърнете обратно (с главата надолу) върху решетка, докато е още във формата. Това не позволява на тежката кето структура да се свие под собствената си тежест.\n\nВарианти",
+        "content_en": "After removing the cake layer, turn it upside down onto a rack while it is still in the pan. This prevents the heavy keto structure from collapsing under its own weight."
+      }
+    ],
+    "description_en": "- Basic recipe for airy keto layers (Revised)",
+    "ingredients_text_en": "For the egg white foam (Meringue):\n6 egg whites (room temperature)\n90 g powdered erythritol (slightly reduced for better stability)\nA pinch of salt or 1/4 tsp citric acid (for stabilizing the protein)\nFor the yolk mixture:\n6 egg yolks\n60 g powdered erythritol\n1 tsp vanilla extract (to eliminate the egg flavor)\n70 g almond flour (finely ground)\n10 g coconut flour\n10 g psyllium husk (finely ground into flour)\n1 g xanthan gum (mandatory here!)",
+    "instruction_steps_en": [
+      "Preparation: Preheat the oven to 160°C (with fan). In this recipe, a high temperature (180°C) will cause the base to explode and then collapse (sink in the middle).",
+      "Dry mix: Combine almond flour, coconut flour, psyllium, and xanthan gum. Sift them twice. In keto baking, sifting the \"heavy\" nut flours is crucial for the \"airy\" effect.",
+      "Egg yolks: Whisk the egg yolks with 60 g of erythritol until the mixture becomes thick, pale, and triples in volume. This takes about 5 minutes with a powerful mixer.",
+      "Egg whites (Meringue): Whip the egg whites with salt until soft peaks form. Start adding the remaining erythritol (90 g) one tablespoon at a time. Whip until stiff, glossy peaks form.",
+      "Tempering the mixture: Take 1/4 of the egg whites and add them to the egg yolks. Stir boldly – the goal is to liquefy the yolks so they don't \"break\" the remaining egg whites later.",
+      "Combining: Pour the yolk mixture over the remaining egg whites. Add the dry ingredients in three stages through a sieve. Mix with a spatula using a \"J\" motion (scooping from the bottom and folding), while rotating the bowl. Stop as soon as you no longer see dry lumps!",
+      "Baking: Pour into a ring (18 cm). Do not grease the sides of the ring with fat! The sponge should \"climb\" the walls. Bake for 35–40 minutes at 160°C."
+    ]
+  },
+  {
+    "name": "Шоколадов пандишпан",
+    "name_en": "Chocolate Sponge Cake",
+    "line_start": 53,
+    "line_end": 56,
+    "is_variant": true,
+    "variant_of": "Базов въздушен кето блат",
+    "difficulty": 3,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "Вариант на Базов въздушен кето блат: Шоколадов пандишпан\nШоколадов кекс: Замяната на 30% от брашното с какао ще направи тестото много сухо, защото какаото абсорбира много повече течност от бадемовото брашно.\n\nШеф корекция: Ако добавяте к",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Шоколадов пандишпан\nШоколадов кекс: Замяната на 30% от брашното с какао ще направи тестото много сухо, защото какаото абсорбира много повече течност от бадемовото брашно.\n\nШеф корекция: Ако добавяте какао, добавете и 30-50 мл бадемово мляко или течна сметана, за да балансирате влажността.",
+    "instruction_steps": [
+      "Шоколадов пандишпан\nШоколадов кекс: Замяната на 30% от брашното с какао ще направи тестото много сухо, защото какаото абсорбира много повече течност от бадемовото брашно.\n\nШеф корекция: Ако добавяте какао, добавете и 30-50 мл бадемово мляко или течна сметана, за да балансирате влажността."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Airy Keto Sponge: Chocolate Biscuit",
+    "ingredients_text_en": "Chocolate sponge cake",
+    "instruction_steps_en": [
+      "Chocolate sponge cake"
+    ]
+  },
+  {
+    "name": "Брауни пандишпан",
+    "name_en": "Brownie Sponge",
+    "line_start": 57,
+    "line_end": 63,
+    "is_variant": true,
+    "variant_of": "Базов въздушен кето блат",
+    "difficulty": 3,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "Вариант на Базов въздушен кето блат: Брауни пандишпан\n\nЗаменете 20% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите сухи съставки.\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, н",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Брауни пандишпан\n\nЗаменете 20% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите сухи съставки.\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, но не горещ шоколад над 85% масленост без захар или същото количество бял шоколад без захар.\nДобавяне",
+    "instruction_steps": [
+      "Брауни пандишпан\n\nЗаменете 20% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите сухи съставки.\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, но не горещ шоколад над 85% масленост без захар или същото количество бял шоколад без захар.\nДобавянето на разтопен шоколад е отлична идея. Увери се, че шоколадът е около 35-40°C. Ако е по-студен, ще се втвърди на парченца в тестото; ако е по-горещ, ще стопи маслото."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Airy Keto Sponge: Brownie Biscuit",
+    "ingredients_text_en": "Brownie sponge cake",
+    "instruction_steps_en": [
+      "Brownie sponge"
+    ]
+  },
+  {
+    "name": "Цитрусов пандишпан",
+    "name_en": "Citrus Sponge Cake",
+    "line_start": 64,
+    "line_end": 67,
+    "is_variant": true,
+    "variant_of": "Базов въздушен кето блат",
+    "difficulty": 2,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "Вариант на Базов въздушен кето блат: Цитрусов пандишпан\n\nДобавете кора от портокал, лимон или лайм към сухите съставки. Количеството може да се коригира по ваш вкус.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Цитрусов пандишпан\n\nДобавете кора от портокал, лимон или лайм към сухите съставки. Количеството може да се коригира по ваш вкус.",
+    "instruction_steps": [
+      "Цитрусов пандишпан\n\nДобавете кора от портокал, лимон или лайм към сухите съставки. Количеството може да се коригира по ваш вкус."
+    ],
+    "lab_notes": [],
+    "description_en": "Variation of Basic Airy Keto Sponge: Citrus Sponge Cake",
+    "ingredients_text_en": "Citrus sponge cake",
+    "instruction_steps_en": [
+      "Citrus sponge cake"
+    ]
+  },
+  {
+    "name": "Пандишпан с горски плодове",
+    "name_en": "Berry Sponge Cake",
+    "line_start": 68,
+    "line_end": 73,
+    "is_variant": true,
+    "variant_of": "Базов въздушен кето блат",
+    "difficulty": 2,
+    "prep": 30,
+    "bake": 40,
+    "description_bg": "Вариант на Базов въздушен кето блат: Пандишпан с горски плодове\n\nПри разбиването на белтъците добавете 50 г сок от горски плодове.\n\nОваляйте 80 г дребни горски плодове (череши, малини, боровинки, горски боровинки) в малко бадемово брашно",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Пандишпан с горски плодове\n\nПри разбиването на белтъците добавете 50 г сок от горски плодове.\n\nОваляйте 80 г дребни горски плодове (череши, малини, боровинки, горски боровинки) в малко бадемово брашно, разделете тестото на няколко форми и добавете към пандишпана преди печене. В този случай не трябва",
+    "instruction_steps": [
+      "Пандишпан с горски плодове\n\nПри разбиването на белтъците добавете 50 г сок от горски плодове.\n\nОваляйте 80 г дребни горски плодове (череши, малини, боровинки, горски боровинки) в малко бадемово брашно, разделете тестото на няколко форми и добавете към пандишпана преди печене. В този случай не трябва да печете един висок блат: плодовете ще потънат под собствената си тежест и няма да позволят на тестото да се надигне добре. Ако използвате замразени плодове, първо трябва да ги размразите и да остав"
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Airy Keto Cake: Sponge Cake with Berries",
+    "ingredients_text_en": "Sponge Cake with Berries",
+    "instruction_steps_en": [
+      "Sponge Cake with Berries"
+    ]
+  },
+  {
+    "name": "Орехов пандишпан",
+    "name_en": "Walnut Sponge Cake",
+    "line_start": 74,
+    "line_end": 77,
+    "is_variant": true,
+    "variant_of": "Базов въздушен кето блат",
+    "difficulty": 2,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "Вариант на Базов въздушен кето блат: Орехов пандишпан\n\nДобавете 30 г ситно смлени ядки към сухите съставки.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Орехов пандишпан\n\nДобавете 30 г ситно смлени ядки към сухите съставки.",
+    "instruction_steps": [
+      "Орехов пандишпан\n\nДобавете 30 г ситно смлени ядки към сухите съставки."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Airy Keto Sponge: Walnut Sponge Cake",
+    "ingredients_text_en": "Walnut sponge cake",
+    "instruction_steps_en": [
+      "Walnut sponge cake"
+    ]
+  },
+  {
+    "name": "Базов кето кекс",
+    "name_en": "Basic Keto Cake",
+    "line_start": 81,
+    "line_end": 119,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "- Базова рецепта за Кето кексово тесто\nПропорциите са изчислени за стабилна структура без глутен.",
+    "ingredients_list": [
+      "140 г краве масло (меко, на стайна температура)",
+      "140 г еритритол (за предпочитане на пудра)",
+      "4 големи яйца (стайна температура)",
+      "110 г бадемово брашно",
+      "35 г кокосово брашно",
+      "1 с. л. псилиум хуск (фино смлян)",
+      "1 ч. л. бакпулвер",
+      "Щипка сол"
+    ],
+    "ingredients_text_bg": "140 г краве масло (меко, на стайна температура)\n140 г еритритол (за предпочитане на пудра)\n4 големи яйца (стайна температура)\n110 г бадемово брашно\n35 г кокосово брашно\n1 с. л. псилиум хуск (фино смлян)\n1 ч. л. бакпулвер\nЩипка сол",
+    "instruction_steps": [
+      "Разбийте мекото масло с еритритола за 7-9 минути на висока скорост, докато стане светъл и пухкав крем.",
+      "Разбийте яйцата леко в отделен съд. Добавяйте ги към маслото лъжица по лъжица, като не спирате да разбивате. Ако сместа започне да се пресича, добавете 1 с.л. от бадемовото брашно.",
+      "Смесете всички сухи съставки (бадемово, кокосово брашно, псилиум, бакпулвер и сол).",
+      "Добавете сухите съставки към маслената смес. Разбъркайте на ниска скорост само докато се комбинират. Не прекалявайте с бъркането!",
+      "Важно: Оставете тестото да престои 10 минути, за да може псилиумът и кокосовото брашно да абсорбират влагата.",
+      "Разпределете в две малки форми или една голяма. Печете на 170°C (с вентилатор) за около 35-45 минути.",
+      "Кексовото тесто, подобно на пандишпановото може да бъде променяно, като му се придаде различен вкус. Ето няколко идеи:"
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Важно",
+        "content": "Оставете тестото да престои 10 минути, за да може псилиумът и кокосовото брашно да абсорбират влагата.",
+        "content_en": "Let the dough rest for 10 minutes so that the psyllium and coconut flour can absorb the moisture."
+      }
+    ],
+    "description_en": "- Basic recipe for Keto cake batter",
+    "ingredients_text_en": "140 g unsalted butter (soft, at room temperature)\n140 g erythritol (preferably powdered)\n4 large eggs (at room temperature)\n110 g almond flour\n35 g coconut flour\n1 tbsp psyllium husk (finely ground)\n1 tsp baking powder\nPinch of salt",
+    "instruction_steps_en": [
+      "Beat the softened butter with the erythritol for 7-9 minutes on high speed until it becomes a light and fluffy cream.",
+      "Lightly beat the eggs in a separate bowl. Add them to the butter one spoonful at a time, while continuing to beat. If the mixture starts to curdle, add 1 tablespoon of almond flour.",
+      "Mix all the dry ingredients (almond flour, coconut flour, psyllium, baking powder, and salt).",
+      "Add the dry ingredients to the butter mixture. Stir on low speed just until combined. Do not overmix!",
+      "Important: Let the dough rest for 10 minutes so that the psyllium and coconut flour can absorb the moisture.",
+      "Divide into two small molds or one large one. Bake at 170°C (with fan) for about 35-45 minutes.",
+      "The cake batter, similar to sponge cake, can be altered to give it a different flavor. Here are a few ideas:"
+    ]
+  },
+  {
+    "name": "Шоколадов кекс",
+    "name_en": "Chocolate Cake",
+    "line_start": 120,
+    "line_end": 123,
+    "is_variant": true,
+    "variant_of": "Базов кето кекс",
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "Вариант на Базов кето кекс: Шоколадов кекс\n\nЗаменете 30% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите брашна.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Шоколадов кекс\n\nЗаменете 30% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите брашна.",
+    "instruction_steps": [
+      "Шоколадов кекс\n\nЗаменете 30% от бадемовото брашно с какао на прах и го добавете към тестото заедно с другите брашна."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Keto Cake: Chocolate Cake",
+    "ingredients_text_en": "Chocolate Cake",
+    "instruction_steps_en": [
+      "Chocolate Cake"
+    ]
+  },
+  {
+    "name": "Брауни кекс",
+    "name_en": "Brownie Cake",
+    "line_start": 124,
+    "line_end": 127,
+    "is_variant": true,
+    "variant_of": "Базов кето кекс",
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "Вариант на Базов кето кекс: Брауни\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, но не горещ шоколад поне 85% какаова масленост и без захар, може да използвате и бял кето шоколад без захар.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Брауни\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, но не горещ шоколад поне 85% какаова масленост и без захар, може да използвате и бял кето шоколад без захар.",
+    "instruction_steps": [
+      "Брауни\n\nСлед като добавите сухите съставки, добавете към тестото 50 г разтопен, но не горещ шоколад поне 85% какаова масленост и без захар, може да използвате и бял кето шоколад без захар."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Keto Cake: Brownies",
+    "ingredients_text_en": "Brownies",
+    "instruction_steps_en": [
+      "Brownies"
+    ]
+  },
+  {
+    "name": "Кекс с горски плодове",
+    "name_en": "Berry Cake",
+    "line_start": 128,
+    "line_end": 133,
+    "is_variant": true,
+    "variant_of": "Базов кето кекс",
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "Вариант на Базов кето кекс: Кекс с горски плодове\n\nДобавете 50 г замразени дребни горски плодове към тестото непосредствено преди печене.\n\nПечете в две отделни форми.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Кекс с горски плодове\n\nДобавете 50 г замразени дребни горски плодове към тестото непосредствено преди печене.\n\nПечете в две отделни форми.",
+    "instruction_steps": [
+      "Кекс с горски плодове\n\nДобавете 50 г замразени дребни горски плодове към тестото непосредствено преди печене.\n\nПечете в две отделни форми."
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Keto Cake: Berry Cake",
+    "ingredients_text_en": "Cake with Berries",
+    "instruction_steps_en": [
+      "Berry Cake"
+    ]
+  },
+  {
+    "name": "Цитрусов кекс",
+    "name_en": "Citrus Cake",
+    "line_start": 134,
+    "line_end": 137,
+    "is_variant": true,
+    "variant_of": "Базов кето кекс",
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "Вариант на Базов кето кекс: Цитрусов кекс\n\nДобавете кора от лайм, лимон или портокал към тестото заедно с брашното. Количеството може да се коригира по ваш вкус.",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Цитрусов кекс\n\nДобавете кора от лайм, лимон или портокал към тестото заедно с брашното. Количеството може да се коригира по ваш вкус.",
+    "instruction_steps": [
+      "Цитрусов кекс\n\nДобавете кора от лайм, лимон или портокал към тестото заедно с брашното. Количеството може да се коригира по ваш вкус."
+    ],
+    "lab_notes": [],
+    "description_en": "Variation of Basic Keto Cake: Citrus Cake",
+    "ingredients_text_en": "Citrus Cake",
+    "instruction_steps_en": [
+      "Citrus Cake"
+    ]
+  },
+  {
+    "name": "Орехов кекс",
+    "name_en": "Walnut Cake",
+    "line_start": 138,
+    "line_end": 141,
+    "is_variant": true,
+    "variant_of": "Базов кето кекс",
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 40,
+    "description_bg": "Вариант на Базов кето кекс: Орехов кекс\n\nДобавете 60-80 г ситно счукани ядки заедно с брашната",
+    "ingredients_list": [],
+    "ingredients_text_bg": "Орехов кекс\n\nДобавете 60-80 г ситно счукани ядки заедно с брашната",
+    "instruction_steps": [
+      "Орехов кекс\n\nДобавете 60-80 г ситно счукани ядки заедно с брашната"
+    ],
+    "lab_notes": [],
+    "description_en": "Variant of Basic Keto Cake: Walnut Cake",
+    "ingredients_text_en": "Walnut cake",
+    "instruction_steps_en": [
+      "Walnut cake"
+    ]
+  },
+  {
+    "name": "Кокосов блат",
+    "name_en": "Coconut Base",
+    "line_start": 145,
+    "line_end": 182,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 28,
+    "description_bg": "🥥 Кокосови блатове (Оптимизирана рецепта)\nТази версия гарантира, че ксантановата гума ще си свърши работата и блатовете няма да се натрошат.",
+    "ingredients_list": [
+      "90 г еритритол (препоръчително на пудра)",
+      "40 г кокосово брашно",
+      "15 г кокосови стърготини",
+      "2 г ксантанова гума (задължителна за спойка)",
+      "70 г кокосово масло (разтопено и охладено до стайна температура)",
+      "4 бр. яйца (размер L), разделени на белтъци и жълтъци",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "90 г еритритол (препоръчително на пудра)\n40 г кокосово брашно\n15 г кокосови стърготини\n2 г ксантанова гума (задължителна за спойка)\n70 г кокосово масло (разтопено и охладено до стайна температура)\n4 бр. яйца (размер L), разделени на белтъци и жълтъци\nщипка сол",
+    "instruction_steps": [
+      "Подготовка: Загрейте фурната на 170°C (с вентилатор) или 175°C (без). Подгответе две форми (18 см) с хартия за печене.",
+      "Суха смес: В купа смесете кокосовото брашно, кокосовите стърготини и ксантановата гума. Разбъркайте добре, за да няма бучки от гумата.",
+      "Жълтъчна основа: Разбийте жълтъците с миксер заедно с охладеното течно кокосово масло и половината еритритол, докато сместа изсветлее и стане кремообразна.",
+      "Белтъчен обем: В чиста и суха купа разбийте белтъците със солта на ниска скорост до образуване на пяна. Добавете останалия еритритол и увеличете скоростта до получаване на устойчиви, твърди пикове.",
+      "Обединяване: Към жълтъчната смес добавете 1/3 от белтъците и разбъркайте внимателно с шпатула, за да олекотите текстурата. След това излейте тази смес при останалите белтъци.",
+      "Финално смесване: Добавете сухите съставки на три части, като ги пресявате над сместа. Разбърквайте с шпатула с движение „загребване“ (отдолу-нагоре), докато всичко се обедини, без да губите обема на белтъците.",
+      "Печене: Разпределете тестото равномерно. Печете 25–30 минути. Проверете с клечка – кокосовото брашно съхне бързо, не препичайте.",
+      "Стабилизация: Извадете и охладете напълно. Завийте във фолио и приберете в хладилник – това прави блата по-еластичен и лесен за рязане."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "текстурата. След това излейте тази смес при останалите белтъци.\n\nФинално смесване",
+        "content": "Добавете сухите съставки на три части, като ги пресявате над сместа. Разбърквайте с шпатула с движение „загребване“ (отдолу-нагоре), докато всичко се обедини, без да губите обема на белтъците.",
+        "content_en": "Add the dry ingredients in three parts, sifting them over the mixture. Stir with a spatula using a \"folding\" motion (bottom to top) until everything is combined, without losing the volume of the egg whites."
+      }
+    ],
+    "description_en": "🥥 Coconut Layers (Optimized Recipe)",
+    "ingredients_text_en": "90 g erythritol (preferably powdered)\n40 g coconut flour\n15 g shredded coconut\n2 g xanthan gum (essential for binding)\n70 g coconut oil (melted and cooled to room temperature)\n4 large eggs, separated into whites and yolks\npinch of salt",
+    "instruction_steps_en": [
+      "Preparation: Preheat the oven to 170°C (fan) or 175°C (without). Prepare two (18 cm) cake pans with parchment paper.",
+      "Dry mixture: In a bowl, mix the coconut flour, shredded coconut, and xanthan gum. Stir well to avoid lumps of gum.",
+      "Egg yolk base: Beat the egg yolks with a mixer together with the cooled liquid coconut oil and half of the erythritol until the mixture lightens and becomes creamy.",
+      "Egg white volume: In a clean and dry bowl, beat the egg whites with the salt on low speed until foamy. Add the remaining erythritol and increase the speed until stiff, firm peaks form.",
+      "Combining: Add 1/3 of the egg whites to the yolk mixture and gently fold with a spatula to lighten the texture. Then pour this mixture into the remaining egg whites.",
+      "Final mixing: Add the dry ingredients in three parts, sifting them over the mixture. Fold with a spatula using a \"scooping\" motion (from bottom to top) until everything is combined, without losing the volume of the egg whites.",
+      "Baking: Distribute the batter evenly. Bake for 25–30 minutes. Check with a toothpick – coconut flour dries quickly, do not overbake.",
+      "Stabilization: Remove and let cool completely. Wrap in foil and store in the refrigerator – this makes the cake layer more elastic and easier to cut."
+    ]
+  },
+  {
+    "name": "Ванилов блат",
+    "name_en": "Vanilla Base",
+    "line_start": 184,
+    "line_end": 228,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 33,
+    "description_bg": "🍦 Ванилов блат (Оптимизирана рецепта)\nКомбинацията от псилиум и ксантанова гума тук създава перфектната имитация на пандишпан.",
+    "ingredients_list": [
+      "100 г еритритол (пудра)",
+      "50 г бадемово брашно",
+      "10 г кокосово брашно",
+      "12 г псилиум хуск (фино смлян)",
+      "2 г ксантанова гума",
+      "5 г бакпулвер",
+      "4 бр. яйца (размер L), разделени",
+      "30 г кокосово масло (разтопено и охладено)",
+      "5 г ванилов екстракт",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "100 г еритритол (пудра)\n50 г бадемово брашно\n10 г кокосово брашно\n12 г псилиум хуск (фино смлян)\n2 г ксантанова гума\n5 г бакпулвер\n4 бр. яйца (размер L), разделени\n30 г кокосово масло (разтопено и охладено)\n5 г ванилов екстракт\nщипка сол",
+    "instruction_steps": [
+      "Подготовка: Фурна на 175°C. Подгответе две форми по 18 см.",
+      "Микс от брашна: Смесете бадемовото, кокосовото брашно, псилиума, ксантановата гума и бакпулвера. Разбъркайте с телена бъркалка, за да разбиете бучките.",
+      "Емулсия: Разбийте жълтъците с охладеното масло, ванилията и 50 г от еритритола с миксер до пухкавост.",
+      "Меринг: Разбийте белтъците със солта и останалите 50 г еритритол до \"твърди пикове\" (сместа не трябва да пада от обърната купа).",
+      "Смесване: Смесете жълтъците с белтъците много внимателно с шпатула.",
+      "Хидратация (Важно): Добавете сухите съставки и разбъркайте внимателно. Оставете тестото да \"отпочине\" 5 минути в купата. През това време псилиумът ще поеме влагата и ще стабилизира структурата.",
+      "Печене: Разпределете в двете форми. Печете около 30-35 минути. Не отваряйте фурната първите 25 минути!",
+      "Шеф Техника: След като клечката излезе суха, изключете фурната и оставете блатовете вътре на открехната врата за 5 минути. Това предотвратява \"шоковото\" свиване на блата.",
+      "Охлаждане: След като изстинат на стайна температура, задължително ги приберете в хладилник за 2 часа (увити във фолио), преди да сглобявате тортата."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Важно)",
+        "content": "Добавете сухите съставки и разбъркайте внимателно. Оставете тестото да \"отпочине\" 5 минути в купата. През това време псилиумът ще поеме влагата и ще стабилизира структурата.",
+        "content_en": "Add the dry ingredients and mix carefully. Let the dough \"rest\" for 5 minutes in the bowl. During this time, the psyllium will absorb the moisture and stabilize the structure."
+      },
+      {
+        "title_bg": "Шеф Техника",
+        "content": "След като клечката излезе суха, изключете фурната и оставете блатовете вътре на открехната врата за 5 минути. Това предотвратява \"шоковото\" свиване на блата.",
+        "content_en": "After the toothpick comes out dry, turn off the oven and leave the layers inside with the door ajar for 5 minutes. This prevents the \"shock\" shrinkage of the layer."
+      }
+    ],
+    "description_en": "🍦 Vanilla sponge (Optimized recipe)",
+    "ingredients_text_en": "100 g erythritol (powdered)\n50 g almond flour\n10 g coconut flour\n12 g psyllium husk (finely ground)\n2 g xanthan gum\n5 g baking powder\n4 large eggs (size L), separated\n30 g coconut oil (melted and cooled)\n5 g vanilla extract\npinch of salt",
+    "instruction_steps_en": [
+      "Preparation: Oven at 175°C. Prepare two 18 cm pans.",
+      "Flour mix: Combine almond flour, coconut flour, psyllium, xanthan gum, and baking powder. Stir with a whisk to break up any lumps.",
+      "Emulsion: Beat the egg yolks with the melted butter, vanilla, and 50 g of erythritol with a mixer until fluffy.",
+      "Meringue: Whip the egg whites with salt and the remaining 50 g of erythritol until \"stiff peaks\" (the mixture should not fall from an inverted bowl).",
+      "Mixing: Carefully fold the egg yolks into the egg whites using a spatula.",
+      "Hydration (Important): Add the dry ingredients and mix gently. Let the batter \"rest\" for 5 minutes in the bowl. During this time, the psyllium will absorb moisture and stabilize the structure.",
+      "Baking: Distribute into the two pans. Bake for about 30-35 minutes. Do not open the oven for the first 25 minutes!",
+      "Chef Technique: Once the toothpick comes out dry, turn off the oven and leave the cakes inside with the door ajar for 5 minutes. This prevents \"shock\" shrinking of the cake.",
+      "Cooling: After cooling to room temperature, be sure to refrigerate them for 2 hours (wrapped in foil) before assembling the cake."
+    ]
+  },
+  {
+    "name": "Лимонов блат",
+    "name_en": "Lemon Base",
+    "line_start": 229,
+    "line_end": 274,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 33,
+    "description_bg": "👩‍🍳 Ревизирана Рецепта: Лимонов блат",
+    "ingredients_list": [
+      "110 г еритритол пудра (разделен на две)",
+      "70 г бадемово брашно",
+      "10 г кокосово брашно",
+      "10 г псилиум хуск (фино смлян)",
+      "2 г ксантанова гума",
+      "5 г бакпулвер",
+      "4 яйца (L), разделени",
+      "30 г лимонов сок (прясно изцеден)",
+      "Настъргана кора от 1 био лимон",
+      "30 г разтопено кокосово масло или масло (охладено) – добавям го за мекота",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "110 г еритритол пудра (разделен на две)\n70 г бадемово брашно\n10 г кокосово брашно\n10 г псилиум хуск (фино смлян)\n2 г ксантанова гума\n5 г бакпулвер\n4 яйца (L), разделени\n30 г лимонов сок (прясно изцеден)\nНастъргана кора от 1 био лимон\n30 г разтопено кокосово масло или масло (охладено) – добавям го за мекота\nщипка сол",
+    "instruction_steps": [
+      "Фурна: Загрейте на 165°C (с вентилатор). Подгответе две форми от 18 см.",
+      "Сухи съставки: Смесете бадемовото, кокосовото брашно, псилиума, ксантановата гума и бакпулвера. Пресейте ги.",
+      "Жълтъчна база: Разбийте жълтъците с половината еритритол, лимоновия сок, лимоновата кора и разтопената мазнина. Разбивайте с миксер (не блендер), докато сместа стане светла и леко се сгъсти.",
+      "Меринг: Разбийте белтъците със солта до меки пикове, добавете останалия еритритол и разбийте до твърд, лъскав сняг.",
+      "Внимателно смесване: Добавете жълтъчната смес към белтъците. След това пресейте сухите съставки отгоре. Бъркайте с шпатула \"отдолу-нагоре\" изключително нежно. Лимоновата киселина прави белтъците малко по-нестабилни, затова работете бързо, но внимателно.",
+      "Печене: Разпределете сместа. Печете 30–35 минути. Проверете с клечка.",
+      "Охлаждане: Оставете за 5-10 минути в изключена фурна на открехната врата. Извадете, охладете и задължително завийте във фолио преди хладилника, за да запазите лимоновия аромат."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Шеф съвет",
+        "content": "Този блат е идеален за сиропиране с лимонада (вода, еритритол и малко лимонов сок), защото киселинността му позволява да поеме повече влага без да стане клисав.",
+        "content_en": "This cake layer is ideal for soaking with lemonade (water, erythritol, and a little lemon juice) because its acidity allows it to absorb more moisture without becoming gummy."
+      },
+      {
+        "title_bg": "📝 Бележка за твоето приложение (Logic check)",
+        "content": "В лимоновите десерти кората на лимона съдържа етерични масла, които дават истинския аромат. Инструктирай потребителите в приложението: \"Винаги настъргвайте само жълтата част на кората, тъй като бялата под нея е горчива и може да развали финия вкус на кето десерта.\"",
+        "content_en": "In lemon desserts, the lemon zest contains essential oils that provide the true aroma. Instruct users in the app: \"Always grate only the yellow part of the zest, as the white part underneath is bitter and can ruin the delicate flavor of the keto dessert.\""
+      }
+    ],
+    "description_en": "👩‍🍳 Revised Recipe: Lemon Cake",
+    "ingredients_text_en": "110 g powdered erythritol (divided into two)\n70 g almond flour\n10 g coconut flour\n10 g psyllium husk (finely ground)\n2 g xanthan gum\n5 g baking powder\n4 eggs (L), separated\n30 g lemon juice (freshly squeezed)\nZest of 1 organic lemon\n30 g melted coconut oil or butter (cooled) – I add it for softness\npinch of salt",
+    "instruction_steps_en": [
+      "Oven: Preheat to 165°C (fan). Prepare two 18 cm pans.",
+      "Dry ingredients: Mix the almond flour, coconut flour, psyllium, xanthan gum, and baking powder. Sift them.",
+      "Egg yolk base: Beat the egg yolks with half of the erythritol, lemon juice, lemon zest, and melted fat. Whip with a mixer (not a blender) until the mixture becomes light and slightly thickens.",
+      "Meringue: Whip the egg whites with the salt until soft peaks form, add the remaining erythritol, and whip to stiff, glossy peaks.",
+      "Gentle mixing: Add the egg yolk mixture to the egg whites. Then sift the dry ingredients on top. Fold gently with a spatula \"from bottom to top.\" The citric acid makes the egg whites a bit more unstable, so work quickly but carefully.",
+      "Baking: Distribute the mixture. Bake for 30–35 minutes. Check with a toothpick.",
+      "Cooling: Leave for 5-10 minutes in the turned-off oven with the door ajar. Remove, cool, and be sure to wrap in foil before refrigerating to preserve the lemon aroma."
+    ]
+  },
+  {
+    "name": "Морковен блат",
+    "name_en": "Carrot Base",
+    "line_start": 275,
+    "line_end": 323,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 25,
+    "bake": 40,
+    "description_bg": "👩‍🍳 Ревизирана Рецепта: Кето Морковен блат",
+    "ingredients_list": [
+      "70 г еритритол пудра (разделен)",
+      "70 г бадемово брашно",
+      "10 г кокосово брашно",
+      "4 яйца (L), разделени",
+      "10 г кокосово масло (разтопено и охладено)",
+      "50 г орехи или пекан (нарязани, не на брашно)",
+      "120 г моркови (настъргани на ситно и леко изстискани)",
+      "Подправки: 1 ч.л. канела, 1/2 ч.л. джинджифил, 1/4 ч.л. кардамон",
+      "2 г ксантанова гума (около 1/2 ч.л.)",
+      "1 ч.л. бакпулвер (добавям го за стабилност)",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "70 г еритритол пудра (разделен)\n70 г бадемово брашно\n10 г кокосово брашно\n4 яйца (L), разделени\n10 г кокосово масло (разтопено и охладено)\n50 г орехи или пекан (нарязани, не на брашно)\n120 г моркови (настъргани на ситно и леко изстискани)\nПодправки: 1 ч.л. канела, 1/2 ч.л. джинджифил, 1/4 ч.л. кардамон\n2 г ксантанова гума (около 1/2 ч.л.)\n1 ч.л. бакпулвер (добавям го за стабилност)\nщипка сол",
+    "instruction_steps": [
+      "Подготовка: Фурна на 165°C (с вентилатор). По-ниската температура е критична тук, за да може центърът да изсъхне, без краищата да изгорят.",
+      "Сух микс: Смесете бадемовото, кокосовото брашно, подправките, ксантановата гума и бакпулвера.",
+      "Жълтъци: Разбийте жълтъците с маслото и половината еритритол до светъл крем. (Използвайте миксер, пасаторът ще втечни жълтъците прекалено много).",
+      "Белтъци: Разбийте белтъците със солта и останалия еритритол до устойчив сняг (твърди пикове).",
+      "Смесване (Folding): Към жълтъците добавете 1/3 от белтъците, за да отпуснете сместа. След това добавете сухите съставки през сито.",
+      "Моркови и Ядки: Накрая добавете настърганите моркови и нарязаните ядки. Разбъркайте много внимателно с шпатула. Те ще се разпределят равномерно, без да смачкат въздуха в тестото.",
+      "Печене: Разпределете в две форми по 18 см. Печете 35–45 минути. Проверете с дървено шишче – то трябва да излезе напълно сухо.",
+      "Стабилизация: Оставете 10 минути в изключена фурна. След като изстинат, завийте във фолио. Този блат е най-вкусен след 12 часа в хладилника, когато подправките се \"отпуснат\"."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Текстура",
+        "content": "Морковеният блат е естествено по-плътен. Ако потребителят иска по-въздушна торта, препоръчай му да използва \"Ваниловия блат\", но да добави подправките и лимонова кора.",
+        "content_en": "The carrot layer is naturally denser. If the user wants a lighter cake, recommend using the \"Vanilla layer\" but to add the spices and lemon zest."
+      },
+      {
+        "title_bg": "Шеф съвет",
+        "content": "Морковеният блат плаче за Крем сирене (Frosting). Искаш ли да прегледаме рецепта за класически кето глазура с маскарпоне и масло, която да завърши тази торта?",
+        "content_en": "The carrot cake is crying out for cream cheese frosting. Would you like to review a recipe for classic keto frosting with mascarpone and butter to finish this cake?"
+      },
+      {
+        "title_bg": "💡 Логика за твоето приложение (App Advice)",
+        "content": "Морковите: В приложението добави забележка: \"Морковите съдържат естествени захари. За стриктно кето, не превишавайте грамажа им в рецептата.\"",
+        "content_en": "Carrots: In the application, add a note: \"Carrots contain natural sugars. For strict keto, do not exceed their weight in the recipe.\""
+      }
+    ],
+    "description_en": "👩‍🍳 Revised Recipe: Keto Carrot Cake Base",
+    "ingredients_text_en": "70 g powdered erythritol (divided)\n70 g almond flour\n10 g coconut flour\n4 eggs (L), separated\n10 g coconut oil (melted and cooled)\n50 g walnuts or pecans (chopped, not ground)\n120 g carrots (finely grated and lightly squeezed)\nSpices: 1 tsp cinnamon, 1/2 tsp ginger, 1/4 tsp cardamom\n2 g xanthan gum (about 1/2 tsp)\n1 tsp baking powder (I add it for stability)\npinch of salt",
+    "instruction_steps_en": [
+      "Preparation: Oven at 165°C (with fan). The lower temperature is critical here to allow the center to dry out without the edges burning.",
+      "Dry mix: Combine almond flour, coconut flour, spices, xanthan gum, and baking powder.",
+      "Egg yolks: Whisk the egg yolks with the butter and half of the erythritol until light and creamy. (Use a mixer; a blender will liquefy the yolks too much).",
+      "Egg whites: Whisk the egg whites with the salt and the remaining erythritol until stiff peaks form.",
+      "Mixing (Folding): Add 1/3 of the egg whites to the yolks to loosen the mixture. Then add the dry ingredients through a sieve.",
+      "Carrots and Nuts: Finally, add the grated carrots and chopped nuts. Gently fold in with a spatula. They will distribute evenly without crushing the air in the batter.",
+      "Baking: Divide into two 18 cm pans. Bake for 35–45 minutes. Check with a wooden skewer – it should come out completely dry.",
+      "Stabilization: Leave for 10 minutes in the turned-off oven. Once cooled, wrap in foil. This layer is most delicious after 12 hours in the refrigerator when the spices have \"settled.\""
+    ]
+  },
+  {
+    "name": "Маслен морковен блат",
+    "name_en": "Butter Carrot Base",
+    "line_start": 324,
+    "line_end": 364,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 25,
+    "bake": 45,
+    "description_bg": "Рецепта: Маслен морковен блат (Heavy Carrot Base)",
+    "ingredients_list": [
+      "80 г еритритол пудра",
+      "200 г бадемово брашно",
+      "20 г кокосово брашно (Добавям го, за да абсорбира влагата от 300 г моркови)",
+      "3 яйца (L) – стайна температура",
+      "150 г краве масло – много меко",
+      "100 г орехи или пекан (едро нарязани)",
+      "300 г моркови (фино настъргани и добре изцедени)",
+      "Подправки: 1 ч.л. канела, 1 ч.л. джинджифил, 1/2 ч.л. кардамон",
+      "1 ч.л. бакпулвер (Задължително!)",
+      "1/2 ч.л. ксантанова гума",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "80 г еритритол пудра\n200 г бадемово брашно\n20 г кокосово брашно (Добавям го, за да абсорбира влагата от 300 г моркови)\n3 яйца (L) – стайна температура\n150 г краве масло – много меко\n100 г орехи или пекан (едро нарязани)\n300 г моркови (фино настъргани и добре изцедени)\nПодправки: 1 ч.л. канела, 1 ч.л. джинджифил, 1/2 ч.л. кардамон\n1 ч.л. бакпулвер (Задължително!)\n1/2 ч.л. ксантанова гума\nщипка сол",
+    "instruction_steps": [
+      "Фурна: Загрейте на 165°C. Подгответе формите (18 см) с хартия.",
+      "Маслена база: Разбийте мекото масло с еритритола, докато стане на бял крем (около 5 мин). Добавете яйцата едно по едно, като разбивате след всяко.",
+      "Сухи съставки: Смесете бадемовото брашно, кокосовото брашно (нашият таен агент срещу влагата), подправките, бакпулвера, солта и ксантановата гума.",
+      "Смесване: Добавете сухите съставки към маслената смес. Ще получите гъсто тесто.",
+      "Финал: Добавете изстисканите моркови и ядките. Разбъркайте с шпатула.",
+      "Печене: Разпределете в двете форми. Печете 40–50 минути. Поради голямото количество моркови и масло, печенето е по-дълго. Проверете с шишче – трябва да излезе чисто.",
+      "Важно охлаждане: Тези блатове са много меки, докато са топли. Оставете ги да изстинат напълно във формата, преди да ги вадите. След това хладилник (увити във фолио) за поне 4-6 часа."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Важно охлаждане",
+        "content": "Тези блатове са много меки, докато са топли. Оставете ги да изстинат напълно във формата, преди да ги вадите. След това хладилник (увити във фолио) за поне 4-6 часа.",
+        "content_en": "These layers are very soft while warm. Let them cool completely in the pan before removing them. Then refrigerate (wrapped in foil) for at least 4-6 hours."
+      }
+    ],
+    "description_en": "Recipe: Buttery Carrot Base",
+    "ingredients_text_en": "80 g powdered erythritol\n200 g almond flour\n20 g coconut flour (I add it to absorb the moisture from 300 g of carrots)\n3 eggs (L) – room temperature\n150 g butter – very soft\n100 g walnuts or pecans (coarsely chopped)\n300 g carrots (finely grated and well squeezed)\nSpices: 1 tsp cinnamon, 1 tsp ginger, 1/2 tsp cardamom\n1 tsp baking powder (Mandatory!)\n1/2 tsp xanthan gum\npinch of salt",
+    "instruction_steps_en": [
+      "Oven: Preheat to 165°C. Prepare the pans (18 cm) with parchment paper.",
+      "Butter base: Beat the soft butter with the erythritol until it becomes a white cream (about 5 minutes). Add the eggs one by one, mixing after each.",
+      "Dry ingredients: Combine the almond flour, coconut flour (our secret agent against moisture), spices, baking powder, salt, and xanthan gum.",
+      "Mixing: Add the dry ingredients to the butter mixture. You will get a thick dough.",
+      "Final: Add the squeezed carrots and nuts. Stir with a spatula.",
+      "Baking: Distribute into the two pans. Bake for 40–50 minutes. Due to the large amount of carrots and butter, the baking time is longer. Check with a skewer – it should come out clean.",
+      "Important cooling: These layers are very soft while warm. Let them cool completely in the pan before removing. Then refrigerate (wrapped in foil) for at least 4-6 hours."
+    ]
+  },
+  {
+    "name": "Шоколадов блат Rich",
+    "name_en": "Rich Chocolate Base",
+    "line_start": 498,
+    "line_end": 543,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 45,
+    "description_bg": "- Рецепта: Много шоколадов блат (Rich Chocolate Base)",
+    "ingredients_list": [
+      "120 г еритритол пудра",
+      "150 г меко краве масло (мин. 82%)",
+      "4 яйца (размер L) – стайна температура",
+      "50 г течна готварска сметана (30-35% масленост)",
+      "30 мл горещо кафе или вряла вода (Тайната на сочния шоколадов блат!)",
+      "60 г бадемово брашно",
+      "60 г качествено какао",
+      "10 г бакпулвер (около 2 ч.л.)",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "120 г еритритол пудра\n150 г меко краве масло (мин. 82%)\n4 яйца (размер L) – стайна температура\n50 г течна готварска сметана (30-35% масленост)\n30 мл горещо кафе или вряла вода (Тайната на сочния шоколадов блат!)\n60 г бадемово брашно\n60 г качествено какао\n10 г бакпулвер (около 2 ч.л.)\nщипка сол",
+    "instruction_steps": [
+      "Подготовка: Фурна на 165°C (с вентилатор). Форма 18 см с хартия на дъното.",
+      "Крем-метод: Разбийте мекото масло с еритритола за поне 5 минути, докато стане светъл и много пухкав крем.",
+      "Емулсия: Добавяйте яйцата едно по едно. След всяко яйце разбивайте добре, докато се поеме напълно, преди да добавите следващото.",
+      "Течности: Добавете сметаната и горещото кафе/вода. Разбъркайте за кратко. (Горещата течност помага на какаото да освободи аромата си).",
+      "Сухи съставки: Смесете бадемовото брашно, какаото, бакпулвера и солта. Пресейте ги над маслената смес.",
+      "Финално смесване: Разбъркайте с миксера на най-ниска скорост само докато сухите съставки се поемат. Не прекалявайте с бъркането!",
+      "Печене: Печете 40–50 минути. Тъй като блатът е богат на мазнини, той се пече малко по-бавно в центъра.",
+      "Охлаждане: Оставете го да изстине напълно във формата. Този блат е много крехък, докато е топъл, заради маслото."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "💡 Логика за приложението (App Advice)",
+        "content": "Рязане на три блата: Тъй като кето блатовете нямат глутен, те са по-ронливи от обикновените. В приложението дай съвет: \"За да разрежете блата лесно на три равни части, той трябва да е престоял в хладилник поне 6-8 часа. Използвайте конец или много остър назъбен нож.\"",
+        "content_en": "Cutting three layers: Since keto layers do not contain gluten, they are more crumbly than regular ones. In the application, give the advice: \"To easily cut the layer into three equal parts, it should have rested in the refrigerator for at least 6-8 hours. Use a string or a very sharp serrated knife.\""
+      }
+    ],
+    "description_en": "- Recipe: Very Chocolatey Base (Rich Chocolate Base)",
+    "ingredients_text_en": "120 g powdered erythritol\n150 g soft butter (min. 82%)\n4 eggs (size L) – room temperature\n50 g liquid cooking cream (30-35% fat content)\n30 ml hot coffee or boiling water (The secret to a moist chocolate cake!)\n60 g almond flour\n60 g quality cocoa\n10 g baking powder (about 2 tsp)\npinch of salt",
+    "instruction_steps_en": [
+      "Preparation: Oven at 165°C (fan). 18 cm pan with parchment paper on the bottom.",
+      "Cream method: Beat the softened butter with the erythritol for at least 5 minutes until it becomes a light and very fluffy cream.",
+      "Emulsion: Add the eggs one by one. After each egg, mix well until fully incorporated before adding the next one.",
+      "Liquids: Add the cream and hot coffee/water. Stir briefly. (The hot liquid helps the cocoa release its flavor).",
+      "Dry ingredients: Mix the almond flour, cocoa, baking powder, and salt. Sift them over the butter mixture.",
+      "Final mixing: Stir with the mixer on the lowest speed just until the dry ingredients are absorbed. Do not overmix!",
+      "Baking: Bake for 40–50 minutes. Since the batter is high in fat, it bakes a little slower in the center.",
+      "Cooling: Allow it to cool completely in the pan. This cake is very fragile while warm due to the butter."
+    ]
+  },
+  {
+    "name": "Бадемов блат Swedish Style",
+    "name_en": "Swedish Almond Base",
+    "line_start": 582,
+    "line_end": 615,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 23,
+    "description_bg": "Рецепта: Бадемови блатове (Swedish Style)",
+    "ingredients_list": [
+      "6 белтъка (L) – стайна температура",
+      "140 г бадемово брашно (фино)",
+      "70 г еритритол пудра",
+      "2 г ксантанова гума (около 1/2 ч.л.)",
+      "1/4 ч.л. сол (намалихме я, за да не доминира)",
+      "няколко капки лимонов сок (за стабилност)"
+    ],
+    "ingredients_text_bg": "6 белтъка (L) – стайна температура\n140 г бадемово брашно (фино)\n70 г еритритол пудра\n2 г ксантанова гума (около 1/2 ч.л.)\n1/4 ч.л. сол (намалихме я, за да не доминира)\nняколко капки лимонов сок (за стабилност)",
+    "instruction_steps": [
+      "Фурна: Загрейте на 160°C (с вентилатор). Подгответе формите или хартията по твоя отличен метод с очертаването.",
+      "Белтъчен сняг: Разбийте белтъците със солта и лимоновия сок до меки върхове. Започнете да добавяте еритритола пудра лъжица по лъжица, докато получите твърди и лъскави върхове (като за целувки).",
+      "Суха смес: Смесете бадемовото брашно с ксантановата гума в отделен съд и ги разбъркайте добре.",
+      "Внимателно обединяване (Folding): Добавете бадемовото брашно към белтъците на 3 порции. Важно: Не използвайте миксер! Смесвайте с шпатула, като загребвате от дъното нагоре. Спрете веднага щом брашното се поеме – не прекалявайте, за да не втечните сместа.",
+      "Печене: Разпределете в двете форми (18 см). Загладете повърхността. Печете 20–25 минути. Блатовете трябва да са златисти и пружиниращи при допир.",
+      "Охлаждане: Извадете от формите след 5 минути. Внимавайте – тези блатове са много нежни, докато са топли. Оставете ги да изстинат напълно на решетка."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Важно",
+        "content": "Не използвайте миксер! Смесвайте с шпатула, като загребвате от дъното нагоре. Спрете веднага щом брашното се поеме – не прекалявайте, за да не втечните сместа.",
+        "content_en": "Do not use a mixer! Mix with a spatula, scooping from the bottom upwards. Stop as soon as the flour is absorbed – do not overmix, to avoid thinning the batter."
+      },
+      {
+        "title_bg": "Текстурата",
+        "content": "Тези блатове са естествено по-ниски и плътни от пандишпана. В приложението уточни: \"Тези блатове са в стил 'дакуаз' – те не бухват много, но са изключително богати на вкус и аромат.\"",
+        "content_en": "These layers are naturally lower and denser than sponge cake. In the application, specify: \"These layers are in the style of 'dacquoise' – they don't rise much, but they are extremely rich in flavor and aroma.\""
+      },
+      {
+        "title_bg": "Класическата комбинация",
+        "content": "В конструктора този блат задължително се свързва с Яйчен маслен крем (Yellow Egg Yolk Cream) – точно както е в оригиналната торта на Икеа. Тъй като за блатовете ползваме 6 белтъка, кремът трябва да използва останалите 6 жълтъка. Това е перфектната \"zero waste\" (без отпадък) рецепта.",
+        "content_en": "In the constructor, this layer must be paired with Yellow Egg Yolk Cream – just like in the original Ikea cake. Since we use 6 egg whites for the layers, the cream should use the remaining 6 egg yolks. This is the perfect \"zero waste\" recipe."
+      },
+      {
+        "title_bg": "💡 Логика за твоето приложение (App Advice)",
+        "content": "Текстурата: Тези блатове са естествено по-ниски и плътни от пандишпана. В приложението уточни: \"Тези блатове са в стил 'дакуаз' – те не бухват много, но са изключително богати на вкус и аромат.\"",
+        "content_en": "The texture: These layers are naturally lower and denser than sponge cake. In the application, specify: \"These layers are in the style of 'dacquoise' – they do not rise much, but are extremely rich in flavor and aroma.\""
+      }
+    ],
+    "description_en": "Recipe: Almond Layers (Swedish Style)",
+    "ingredients_text_en": "6 egg whites (L) – room temperature\n140 g almond flour (fine)\n70 g powdered erythritol\n2 g xanthan gum (about 1/2 tsp)\n1/4 tsp salt (we reduced it so it doesn't dominate)\na few drops of lemon juice (for stability)",
+    "instruction_steps_en": [
+      "Oven: Preheat to 160°C (fan). Prepare the pans or parchment paper using your excellent outlining method.",
+      "Egg white foam: Whip the egg whites with salt and lemon juice until soft peaks form. Start adding the erythritol powder tablespoon by tablespoon until you achieve stiff and glossy peaks (like for meringues).",
+      "Dry mixture: Combine the almond flour with xanthan gum in a separate bowl and mix them well.",
+      "Gentle folding: Add the almond flour to the egg whites in 3 portions. Important: Do not use a mixer! Mix with a spatula, scooping from the bottom up. Stop as soon as the flour is incorporated – do not overmix to avoid thinning the mixture.",
+      "Baking: Distribute into the two pans (18 cm). Smooth the surface. Bake for 20–25 minutes. The layers should be golden and spring back when touched.",
+      "Cooling: Remove from the pans after 5 minutes. Be careful – these layers are very delicate while warm. Allow them to cool completely on a rack."
+    ]
+  },
+  {
+    "name": "Блат Гараш",
+    "name_en": "Garash Base",
+    "line_start": 616,
+    "line_end": 652,
+    "is_variant": false,
+    "difficulty": 3,
+    "prep": 20,
+    "bake": 11,
+    "description_bg": "Рецепта: Кето блатове „Гараш“",
+    "ingredients_list": [
+      "6 белтъка (L) – стайна температура",
+      "200 г орехи (фино смлени, но сухи)",
+      "100 г еритритол пудра",
+      "2 г ксантанова гума (1/2 ч.л.)",
+      "Щипка сол",
+      "Няколко капки лимонов сок"
+    ],
+    "ingredients_text_bg": "6 белтъка (L) – стайна температура\n200 г орехи (фино смлени, но сухи)\n100 г еритритол пудра\n2 г ксантанова гума (1/2 ч.л.)\nЩипка сол\nНяколко капки лимонов сок",
+    "instruction_steps": [
+      "Фурна: Загрейте на 160°C (с вентилатор). Твоят метод с очертаването на хартията е задължителен тук, защото блатовете са много тънки и се чупят лесно при вадене от дълбока форма.",
+      "Меринг: Разбийте белтъците със солта и лимона до меки пикове. Добавете еритритола, смесен с ксантановата гума, и разбийте до твърд, лъскав сняг.",
+      "Орехите: Изсипете смлените орехи върху белтъците. Използвайте голяма шпатула и разбъркайте много нежно, като режете сместа през средата и обръщате отдолу-нагоре. Целта е да запазите колкото се може повече въздух.",
+      "Разпределяне: Разпределете сместа на 5 тънки блата (традиционно Гараш е с 5 слоя) или на 2-3 по-дебели за по-лесно сглобяване в твоя 18 см ринг.",
+      "Печене: Печете 10–12 минути на 160°C. Внимавайте – щом краищата станат златисти, са готови.",
+      "Стабилизация: Оставете ги да изстинат напълно върху хартията, преди да се опитвате да ги отлепите."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Шеф съвет",
+        "content": "Класическият крем Гараш е само сметана и шоколад (ганаш). Ако потребителят избере тези блатове, приложението трябва да му предложи Кето шоколадов ганаш (със сметана и какао/черен шоколад).",
+        "content_en": "The classic Garash cream is just cream and chocolate (ganache). If the user chooses these layers, the app should offer them Keto chocolate ganache (with cream and cocoa/dark chocolate)."
+      },
+      {
+        "title_bg": "💡 Логика за твоето приложение (App Advice)",
+        "content": "Брой блатове: В оригиналната торта блатовете са 5. Тъй като твоето приложение е „Конструктор“, дай опция: „За класически Гараш разпределете сместа на 5 тънки диска. За по-бърза версия – на 2 по-дебели блата.“",
+        "content_en": "Number of layers: In the original cake, there are 5 layers. Since your application is \"Builder,\" provide the option: \"For classic Gharash, divide the mixture into 5 thin discs. For a quicker version – into 2 thicker layers.\""
+      }
+    ],
+    "description_en": "Recipe: Keto \"Garash\" Layers",
+    "ingredients_text_en": "6 egg whites (L) – room temperature\n200 g walnuts (finely ground, but dry)\n100 g powdered erythritol\n2 g xanthan gum (1/2 tsp)\nA pinch of salt\nA few drops of lemon juice",
+    "instruction_steps_en": [
+      "Oven: Preheat to 160°C (with fan). Your method of outlining the paper is essential here because the layers are very thin and break easily when removed from a deep pan.",
+      "Meringue: Whip the egg whites with the salt and lemon until soft peaks form. Add the erythritol mixed with xanthan gum, and whip until stiff, glossy peaks form.",
+      "Walnuts: Pour the ground walnuts over the egg whites. Use a large spatula and gently fold, cutting through the mixture from the middle and turning it over from bottom to top. The goal is to retain as much air as possible.",
+      "Distribution: Spread the mixture into 5 thin layers (traditionally, Garash has 5 layers) or into 2-3 thicker ones for easier assembly in your 18 cm ring.",
+      "Baking: Bake for 10–12 minutes at 160°C. Be careful – as soon as the edges turn golden, they are ready.",
+      "Stabilization: Allow them to cool completely on the paper before attempting to peel them off."
+    ]
+  },
+  {
+    "name": "Брауни блат без брашно",
+    "name_en": "Flourless Brownie Base",
+    "line_start": 653,
+    "line_end": 688,
+    "is_variant": false,
+    "difficulty": 2,
+    "prep": 20,
+    "bake": 38,
+    "description_bg": "Рецепта: Кето Брауни блат (Flourless)",
+    "ingredients_list": [
+      "100 г натурален шоколад без захар (мин. 70% какао)",
+      "100 г краве масло (мин. 82% масленост)",
+      "6 яйца (L) – задължително на стайна температура",
+      "100 г еритритол пудра",
+      "Щипка сол и 1 ч.л. ванилов екстракт"
+    ],
+    "ingredients_text_bg": "100 г натурален шоколад без захар (мин. 70% какао)\n100 г краве масло (мин. 82% масленост)\n6 яйца (L) – задължително на стайна температура\n100 г еритритол пудра\nЩипка сол и 1 ч.л. ванилов екстракт",
+    "instruction_steps": [
+      "Подготовка: Загрейте фурната на 155°C (без вентилатор). Покрийте дъното и страните на формата (18 см) с хартия за печене.",
+      "Шоколадова база: Разтопете маслото и шоколада на водна баня или в микровълнова на кратки импулси. Разбъркайте до гладкост и оставете да се охлади до стайна температура.",
+      "Жълтъци: Добавете жълтъците един по едно към хладния шоколад, като бъркате с телена бъркалка след всяко. Добавете ванилията.",
+      "Меринг: Разбийте белтъците със солта до мека пяна. Започнете да добавяте еритритола пудра и разбийте до меки върхове (soft peaks). Не ги превръщайте в сух сняг, защото ще е трудно да ги вкарате в тежкия шоколад, без да ги „счупите“.",
+      "Обединяване (Folding): Вземете една голяма лъжица от белтъците и я разбъркайте енергично в шоколада. Това се нарича „жертвена доза“ – тя олекотява шоколада. След това добавете останалите белтъци много нежно с шпатула.",
+      "Печене: Изсипете във формата. Печете 35–40 минути. Блатът ще се надуе много и ще се напука леко – това е знак, че е готов.",
+      "Охлаждане: Изключете фурната и оставете блата вътре на открехната врата за 15 минути. Той ще спадне в центъра – не се плашете, това е търсеният ефект за брауни блат!",
+      "Рязане: Този блат е изключително нежен. Задължително го приберете в хладилник за 4-6 часа, преди да се опитвате да го режете на две. Използвайте топъл нож (потопен в гореща вода и подсушен)."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "Текстура",
+        "content": "В приложението обясни: „Този блат не съдържа брашно и има текстура на плътен трюфел. Той е изключително наситен, затова се комбинира най-добре с леки млечни кремове или плодове.“",
+        "content_en": "In the application, it explains: \"This base does not contain flour and has the texture of a dense truffle. It is extremely rich, so it pairs best with light dairy creams or fruits.\""
+      },
+      {
+        "title_bg": "💡 Логика за твоето приложение (App Advice)",
+        "content": "Текстура: В приложението обясни: „Този блат не съдържа брашно и има текстура на плътен трюфел. Той е изключително наситен, затова се комбинира най-добре с леки млечни кремове или плодове.“",
+        "content_en": "Texture: In the application, it explains: \"This layer does not contain flour and has the texture of a dense truffle. It is extremely rich, so it pairs best with light dairy creams or fruits.\""
+      }
+    ],
+    "description_en": "Recipe: Keto Brownie Base (Flourless)",
+    "ingredients_text_en": "100 g natural sugar-free chocolate (min. 70% cocoa)\n100 g butter (min. 82% fat)\n6 eggs (L) – must be at room temperature\n100 g powdered erythritol\nA pinch of salt and 1 tsp vanilla extract",
+    "instruction_steps_en": [
+      "Preparation: Preheat the oven to 155°C (without fan). Line the bottom and sides of the pan (18 cm) with parchment paper.",
+      "Chocolate base: Melt the butter and chocolate in a water bath or in the microwave in short bursts. Stir until smooth and let cool to room temperature.",
+      "Egg yolks: Add the egg yolks one by one to the cooled chocolate, stirring with a whisk after each addition. Add the vanilla.",
+      "Meringue: Whip the egg whites with the salt until soft peaks form. Start adding the powdered erythritol and whip until soft peaks form. Do not turn them into dry snow, as it will be difficult to incorporate them into the heavy chocolate without \"breaking\" them.",
+      "Combining (Folding): Take a large spoonful of the egg whites and stir it vigorously into the chocolate. This is called a \"sacrificial dose\" – it lightens the chocolate. Then gently add the remaining egg whites with a spatula.",
+      "Baking: Pour into the pan. Bake for 35–40 minutes. The cake will puff up significantly and crack slightly – this is a sign that it is ready.",
+      "Cooling: Turn off the oven and leave the cake inside with the door ajar for 15 minutes. It will sink in the center – do not be alarmed, this is the desired effect for brownie cake!",
+      "Cutting: This cake is extremely delicate. Be sure to refrigerate it for 4-6 hours before attempting to cut it in half. Use a warm knife (dipped in hot water and dried)."
+    ]
+  },
+  {
+    "name": "Блат Сахер",
+    "name_en": "Sacher Base",
+    "line_start": 689,
+    "line_end": 732,
+    "is_variant": false,
+    "difficulty": 3,
+    "prep": 25,
+    "bake": 38,
+    "description_bg": "Рецепта: Кето Блат „Сахер“",
+    "ingredients_list": [
+      "4 яйца (L), разделени",
+      "80 мл бадемово или краве мляко",
+      "30 г шоколад (85%+) или какаова маса",
+      "15 г краве масло (добавям го за автентичност)",
+      "20 г какао на прах",
+      "35 г кокосово брашно",
+      "70 г еритритол пудра",
+      "2 г сода за хляб",
+      "10 г лимонов сок",
+      "щипка сол"
+    ],
+    "ingredients_text_bg": "4 яйца (L), разделени\n80 мл бадемово или краве мляко\n30 г шоколад (85%+) или какаова маса\n15 г краве масло (добавям го за автентичност)\n20 г какао на прах\n35 г кокосово брашно\n70 г еритритол пудра\n2 г сода за хляб\n10 г лимонов сок\nщипка сол",
+    "instruction_steps": [
+      "Фурна: Загрейте на 165°C. Подгответе форма 18 см.",
+      "Шоколадов ганаш: Кипнете млякото с еритритола, солта и маслото. Залейте нарязания шоколад и бъркайте до лъскава смес. Оставете да се охлади леко.",
+      "Жълтъци: Разбийте жълтъците и ги смесете с шоколадовата база. Добавете лимоновия сок тук.",
+      "Сухи съставки: Пресейте кокосовото брашно, какаото и содата над шоколадовата смес. Разбъркайте добре. Сместа ще стане доста гъста – това е нормално за кокосовото брашно.",
+      "Белтъци: Разбийте белтъците на твърд сняг.",
+      "Обединяване: Вкарайте 1/3 от белтъците в гъстата шоколадова маса, за да я отпуснете (тук може да ползвате миксер на ниска скорост). Останалите 2/3 вкарайте внимателно с шпатула.",
+      "Печене: Печете 35–40 минути. Проверете с клечка – трябва да излезе почти суха (със съвсем малко влажни трохи, за да остане сочен).",
+      "Охлаждане: Този блат трябва да престои в хладилник. Кокосовото брашно се стабилизира едва след пълно охлаждане."
+    ],
+    "lab_notes": [
+      {
+        "title_bg": "💡 Логика за твоето приложение (App Advice)",
+        "content": "Класиката: В „Конструктора“ предложи на потребителя да намаже този блат с Кето сладко от кайсии (или малини) преди да сложи глазурата. Това е душата на торта Сахер.",
+        "content_en": "The classic: In the \"Constructor,\" suggest to the user to spread this layer with keto apricot (or raspberry) jam before adding the glaze. This is the soul of the Sachertorte."
+      }
+    ],
+    "description_en": "Recipe: Keto Sacher Cake Base",
+    "ingredients_text_en": "4 eggs (L), separated\n80 ml almond or cow's milk\n30 g chocolate (85%+) or cocoa mass\n15 g butter (I add it for authenticity)\n20 g cocoa powder\n35 g coconut flour\n70 g powdered erythritol\n2 g baking soda\n10 g lemon juice\npinch of salt",
+    "instruction_steps_en": [
+      "Oven: Preheat to 165°C. Prepare an 18 cm pan.",
+      "Chocolate ganache: Bring the milk to a boil with the erythritol, salt, and butter. Pour over the chopped chocolate and stir until a glossy mixture forms. Let it cool slightly.",
+      "Egg yolks: Whisk the egg yolks and mix them with the chocolate base. Add the lemon juice here.",
+      "Dry ingredients: Sift the coconut flour, cocoa powder, and baking soda over the chocolate mixture. Mix well. The mixture will become quite thick – this is normal for coconut flour.",
+      "Egg whites: Whip the egg whites to stiff peaks.",
+      "Combining: Fold in 1/3 of the egg whites into the thick chocolate mixture to loosen it (you can use a mixer on low speed here). Carefully fold in the remaining 2/3 with a spatula.",
+      "Baking: Bake for 35–40 minutes. Check with a toothpick – it should come out almost dry (with just a few moist crumbs to keep it moist).",
+      "Cooling: This layer should sit in the refrigerator. Coconut flour stabilizes only after complete cooling."
+    ]
+  }
+]

@@ -1,0 +1,457 @@
+{
+  "lab_notes": [
+    {
+      "recipe_name": "Базова рецепта за въздушни кето блатове",
+      "recipe_name_bg": "Базова рецепта за въздушни кето блатове",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Why Lower Temperature (160°C)",
+          "title_bg": "Защо по-ниска температура (160°C)",
+          "content": "High temperature (180°C) will cause the batter to rise dramatically and then collapse in the center. The 160°C setting provides slower, more controlled expansion.",
+          "content_bg": "Високата температура (180°C) ще накара блата да избухне и след това да колабира (да спадне в средата). Температурата 160°C осигурява по-бавно и контролирано разширяване."
+        },
+        {
+          "category": "technique",
+          "title": "Sifting Is Critical",
+          "title_bg": "Пресяването е критично",
+          "content": "In keto baking, sifting heavy nut flours is essential for the 'airy' effect. Sift dry ingredients twice for best results.",
+          "content_bg": "В кето сладкарството пресяването на 'тежките' ядкови брашна е жизненоважно за 'въздушния' ефект. Пресейте сухите съставки два пъти за най-добри резултати."
+        },
+        {
+          "category": "chef_trick",
+          "title": "Upside-Down Cooling",
+          "title_bg": "Охлаждане с главата надолу",
+          "content": "After removing from oven, invert the cake (upside-down) onto a cooling rack while still in the pan. This prevents the heavy keto structure from collapsing under its own weight.",
+          "content_bg": "След като извадите блата от фурната, го обърнете обратно (с главата надолу) върху решетка, докато е още във формата. Това не позволява на тежката кето структура да се свие под собствената си тежест."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кето кексово тесто",
+      "recipe_name_bg": "Кето кексово тесто",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Psyllium Hydration Time",
+          "title_bg": "Време за хидратация на псилиум",
+          "content": "Let the batter rest for 10 minutes to allow psyllium and coconut flour to absorb moisture. This creates proper structure.",
+          "content_bg": "Оставете тестото да престои 10 минути, за да може псилиумът и кокосовото брашно да абсорбират влагата. Това създава правилна структура."
+        },
+        {
+          "category": "troubleshooting",
+          "title": "If Mixture Starts Splitting",
+          "title_bg": "Ако сместа започне да се пресича",
+          "content": "Add 1 tablespoon of the almond flour if the butter-egg emulsion starts to split. This will stabilize it.",
+          "content_bg": "Добавете 1 с.л. от бадемовото брашно ако маслено-яйчената емулсия започне да се пресича. Това ще я стабилизира."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кокосови блатове",
+      "recipe_name_bg": "Кокосови блатове",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Xanthan Gum Is Mandatory",
+          "title_bg": "Ксантановата гума е задължителна",
+          "content": "2g xanthan gum is critical for binding. Mix it thoroughly with dry ingredients to prevent lumps.",
+          "content_bg": "2 г ксантанова гума (задължителна за спойка). Разбъркайте я добре със сухите съставки, за да няма бучки."
+        },
+        {
+          "category": "storage",
+          "title": "Refrigeration Makes It Elastic",
+          "title_bg": "Хладилникът го прави еластичен",
+          "content": "Wrap in foil and refrigerate - this makes the cake more elastic and easier to slice without crumbling.",
+          "content_bg": "Завийте във фолио и приберете в хладилник – това прави блата по-еластичен и лесен за рязане без да се троши."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Ванилов блат",
+      "recipe_name_bg": "Ванилов блат",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "5-Minute Rest Is Critical",
+          "title_bg": "5-минутната почивка е критична",
+          "content": "Let the batter 'rest' for 5 minutes in the bowl. During this time, psyllium will absorb moisture and stabilize the structure.",
+          "content_bg": "Оставете тестото да 'отпочине' 5 минути в купата. През това време псилиумът ще поеме влагата и ще стабилизира структурата."
+        },
+        {
+          "category": "chef_trick",
+          "title": "Don't Open Oven First 25 Minutes",
+          "title_bg": "Не отваряйте фурната първите 25 минути",
+          "content": "Opening the oven early will cause the cake to collapse. Wait at least 25 minutes before checking.",
+          "content_bg": "Не отваряйте фурната първите 25 минути! Това ще предизвика колабиране на блата."
+        },
+        {
+          "category": "chef_trick",
+          "title": "Gradual Cooling Technique",
+          "title_bg": "Техника за постепенно охлаждане",
+          "content": "After toothpick comes out clean, turn off oven and leave cakes inside with door cracked for 5 minutes. This prevents shock shrinkage.",
+          "content_bg": "След като клечката излезе суха, изключете фурната и оставете блатовете вътре на открехната врата за 5 минути. Това предотвратява 'шоковото' свиване."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Лимонов блат",
+      "recipe_name_bg": "Лимонов блат",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Lemon Acid Makes Whites Unstable",
+          "title_bg": "Лимоновата киселина прави белтъците нестабилни",
+          "content": "Lemon acid makes egg whites slightly less stable, so work quickly but carefully when folding.",
+          "content_bg": "Лимоновата киселина прави белтъците малко по-нестабилни, затова работете бързо, но внимателно."
+        },
+        {
+          "category": "app_advice",
+          "title": "Zest Only Yellow Part",
+          "title_bg": "Настъргвайте само жълтата част",
+          "content": "Always zest only the yellow part of the peel, as the white pith underneath is bitter and can ruin the delicate flavor of keto desserts.",
+          "content_bg": "Винаги настъргвайте само жълтата част на кората, тъй като бялата под нея е горчива и може да развали финия вкус на кето десерта."
+        },
+        {
+          "category": "pairing",
+          "title": "Perfect for Syrup Soaking",
+          "title_bg": "Перфектен за сиропиране",
+          "content": "This cake is ideal for soaking with lemon syrup (water, erythritol, lemon juice) because its acidity allows it to absorb more moisture without becoming soggy.",
+          "content_bg": "Този блат е идеален за сиропиране с лимонада (вода, еритритол и малко лимонов сок), защото киселинността му позволява да поеме повече влага без да стане клисав."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Морковен блат",
+      "recipe_name_bg": "Морковен блат",
+      "notes": [
+        {
+          "category": "app_advice",
+          "title": "Carrot Sugar Content Warning",
+          "title_bg": "Предупреждение за захарите в морковите",
+          "content": "Carrots contain natural sugars. For strict keto, do not exceed the amount specified in the recipe.",
+          "content_bg": "Морковите съдържат естествени захари. За стриктно кето, не превишавайте грамажа им в рецептата."
+        },
+        {
+          "category": "texture",
+          "title": "Naturally Denser Texture",
+          "title_bg": "Естествено по-плътна текстура",
+          "content": "Carrot cake is naturally denser. If user wants a lighter cake, suggest using Vanilla Base with added spices and lemon zest.",
+          "content_bg": "Морковеният блат е естествено по-плътен. Ако потребителят иска по-въздушна торта, препоръчайте 'Ваниловия блат' с добавени подправки и лимонова кора."
+        },
+        {
+          "category": "pairing",
+          "title": "Cream Cheese Is The Classic",
+          "title_bg": "Крем сирене е класиката",
+          "content": "Carrot cake cries out for Cream Cheese Frosting. This is the iconic pairing for this dessert.",
+          "content_bg": "Морковеният блат плаче за Крем сирене (Frosting). Това е емблематичната комбинация за този десерт."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Маслен морковен блат",
+      "recipe_name_bg": "Маслен морковен блат",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Coconut Flour Is The Moisture Agent",
+          "title_bg": "Кокосовото брашно е агентът срещу влагата",
+          "content": "20g coconut flour is added specifically to absorb moisture from 300g carrots. This is our secret weapon against sogginess.",
+          "content_bg": "20 г кокосово брашно (Добавям го, за да абсорбира влагата от 300 г моркови). Това е нашият таен агент срещу влагата."
+        },
+        {
+          "category": "storage",
+          "title": "Very Soft When Warm",
+          "title_bg": "Много мек докато е топъл",
+          "content": "These cakes are very soft while warm due to butter content. Let them cool completely in the pan before attempting to remove. Then refrigerate (wrapped in foil) for at least 4-6 hours.",
+          "content_bg": "Тези блатове са много меки, докато са топли заради маслото. Оставете ги да изстинат напълно във формата, преди да ги вадите. След това хладилник (увити във фолио) за поне 4-6 часа."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Матча пандишпан",
+      "recipe_name_bg": "Матча пандишпан",
+      "notes": [
+        {
+          "category": "ingredient",
+          "title": "Use Ceremonial Grade Matcha",
+          "title_bg": "Използвайте церемониален клас матча",
+          "content": "Ceremonial grade matcha gives the best color and deepest flavor. Culinary grade will work but color may be less vibrant.",
+          "content_bg": "Церемониален клас матча дава най-добър цвят и най-дълбок вкус. Кулинарният клас също работи, но цветът може да е по-слаб."
+        },
+        {
+          "category": "technique",
+          "title": "Low Temperature Preserves Green Color",
+          "title_bg": "Ниската температура запазва зеления цвят",
+          "content": "155-160°C is critical for preserving the vibrant green color. Higher heat will turn it brownish.",
+          "content_bg": "155-160°C е ключът към запазване на зеления цвят. По-висока температура ще го направи кафеникав."
+        },
+        {
+          "category": "technique",
+          "title": "Sift Matcha Twice",
+          "title_bg": "Пресейте матчата два пъти",
+          "content": "Matcha often clumps into small balls that don't dissolve during mixing. Sifting twice is mandatory.",
+          "content_bg": "Матчата често се слепва на малки топчета, които не се разтварят при бъркане. Пресейте ги два пъти задължително."
+        },
+        {
+          "category": "pairing",
+          "title": "Best Pairings",
+          "title_bg": "Най-добри комбинации",
+          "content": "Matcha cakes pair divinely with white chocolate cream (keto) or lemon mousse.",
+          "content_bg": "Матча блатовете се комбинират божествено с крем от бял шоколад (кето) или лимонов мус."
+        },
+        {
+          "category": "app_advice",
+          "title": "Sweetener Substitution Logic",
+          "title_bg": "Логика при замяна на подсладител",
+          "content": "If you replace erythritol with liquid sweetener (stevia or sucralose), you must compensate for the lost volume. For every 100g erythritol removed, add 20g coconut flour or 15g finely ground psyllium husk. This will preserve the dessert's structure and prevent it from becoming runny.",
+          "content_bg": "Ако замените еритритола с течен подсладител (като стевия или сукралоза), трябва да компенсирате загубения обем. За всеки 100 г премахнат еритритол, добавете 20 г кокосово брашно или 15 г фино смлян псилиум хуск. Това ще запази структурата на десерта и ще предотврати разтичането му."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Шоколадов пандишпан",
+      "recipe_name_bg": "Шоколадов пандишпан",
+      "notes": [
+        {
+          "category": "ingredient",
+          "title": "Use Dutch-Processed Cocoa",
+          "title_bg": "Използвайте алкализирано какао",
+          "content": "Dutch-processed (alkalized) cocoa provides deeper color and smoother flavor.",
+          "content_bg": "Алкализирано какао (Dutch-processed) дава по-дълбок цвят и по-мек вкус."
+        },
+        {
+          "category": "technique",
+          "title": "Aerate The Cocoa",
+          "title_bg": "Аерирайте какаото",
+          "content": "Cocoa must pass through a sieve to aerate it. Sift at least twice for best texture.",
+          "content_bg": "Какаото задължително трябва да мине през сито, за да се аерира. Пресейте поне два пъти."
+        },
+        {
+          "category": "chef_trick",
+          "title": "Better 1 Minute Early Than Late",
+          "title_bg": "По-добре 1 минута по-рано отколкото късно",
+          "content": "For chocolate cakes, it's better to remove from oven 1 minute early rather than 1 minute late. They continue cooking from residual heat.",
+          "content_bg": "При шоколадовите блатове е по-добре да извадите 1 минута по-рано, отколкото 1 минута по-късно. Те продължават да се пекат от остатъчната топлина."
+        },
+        {
+          "category": "app_advice",
+          "title": "Add Water When Batter Too Thick",
+          "title_bg": "Добавете вода ако тестото е много гъсто",
+          "content": "Since cocoa and psyllium absorb a lot of water, if the batter looks too thick before baking, add 1-2 tablespoons of warm water or almond milk.",
+          "content_bg": "Тъй като какаото и псилиумът пият много вода, ако тестото изглежда прекалено гъсто преди печене, добавете 1-2 с.л. топла вода или бадемово мляко."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Червено кадифе",
+      "recipe_name_bg": "Червено кадифе",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "160°C Is Critical For Color",
+          "title_bg": "160°C е критично за цвета",
+          "content": "Temperature must be exactly 160°C to preserve the vibrant red color. Higher heat will darken it.",
+          "content_bg": "160°C е критично за запазване на цвета! По-висока температура ще го потъмни."
+        },
+        {
+          "category": "ingredient",
+          "title": "Don't Exceed 10g Cocoa",
+          "title_bg": "Не превишавайте 10г какао",
+          "content": "Maximum 10g cocoa powder - more will make the color too dark brown instead of red.",
+          "content_bg": "Не превишавайте 10г какао, за да не потъмнее цветът."
+        },
+        {
+          "category": "app_advice",
+          "title": "Natural Food Coloring Warning",
+          "title_bg": "Предупреждение за естествен оцветител",
+          "content": "If using natural food coloring (like beetroot powder), warn users that color may vary after baking.",
+          "content_bg": "Ако използвате естествен оцветител (като цвекло на прах), предупредете потребителите, че цветът може да варира след печене."
+        },
+        {
+          "category": "pairing",
+          "title": "Cream Cheese Frosting Is Mandatory",
+          "title_bg": "Крем сирене е задължителен",
+          "content": "In the Cake Constructor, 'Red Velvet' must be paired with Cream Cheese Frosting. This is the iconic combination for this dessert.",
+          "content_bg": "В 'Конструктора' на торта, 'Червено кадифе' задължително трябва да се предлага с Крем сирене (Cream Cheese Frosting). Това е емблематичната комбинация за този десерт."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Много шоколадов блат",
+      "recipe_name_bg": "Много шоколадов блат",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Hot Coffee/Water Is The Secret",
+          "title_bg": "Горещото кафе/вода е тайната",
+          "content": "Hot liquid (coffee or water) helps cocoa release its aroma and creates a moister, fudgier texture.",
+          "content_bg": "Горещата течност (кафе или вода) помага на какаото да освободи аромата си и създава по-влажна, сочна текстура."
+        },
+        {
+          "category": "technique",
+          "title": "Bakes Slower Due To Fat Content",
+          "title_bg": "Пече се по-бавно заради мазнините",
+          "content": "Due to high butter content, this cake bakes more slowly in the center. 40-50 minutes is normal.",
+          "content_bg": "Поради голямото количество масло, той се пече малко по-бавно в центъра. 40-50 минути е нормално."
+        },
+        {
+          "category": "app_advice",
+          "title": "Cutting Into 3 Layers Advice",
+          "title_bg": "Съвет за рязане на три блата",
+          "content": "Since keto cakes have no gluten, they're more crumbly. Advise in app: 'To easily cut cake into 3 equal parts, it must have been refrigerated for at least 6-8 hours. Use thread or a very sharp serrated knife.'",
+          "content_bg": "Тъй като кето блатовете нямат глутен, те са по-ронливи. Дайте съвет в приложението: 'За да разрежете блата лесно на три равни части, той трябва да е престоял в хладилник поне 6-8 часа. Използвайте конец или много остър назъбен нож.'"
+        },
+        {
+          "category": "pairing",
+          "title": "Perfect For Ganache Cakes",
+          "title_bg": "Перфектен за ганаш торти",
+          "content": "This cake is perfect for heavy, buttery cakes like 'Ganache' style.",
+          "content_bg": "Този блат е перфектен за тежки, маслени торти тип 'Ганаш'."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Френска целувка (Dacquoise)",
+      "recipe_name_bg": "Френска целувка (Dacquoise)",
+      "notes": [
+        {
+          "category": "technique",
+          "title": "Parchment Tracing Trick",
+          "title_bg": "Трик с очертаването на хартията",
+          "content": "Trace circles on parchment with pencil, then flip the paper over. This prevents pencil marks from transferring to the meringue.",
+          "content_bg": "Очертайте кръговете на хартията с молив, след това я обърнете. Това предотвратява преминаването на молива в блата."
+        },
+        {
+          "category": "app_advice",
+          "title": "Don't Make In Humid Weather",
+          "title_bg": "Не приготвяйте в дъждовно време",
+          "content": "Meringue cakes hate moisture. In app add warning: 'Do not make these cakes in very rainy weather or if there's a lot of steam in the kitchen - they will absorb moisture and soften.'",
+          "content_bg": "Целувчените блатове мразят влагата. Добавете в приложението: 'Не приготвяйте тези блатове в много дъждовно време или ако в кухнята има много пара – те ще поемат влагата и ще омекнат.'"
+        },
+        {
+          "category": "storage",
+          "title": "Assemble Right Before Serving",
+          "title_bg": "Сглобявайте непосредствено преди сервиране",
+          "content": "These cakes must be assembled with cream immediately before serving (or up to 2-3 hours before) because moisture from cream will dissolve the meringue. If user wants to keep them crispy longer, suggest coating the inside with a thin layer of melted cocoa butter.",
+          "content_bg": "Тези блатове трябва да се сглобяват с крема непосредствено преди сервиране (или до 2-3 часа преди това), защото влагата от крема ще разтопи целувката. Ако потребителят иска да ги запази хрупкави по-дълго, предложете да ги намаже с тънък слой разтопено какаово масло от вътрешната страна."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Бадемови блатове (Swedish Style)",
+      "recipe_name_bg": "Бадемови блатове (шведски стил)",
+      "notes": [
+        {
+          "category": "texture",
+          "title": "Dacquoise Style - Naturally Lower",
+          "title_bg": "Дакуаз стил - естествено по-ниски",
+          "content": "These cakes are in 'dacquoise' style - they don't rise much, but are exceptionally rich in flavor and aroma.",
+          "content_bg": "Тези блатове са в стил 'дакуаз' – те не бухват много, но са изключително богати на вкус и аромат."
+        },
+        {
+          "category": "pairing",
+          "title": "Classic IKEA Pairing",
+          "title_bg": "Класическата комбинация от ИКЕА",
+          "content": "In constructor, this cake must pair with Yellow Egg Yolk Cream - exactly like the original IKEA cake. Since we use 6 egg whites for the cake, the cream should use the remaining 6 yolks. This is a perfect 'zero waste' recipe.",
+          "content_bg": "В конструктора този блат задължително се свързва с Яйчен маслен крем (Yellow Egg Yolk Cream) – точно както е в оригиналната торта на Икеа. Тъй като за блатовете ползваме 6 белтъка, кремът трябва да използва останалите 6 жълтъка. Това е перфектната 'zero waste' (без отпадък) рецепта."
+        },
+        {
+          "category": "technique",
+          "title": "NEVER Use Mixer For Folding",
+          "title_bg": "НИКОГА миксер за обединяване",
+          "content": "Only use spatula for folding in almond flour. Using mixer will deflate the egg whites and ruin the texture.",
+          "content_bg": "Не използвайте миксер! Смесвайте с шпатула, като загребвате от дъното нагоре. Миксерът ще счупи белтъците."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Гараш блатове",
+      "recipe_name_bg": "Гараш блатове",
+      "notes": [
+        {
+          "category": "app_advice",
+          "title": "5 Thin Layers vs 2 Thick",
+          "title_bg": "5 тънки блата срещу 2 дебели",
+          "content": "In app give option: 'For classic Garash, spread mixture on 5 thin discs. For faster version - on 2 thicker cakes.'",
+          "content_bg": "В приложението дайте опция: 'За класически Гараш разпределете сместа на 5 тънки диска. За по-бърза версия – на 2 по-дебели блата.'"
+        },
+        {
+          "category": "storage",
+          "title": "Best After Soaking In Cream",
+          "title_bg": "Най-добри след като попият от крема",
+          "content": "These cakes can be made 1-2 days ahead. They're best when they've 'soaked' in the chocolate cream.",
+          "content_bg": "Тези блатове могат да се направят 1-2 дни по-рано. Те са най-добри, когато 'попият' от шоколадовия крем."
+        },
+        {
+          "category": "pairing",
+          "title": "Classic Garash Ganache",
+          "title_bg": "Класически Гараш ганаш",
+          "content": "Classic Garash cream is just cream and chocolate (ganache). If user selects these cakes, app should suggest Keto Chocolate Ganache (with cream and cocoa/dark chocolate).",
+          "content_bg": "Класическият крем Гараш е само сметана и шоколад (ганаш). Ако потребителят избере тези блатове, приложението трябва да му предложи Кето шоколадов ганаш (със сметана и какао/черен шоколад)."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Брауни блат (Flourless)",
+      "recipe_name_bg": "Брауни блат (без брашно)",
+      "notes": [
+        {
+          "category": "texture",
+          "title": "Dense Truffle Texture",
+          "title_bg": "Плътна трюфелна текстура",
+          "content": "This cake contains no flour and has a dense truffle texture. It's extremely rich, so it pairs best with light dairy creams or fruits.",
+          "content_bg": "Този блат не съдържа брашно и има текстура на плътен трюфел. Той е изключително наситен, затова се комбинира най-добре с леки млечни кремове или плодове."
+        },
+        {
+          "category": "technique",
+          "title": "Center Will Sink - This Is Normal",
+          "title_bg": "Центърът ще спадне - това е нормално",
+          "content": "It will rise dramatically and crack slightly - this is a sign it's ready. After cooling, it will sink in the center - don't worry, this is the desired brownie effect!",
+          "content_bg": "Блатът ще се надуе много и ще се напука леко – това е знак, че е готов. Той ще спадне в центъра – не се плашете, това е търсеният ефект за брауни блат!"
+        },
+        {
+          "category": "app_advice",
+          "title": "Alternative Serving Style",
+          "title_bg": "Алтернативен начин на сервиране",
+          "content": "If cake is too fragile, use it as one thick single layer with cream on top (like 'Pavlova' style cake, but chocolate).",
+          "content_bg": "Ако блатът е твърде крехък, използвайте го като един цял, дебел блат, върху който да наредите крема (тип торта 'Павлова', но шоколадова)."
+        },
+        {
+          "category": "storage",
+          "title": "Mandatory Refrigeration Before Cutting",
+          "title_bg": "Задължителна хладилничка преди рязане",
+          "content": "This cake is extremely delicate. Must refrigerate for 4-6 hours before attempting to cut into two layers. Use warm knife (dipped in hot water and dried).",
+          "content_bg": "Този блат е изключително нежен. Задължително го приберете в хладилник за 4-6 часа, преди да се опитвате да го режете на две. Използвайте топъл нож (потопен в гореща вода и подсушен)."
+        }
+      ]
+    },
+    {
+      "recipe_name": "Сахер блат",
+      "recipe_name_bg": "Сахер блат",
+      "notes": [
+        {
+          "category": "pairing",
+          "title": "Apricot Jam Is The Soul",
+          "title_bg": "Кайсиево сладко е душата",
+          "content": "In Constructor, suggest user brush this cake with Keto Apricot Jam (or raspberry) before adding glaze. This is the soul of Sacher Torte.",
+          "content_bg": "В 'Конструктора' предложете на потребителя да намаже този блат с Кето сладко от кайсии (или малини) преди да сложи глазурата. Това е душата на торта Сахер."
+        },
+        {
+          "category": "technique",
+          "title": "Only Cut When Cold",
+          "title_bg": "Режете само когато е студен",
+          "content": "Since the cake is dense, it cuts easily, but only when cold.",
+          "content_bg": "Тъй като блатът е плътен, се реже лесно, но само когато е студен."
+        },
+        {
+          "category": "storage",
+          "title": "Coconut Flour Stabilizes After Cooling",
+          "title_bg": "Кокосовото брашно се стабилизира след охлаждане",
+          "content": "This cake must be refrigerated. Coconut flour only stabilizes after complete cooling.",
+          "content_bg": "Този блат трябва да престои в хладилник. Кокосовото брашно се стабилизира едва след пълно охлаждане."
+        }
+      ]
+    }
+  ]
+}

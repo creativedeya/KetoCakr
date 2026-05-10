@@ -1,0 +1,1069 @@
+{
+  "equipment_data": [
+    {
+      "recipe_name": "Базова рецепта за въздушни кето блатове",
+      "recipe_name_bg": "Базова рецепта за въздушни кето блатове",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер (статичен или ръчен)",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For beating egg whites to stiff peaks"
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true,
+          "notes": "One for dry ingredients, one for yolks, one for whites"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For folding technique"
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For sifting dry ingredients twice"
+        },
+        {
+          "item": "cake_pan_ring",
+          "item_bg": "форма за торта (ринг)",
+          "quantity": 1,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true,
+          "notes": "Do not grease sides - batter must climb"
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "cooling_rack",
+          "item_bg": "решетка за охлаждане",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For upside-down cooling trick"
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": false,
+          "notes": "Optional for breaking lumps"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кето кексово тесто",
+      "recipe_name_bg": "Кето кексово тесто",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For creaming butter and sugar"
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": false
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm round or 1 large",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        }
+      ]
+    },
+    {
+      "recipe_name": "Кокосови блатове",
+      "recipe_name_bg": "Кокосови блатове",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true,
+          "notes": "Clean dry bowl critical for egg whites"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For sifting xanthan gum"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "For wrapping after cooling"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Ванилов блат",
+      "recipe_name_bg": "Ванилов блат",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For mixing dry ingredients"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "For 2-hour refrigeration wrap"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Лимонов блат",
+      "recipe_name_bg": "Лимонов блат",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Not blender - must be mixer"
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "microplane_zester",
+          "item_bg": "ренде за цитруси",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For lemon zest - yellow part only"
+        },
+        {
+          "item": "citrus_juicer",
+          "item_bg": "цитрус преса",
+          "quantity": 1,
+          "reusable": true,
+          "essential": false,
+          "notes": "For fresh lemon juice"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "To preserve lemon aroma"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Морковен блат",
+      "recipe_name_bg": "Морковен блат",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "box_grater",
+          "item_bg": "ренде",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Fine side for carrots"
+        },
+        {
+          "item": "clean_kitchen_towel",
+          "item_bg": "чиста кухненска кърпа",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For squeezing excess moisture from carrots"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "knife",
+          "item_bg": "нож",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For chopping nuts"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "wooden_skewer",
+          "item_bg": "дървено шишче",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For doneness test"
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "For 12-hour refrigeration"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Маслен морковен блат",
+      "recipe_name_bg": "Маслен морковен блат",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "box_grater",
+          "item_bg": "ренде",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Fine side for 300g carrots"
+        },
+        {
+          "item": "clean_kitchen_towel",
+          "item_bg": "чиста кухненска кърпа",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Critical for squeezing moisture"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "knife",
+          "item_bg": "нож",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For chopping 100g nuts coarsely"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter with parchment",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "wooden_skewer",
+          "item_bg": "дървено шишче",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "For 4-6 hour refrigeration"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Матча пандишпан",
+      "recipe_name_bg": "Матча пандишпан",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Must sift matcha TWICE to remove clumps"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        }
+      ]
+    },
+    {
+      "recipe_name": "Шоколадов пандишпан",
+      "recipe_name_bg": "Шоколадов пандишпан",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Sift cocoa at least twice for aeration"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "wooden_toothpick",
+          "item_bg": "дървена клечка за зъби",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For checking doneness - better 1 min early than late"
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "Aroma develops after refrigeration"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Червено кадифе",
+      "recipe_name_bg": "Червено кадифе",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 3,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "measuring_spoon",
+          "item_bg": "мерителна лъжичка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For precise cocoa measurement - max 10g"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        }
+      ]
+    },
+    {
+      "recipe_name": "Много шоколадов блат",
+      "recipe_name_bg": "Много шоколадов блат",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "small_saucepan",
+          "item_bg": "малка тенджера",
+          "quantity": 1,
+          "reusable": true,
+          "essential": false,
+          "notes": "For boiling water or coffee"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 1,
+          "reusable": false,
+          "specs": "18cm diameter with parchment bottom only",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        }
+      ]
+    },
+    {
+      "recipe_name": "Френска целувка (Dacquoise)",
+      "recipe_name_bg": "Френска целувка (Dacquoise)",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 1,
+          "reusable": true,
+          "size": "large",
+          "essential": true,
+          "notes": "Must be perfectly clean and dry"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "knife",
+          "item_bg": "нож",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For finely chopping nuts (not flour)"
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "Chef trick - trace circles and flip over"
+        },
+        {
+          "item": "pencil_or_pen",
+          "item_bg": "молив или химикал",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For tracing 3 circles on parchment"
+        },
+        {
+          "item": "baking_sheet",
+          "item_bg": "тава за печене",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        }
+      ]
+    },
+    {
+      "recipe_name": "Бадемови блатове (Swedish Style)",
+      "recipe_name_bg": "Бадемови блатове (шведски стил)",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true,
+          "notes": "One clean and dry for egg whites"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "NEVER use mixer - only spatula for folding"
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For mixing almond flour with xanthan"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 2,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "cooling_rack",
+          "item_bg": "решетка за охлаждане",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Delicate when warm - handle carefully"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Гараш блатове",
+      "recipe_name_bg": "Гараш блатове",
+      "required_equipment": [
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 1,
+          "reusable": true,
+          "size": "large",
+          "essential": true,
+          "notes": "Must be clean and dry"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Large spatula for gentle folding"
+        },
+        {
+          "item": "food_processor_or_nut_grinder",
+          "item_bg": "кухненски робот или мелничка за ядки",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For grinding 200g walnuts finely but dry"
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "Trace circles method - mandatory for thin layers"
+        },
+        {
+          "item": "pencil_or_pen",
+          "item_bg": "молив или химикал",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For tracing 5 thin circles or 2-3 thick"
+        },
+        {
+          "item": "baking_sheet",
+          "item_bg": "тава за печене",
+          "quantity": 2,
+          "reusable": true,
+          "essential": true,
+          "notes": "May need 2 sheets for 5 layers"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Брауни блат (Flourless)",
+      "recipe_name_bg": "Брауни блат (без брашно)",
+      "required_equipment": [
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "double_boiler_or_microwave",
+          "item_bg": "водна баня или микровълнова",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For melting butter and chocolate"
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For mixing yolks into chocolate"
+        },
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For egg whites to soft peaks only"
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For gentle folding"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 1,
+          "reusable": false,
+          "specs": "18cm diameter, parchment on bottom and sides",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "serrated_knife",
+          "item_bg": "назъбен нож",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Warm knife (dipped in hot water) for cutting"
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "Mandatory 4-6 hour refrigeration before cutting"
+        }
+      ]
+    },
+    {
+      "recipe_name": "Сахер блат",
+      "recipe_name_bg": "Сахер блат",
+      "required_equipment": [
+        {
+          "item": "small_saucepan",
+          "item_bg": "малка тенджера",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For boiling milk with erythritol"
+        },
+        {
+          "item": "mixing_bowl",
+          "item_bg": "купа за смесване",
+          "quantity": 2,
+          "reusable": true,
+          "size": "medium",
+          "essential": true
+        },
+        {
+          "item": "whisk",
+          "item_bg": "телена бъркалка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For chocolate ganache base"
+        },
+        {
+          "item": "stand_mixer_or_hand_mixer",
+          "item_bg": "миксер",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "silicone_spatula",
+          "item_bg": "силиконова шпатула",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true
+        },
+        {
+          "item": "fine_mesh_sieve",
+          "item_bg": "фино сито",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "For sifting coconut flour and cocoa"
+        },
+        {
+          "item": "cake_pan",
+          "item_bg": "форма за торта",
+          "quantity": 1,
+          "reusable": false,
+          "specs": "18cm diameter",
+          "essential": true
+        },
+        {
+          "item": "parchment_paper",
+          "item_bg": "хартия за печене",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true
+        },
+        {
+          "item": "wooden_toothpick",
+          "item_bg": "дървена клечка",
+          "quantity": 1,
+          "reusable": true,
+          "essential": true,
+          "notes": "Should come out almost dry with few moist crumbs"
+        },
+        {
+          "item": "aluminum_foil",
+          "item_bg": "алуминиево фолио",
+          "quantity": 1,
+          "reusable": false,
+          "essential": true,
+          "notes": "Refrigeration stabilizes coconut flour"
+        }
+      ]
+    }
+  ]
+}
