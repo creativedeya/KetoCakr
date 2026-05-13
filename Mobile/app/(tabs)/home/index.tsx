@@ -35,32 +35,51 @@ export default function HomeScreen() {
   const [selectedTypeId, setSelectedTypeId] = useState<number | null>(null);
   const { t, language } = useTranslation();
 
-  // ─── QUERY 1: Десерт на деня ───
+  // ─── QUERY 1: Десерт на деня (случаен, детерминиран по дата) ───
+  const todaySeed = useMemo(() => {
+    const d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  }, []);
+
   const {
     data: dailyRecipe,
     isLoading: dailyLoading,
     isError: dailyError,
     refetch: refetchDaily,
   } = useQuery({
-    queryKey: ['dailyDelight'],
+    queryKey: ['dailyDelight', todaySeed],
+    staleTime: Infinity, // не се рефрешва до края на сесията
     queryFn: async () => {
-      const { data: featured } = await supabase
+      const { data: ids } = await supabase
+        .from('ready_recipes')
+        .select('id')
+        .eq('is_visible_to_users', true);
+
+      if (!ids || ids.length === 0) {
+        const { data: allIds } = await supabase
+          .from('ready_recipes')
+          .select('id');
+        if (!allIds || allIds.length === 0) return null;
+        const idx2 = todaySeed % allIds.length;
+        const { data: fallbackData } = await supabase
+          .from('ready_recipes')
+          .select('*')
+          .eq('id', allIds[idx2].id)
+          .single();
+        return fallbackData || null;
+      }
+
+      // Детерминиран псевдо-случаен индекс по дата
+      const idx = todaySeed % ids.length;
+      const pickedId = ids[idx].id;
+
+      const { data } = await supabase
         .from('ready_recipes')
         .select('*')
-        .eq('is_featured', true)
-        .limit(1)
-        .maybeSingle();
+        .eq('id', pickedId)
+        .single();
 
-      if (featured) return featured;
-
-      const { data: fallback } = await supabase
-        .from('ready_recipes')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      return fallback || null;
+      return data || null;
     },
   });
 
@@ -532,7 +551,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: Colors.secondary.main,
+    backgroundColor: Colors.primary.main,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.xs,
     borderRadius: BorderRadius.round,
@@ -558,7 +577,7 @@ const styles = StyleSheet.create({
   },
   dailyButton: {
     alignSelf: 'flex-start',
-    backgroundColor: Colors.secondary.main,
+    backgroundColor: Colors.primary.main,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     borderRadius: BorderRadius.lg,

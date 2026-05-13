@@ -126,6 +126,22 @@ export default function DashboardPage() {
               </button>
               
               <button 
+                onClick={() => router.push('/dashboard/equipment')}
+                className="p-4 border-2 border-yellow-200 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition"
+              >
+                <div className="text-2xl mb-2">🔧</div>
+                <div className="font-semibold">Equipment</div>
+              </button>
+
+              <button 
+                onClick={() => router.push('/dashboard/sweeteners')}
+                className="p-4 border-2 border-pink-200 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition"
+              >
+                <div className="text-2xl mb-2">🍬</div>
+                <div className="font-semibold">Sweeteners</div>
+              </button>
+              
+              <button 
                 onClick={() => router.push('/dashboard/ingredients')}
                 className="p-4 border-2 border-green-200 rounded-lg hover:border-green-400 hover:bg-green-50 transition"
               >
@@ -133,15 +149,15 @@ export default function DashboardPage() {
                 <div className="font-semibold">Ingredients</div>
               </button>
               
-              <button 
+              <button
                 onClick={() => router.push('/dashboard/ready-recipes')}
                 className="p-4 border-2 border-purple-200 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition"
               >
                 <div className="text-2xl mb-2">🎂</div>
                 <div className="font-semibold">Ready Recipes</div>
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => router.push('/dashboard/users')}
                 className="p-4 border-2 border-blue-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition"
               >
@@ -157,12 +173,20 @@ export default function DashboardPage() {
                 <div className="font-semibold">Analytics</div>
               </button>
               
-              <button 
+              <button
                 onClick={() => router.push('/dashboard/settings')}
                 className="p-4 border-2 border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition"
               >
                 <div className="text-2xl mb-2">⚙️</div>
                 <div className="font-semibold">Settings</div>
+              </button>
+
+              <button
+                onClick={() => router.push('/dashboard/lab-notes')}
+                className="p-4 border-2 border-rose-200 rounded-lg hover:border-rose-400 hover:bg-rose-50 transition"
+              >
+                <div className="text-2xl mb-2">🧪</div>
+                <div className="font-semibold">Lab Notes</div>
               </button>
             </div>
           </div>
