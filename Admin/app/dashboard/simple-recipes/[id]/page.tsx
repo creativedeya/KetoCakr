@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import SimpleRecipeForm from '../components/SimpleRecipeForm';
+import { EnhancedStepImages } from './EnhancedStepImages';
 
 export default function EditSimpleRecipePage() {
   const params = useParams();
-  const router = useRouter();
   const id = params.id as string;
 
   const [loading, setLoading] = useState(true);
@@ -16,23 +16,32 @@ export default function EditSimpleRecipePage() {
   const [steps, setSteps] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  const load = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/simple-recipes/${id}`);
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error);
+      setRecipe(data.data);
+      setIngredients(data.data.ingredients || []);
+      setSteps(data.data.steps || []);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const reloadSteps = async () => {
+    try {
+      const res = await fetch(`/api/simple-recipes/${id}`);
+      const data = await res.json();
+      if (data.success) setSteps(data.data.steps || []);
+    } catch {}
+  };
+
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(`/api/simple-recipes/${id}`);
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error);
-        setRecipe(data.data);
-        setIngredients(data.data.ingredients || []);
-        setSteps(data.data.steps || []);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
     load();
   }, [id]);
 
@@ -61,9 +70,9 @@ export default function EditSimpleRecipePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/dashboard/simple-recipes"
               className="text-gray-400 hover:text-gray-600 text-sm">
@@ -84,6 +93,7 @@ export default function EditSimpleRecipePage() {
           </div>
         </div>
 
+        {/* Edit form */}
         <SimpleRecipeForm
           recipeId={id}
           initialData={recipe}
@@ -91,6 +101,19 @@ export default function EditSimpleRecipePage() {
           initialSteps={steps}
           onSaved={() => {}}
         />
+
+        {/* Step Images — full enhanced workflow */}
+        {steps.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm border p-6">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">🎨 Step Images</h2>
+            <EnhancedStepImages
+              recipeId={id}
+              steps={steps}
+              onStepsUpdate={reloadSteps}
+              recipeName={recipe.name_en || recipe.name}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
