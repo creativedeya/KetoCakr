@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import ImageUpload from '@/components/ImageUpload';
 import { IngredientAutocomplete } from '@/components/IngredientAutocomplete';
+import { Wand2 } from 'lucide-react';
+import AutoParseModal from './AutoParseModal';
+import GenerateStepImageButton from './GenerateStepImageButton';
 
 interface IngredientRow {
   ingredient_database_id: string | null;
@@ -65,6 +68,7 @@ export default function SimpleRecipeForm({ recipeId, initialData, initialIngredi
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [ingredientSearch, setIngredientSearch] = useState('');
+  const [showAutoParseModal, setShowAutoParseModal] = useState(false);
 
   const [form, setForm] = useState<FormState>({
     name: initialData?.name || '',
@@ -307,6 +311,19 @@ export default function SimpleRecipeForm({ recipeId, initialData, initialIngredi
               </div>
             </div>
 
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowAutoParseModal(true)}
+                disabled={!form.description_en?.trim() && !form.description?.trim()}
+                className="flex items-center gap-2 px-4 py-2 border-2 border-rose-300 text-rose-700 rounded-lg text-sm font-medium hover:bg-rose-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+              >
+                <Wand2 size={15} />
+                Auto-Parse with AI
+              </button>
+              <span className="text-xs text-gray-400">Extracts ingredients &amp; steps from the description above</span>
+            </div>
+
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className={lbl}>Source Type</label>
@@ -453,6 +470,32 @@ export default function SimpleRecipeForm({ recipeId, initialData, initialIngredi
                       className={inp} placeholder="https://..." />
                   </div>
                 </div>
+                {/* Image generation */}
+                <div className="mt-3 flex items-center gap-3">
+                  <GenerateStepImageButton
+                    recipe_id={recipeId}
+                    step_number={i + 1}
+                    step_description={step.step_description_en || step.step_description_bg}
+                    recipe_name={form.name_en || form.name}
+                    onImageGenerated={(url) => updateStep(i, 'step_image_url', url)}
+                  />
+                  {step.step_image_url && (
+                    <>
+                      <img
+                        src={step.step_image_url}
+                        alt={`Стъпка ${i + 1}`}
+                        className="h-12 w-12 object-cover rounded border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => updateStep(i, 'step_image_url', '')}
+                        className="text-xs text-red-400 hover:text-red-600 transition"
+                      >
+                        Remove image
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             ))}
 
@@ -513,6 +556,29 @@ export default function SimpleRecipeForm({ recipeId, initialData, initialIngredi
           </div>
         )}
       </div>
+
+      {/* Auto-Parse Modal */}
+      <AutoParseModal
+        isOpen={showAutoParseModal}
+        onClose={() => setShowAutoParseModal(false)}
+        description={form.description_en || form.description || ''}
+        onIngredientsFound={(parsed) => {
+          setIngredients(parsed.map(ing => ({
+            ingredient_database_id: null,
+            ingredient_name: ing.name_bg || ing.name,
+            quantity: ing.quantity,
+            unit: ing.unit,
+          })));
+        }}
+        onStepsFound={(parsed) => {
+          setSteps(parsed.map(s => ({
+            step_description_bg: s.step_description_bg || s.step_description,
+            step_description_en: s.step_description_en || s.step_description,
+            step_duration_minutes: s.step_duration_minutes || 5,
+            step_image_url: '',
+          })));
+        }}
+      />
 
       {/* Action buttons */}
       <div className="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center gap-3">
