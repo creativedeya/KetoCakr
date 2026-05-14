@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import ImageUpload from '@/components/ImageUpload';
 import { IngredientAutocomplete } from '@/components/IngredientAutocomplete';
 import { Wand2 } from 'lucide-react';
-import AutoParseModal from './AutoParseModal';
+import AutoParseModal, { MatchedIngredient } from './AutoParseModal';
 import GenerateStepImageButton from './GenerateStepImageButton';
 
 interface IngredientRow {
@@ -562,12 +562,17 @@ export default function SimpleRecipeForm({ recipeId, initialData, initialIngredi
         isOpen={showAutoParseModal}
         onClose={() => setShowAutoParseModal(false)}
         description={form.description_en || form.description || ''}
-        onIngredientsFound={(parsed) => {
-          setIngredients(parsed.map(ing => ({
-            ingredient_database_id: null,
+        onIngredientsFound={(matched: MatchedIngredient[]) => {
+          setIngredients(matched.map(ing => ({
+            ingredient_database_id: ing.ingredient_database_id || null,
             ingredient_name: ing.name_bg || ing.name,
             quantity: ing.quantity,
             unit: ing.unit,
+            _calories: ing.nutrition?.calories_per_100g,
+            _protein: ing.nutrition?.protein_per_100g,
+            _fat: ing.nutrition?.fat_per_100g,
+            _carbs: ing.nutrition?.carbs_per_100g,
+            _fiber: ing.nutrition?.fiber_per_100g,
           })));
         }}
         onStepsFound={(parsed) => {

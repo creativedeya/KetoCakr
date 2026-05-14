@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2, Wand2, AlertCircle, X } from 'lucide-react';
+import { Loader2, Wand2, AlertCircle, X, CheckCircle } from 'lucide-react';
 
 interface ParsedIngredient {
   name: string;
@@ -10,6 +10,24 @@ interface ParsedIngredient {
   quantity: number;
   unit: string;
   confidence: number;
+}
+
+export interface MatchedIngredient {
+  name: string;
+  name_bg?: string;
+  name_en?: string;
+  quantity: number;
+  unit: string;
+  ingredient_database_id?: string;
+  matched_name?: string;
+  match_score?: number;
+  nutrition?: {
+    calories_per_100g: number;
+    protein_per_100g: number;
+    fat_per_100g: number;
+    carbs_per_100g: number;
+    fiber_per_100g: number;
+  };
 }
 
 interface ParsedStep {
@@ -24,7 +42,7 @@ interface AutoParseModalProps {
   isOpen: boolean;
   onClose: () => void;
   description: string;
-  onIngredientsFound: (ingredients: ParsedIngredient[]) => void;
+  onIngredientsFound: (ingredients: MatchedIngredient[]) => void;
   onStepsFound: (steps: ParsedStep[]) => void;
 }
 
@@ -36,8 +54,9 @@ export default function AutoParseModal({
   onStepsFound,
 }: AutoParseModalProps) {
   const [isParsingIngredients, setIsParsingIngredients] = useState(false);
+  const [isMatchingIngredients, setIsMatchingIngredients] = useState(false);
   const [isParsingSteps, setIsParsingSteps] = useState(false);
-  const [parsedIngredients, setParsedIngredients] = useState<ParsedIngredient[] | null>(null);
+  const [matchedIngredients, setMatchedIngredients] = useState<MatchedIngredient[] | null>(null);
   const [parsedSteps, setParsedSteps] = useState<ParsedStep[] | null>(null);
   const [ingredientError, setIngredientError] = useState<string | null>(null);
   const [stepError, setStepError] = useState<string | null>(null);
@@ -48,6 +67,7 @@ export default function AutoParseModal({
     if (!description.trim()) return;
     setIsParsingIngredients(true);
     setIngredientError(null);
+    setMatchedIngredients(null);
     try {
       console.log('[Auto Parse] Parsing ingredients from description');
       const res = await fetch('/api/simple-recipes/parse-ingredients', {
@@ -57,12 +77,34 @@ export default function AutoParseModal({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to parse ingredients');
-      console.log('[Auto Parse] Found', data.ingredients.length, 'ingredients');
-      setParsedIngredients(data.ingredients);
+      console.log('[Auto Parse] Found', data.ingredients.length, 'ingredients — matching to database...');
+
+      setIsParsingIngredients(false);
+      await matchIngredients(data.ingredients);
     } catch (err: any) {
       setIngredientError(err.message);
-    } finally {
       setIsParsingIngredients(false);
+    }
+  };
+
+  const matchIngredients = async (parsedList: ParsedIngredient[]) => {
+    setIsMatchingIngredients(true);
+    try {
+      const res = await fetch('/api/simple-recipes/match-ingredients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredients: parsedList }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to match ingredients');
+      console.log(`[Match Ingredients] Matched ${data.summary.matched} of ${data.summary.total}`);
+      setMatchedIngredients(data.ingredients);
+    } catch (err: any) {
+      // Show parsed ingredients unmatched if matching fails
+      setMatchedIngredients(parsedList.map((ing) => ({ ...ing })));
+      setIngredientError(`Matching failed: ${err.message}. Ingredients parsed but not linked.`);
+    } finally {
+      setIsMatchingIngredients(false);
     }
   };
 
@@ -89,8 +131,8 @@ export default function AutoParseModal({
   };
 
   const handleUseIngredients = () => {
-    if (parsedIngredients) {
-      onIngredientsFound(parsedIngredients);
+    if (matchedIngredients) {
+      onIngredientsFound(matchedIngredients);
       onClose();
     }
   };
@@ -101,6 +143,9 @@ export default function AutoParseModal({
       onClose();
     }
   };
+
+  const isIngredientBusy = isParsingIngredients || isMatchingIngredients;
+  const matchedCount = matchedIngredients?.filter((i) => i.ingredient_database_id).length ?? 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -122,8 +167,8 @@ export default function AutoParseModal({
 
         <div className="p-6 space-y-6">
           <p className="text-sm text-gray-500">
-            Claude AI will analyze your recipe description and extract ingredients and steps.
-            Review results before accepting.
+            Claude AI will analyze your recipe description and extract ingredients (matched to database
+            for nutrition) and steps.
           </p>
 
           {/* Description preview */}
@@ -134,14 +179,14 @@ export default function AutoParseModal({
           {/* ── Ingredients ── */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-sm text-gray-700">Ingredients</h3>
+              <h3 className="font-semibold text-sm text-gray-700">Ingredients + Database Matching</h3>
               <button
                 onClick={handleParseIngredients}
-                disabled={isParsingIngredients || !description.trim()}
+                disabled={isIngredientBusy || !description.trim()}
                 className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
-                {isParsingIngredients && <Loader2 size={14} className="animate-spin" />}
-                {isParsingIngredients ? 'Parsing...' : 'Parse Ingredients'}
+                {isIngredientBusy && <Loader2 size={14} className="animate-spin" />}
+                {isParsingIngredients ? 'Parsing...' : isMatchingIngredients ? 'Matching...' : 'Parse & Match'}
               </button>
             </div>
 
@@ -152,26 +197,40 @@ export default function AutoParseModal({
               </div>
             )}
 
-            {parsedIngredients && (
+            {matchedIngredients && (
               <div className="space-y-2">
                 <div className="bg-green-50 border border-green-200 p-3 rounded-lg">
                   <p className="text-sm font-medium text-green-800 mb-2">
-                    ✓ Found {parsedIngredients.length} ingredients
+                    ✓ {matchedCount}/{matchedIngredients.length} linked to database
                   </p>
-                  <ul className="text-sm text-green-700 space-y-0.5">
-                    {parsedIngredients.slice(0, 6).map((ing, i) => (
-                      <li key={i}>{ing.quantity} {ing.unit} {ing.name_bg || ing.name}</li>
+                  <ul className="space-y-1 max-h-48 overflow-y-auto">
+                    {matchedIngredients.map((ing, i) => (
+                      <li key={i} className="text-sm bg-white rounded p-2">
+                        <div className="font-medium text-gray-800">
+                          {ing.quantity} {ing.unit} {ing.name_bg || ing.name}
+                        </div>
+                        {ing.ingredient_database_id ? (
+                          <div className="flex items-center gap-1 mt-0.5 text-xs text-green-700">
+                            <CheckCircle size={11} />
+                            {ing.matched_name} (score: {(ing.match_score || 0).toFixed(2)})
+                            {ing.nutrition && (
+                              <span className="ml-2 text-gray-500">
+                                {Math.round((ing.nutrition.calories_per_100g * ing.quantity) / 100)} kcal
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="mt-0.5 text-xs text-amber-700">⚠ Not linked — manual match needed</div>
+                        )}
+                      </li>
                     ))}
-                    {parsedIngredients.length > 6 && (
-                      <li className="text-green-600">... and {parsedIngredients.length - 6} more</li>
-                    )}
                   </ul>
                 </div>
                 <button
                   onClick={handleUseIngredients}
                   className="w-full py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition"
                 >
-                  Use These Ingredients
+                  Use These Ingredients (with DB Links)
                 </button>
               </div>
             )}
@@ -209,7 +268,8 @@ export default function AutoParseModal({
                   <ol className="text-sm text-blue-700 space-y-0.5">
                     {parsedSteps.slice(0, 5).map((step) => (
                       <li key={step.step_number}>
-                        {step.step_number}. {(step.step_description_bg || step.step_description).substring(0, 60)}
+                        {step.step_number}.{' '}
+                        {(step.step_description_bg || step.step_description).substring(0, 60)}
                         {(step.step_description_bg || step.step_description).length > 60 ? '...' : ''}
                       </li>
                     ))}
@@ -231,8 +291,9 @@ export default function AutoParseModal({
           {/* Tip */}
           <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
             <p className="text-xs text-amber-800">
-              <strong>Tip:</strong> If parsing doesn&apos;t work well, you can always add ingredients and steps manually.
-              Parsed results replace the current list.
+              <strong>How it works:</strong> Parse extracts ingredients → each is fuzzy-matched to the
+              database → nutrition auto-calculates from linked ingredients. Unlinked items can be
+              manually matched later.
             </p>
           </div>
         </div>
