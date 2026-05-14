@@ -158,6 +158,14 @@ export default function DashboardPage() {
               </button>
 
               <button
+                onClick={() => router.push('/dashboard/simple-recipes')}
+                className="p-4 border-2 border-rose-200 rounded-lg hover:border-rose-400 hover:bg-rose-50 transition"
+              >
+                <div className="text-2xl mb-2">⚡</div>
+                <div className="font-semibold">Simple Recipes</div>
+              </button>
+
+              <button
                 onClick={() => router.push('/dashboard/users')}
                 className="p-4 border-2 border-blue-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition"
               >
