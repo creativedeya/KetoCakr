@@ -24,6 +24,7 @@ const SOURCE_LABELS: Record<string, string> = {
   website: '🌐 Website',
   manual: '✏️ Manual',
   user_saved: '👤 User',
+  book: '📖 Book',
 };
 
 export default function SimpleRecipesPage() {
@@ -34,18 +35,28 @@ export default function SimpleRecipesPage() {
   const [sourceFilter, setSourceFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [duplicating, setDuplicating] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
+    setLoadError(null);
     const params = new URLSearchParams();
     if (search) params.set('search', search);
     if (sourceFilter) params.set('source_type', sourceFilter);
     if (statusFilter) params.set('status', statusFilter);
 
-    const res = await fetch(`/api/simple-recipes?${params}`);
-    const data = await res.json();
-    setRecipes(data.data || []);
-    setLoading(false);
+    try {
+      const res = await fetch(`/api/simple-recipes?${params}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      setRecipes(data.data || []);
+    } catch (err: any) {
+      setLoadError(err.message);
+      setRecipes([]);
+    } finally {
+      setLoading(false);
+    }
   }, [search, sourceFilter, statusFilter]);
 
   // Debounced search
@@ -53,6 +64,25 @@ export default function SimpleRecipesPage() {
     const t = setTimeout(load, 300);
     return () => clearTimeout(t);
   }, [load]);
+
+  const duplicateRecipe = async (id: string) => {
+    if (!confirm('Duplicate this recipe?')) return;
+    setDuplicating(id);
+    try {
+      const res = await fetch('/api/base-recipes/duplicate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipeId: id }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Failed');
+      router.push(`/dashboard/simple-recipes/${data.newRecipe.id}`);
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    } finally {
+      setDuplicating(null);
+    }
+  };
 
   const deleteRecipe = async (id: string, name: string) => {
     if (!confirm(`Delete "${name}"?\n\nThis will also delete all ingredients and steps. Cannot be undone.`)) return;
@@ -107,6 +137,13 @@ export default function SimpleRecipesPage() {
         </div>
       </div>
 
+      {/* Error banner */}
+      {loadError && (
+        <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          <strong>Error loading recipes:</strong> {loadError}
+        </div>
+      )}
+
       {/* Filters */}
       <div className="flex gap-3 mb-4">
         <input
@@ -124,6 +161,7 @@ export default function SimpleRecipesPage() {
           <option value="website">Website</option>
           <option value="manual">Manual</option>
           <option value="user_saved">User Saved</option>
+          <option value="book">📖 Book</option>
         </select>
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
           className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
@@ -169,8 +207,27 @@ export default function SimpleRecipesPage() {
                 return (
                   <tr key={recipe.id} className="border-b hover:bg-gray-50 transition">
                     <td className="px-4 py-3">
-                      <div className="font-medium text-gray-900">{recipe.name}</div>
-                      {recipe.name_en && <div className="text-xs text-gray-400">{recipe.name_en}</div>}
+                      <div className="flex items-center gap-3">
+                        {recipe.image_url ? (
+                          <img
+                            src={recipe.image_url}
+                            alt={recipe.name}
+                            style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
+                          />
+                        ) : (
+                          <div style={{
+                            width: 40, height: 40, borderRadius: 8, flexShrink: 0,
+                            backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center',
+                            justifyContent: 'center', fontSize: 20
+                          }}>
+                            🍰
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-medium text-gray-900">{recipe.name}</div>
+                          {recipe.name_en && <div className="text-xs text-gray-400">{recipe.name_en}</div>}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className="text-xs font-medium">
@@ -196,11 +253,7 @@ export default function SimpleRecipesPage() {
                         <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
                           ✓ Published
                         </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-medium">
-                          Draft
-                        </span>
-                      )}
+                      ) : null}
                     </td>
                     <td className="px-4 py-3 text-center">
                       <div className="flex items-center justify-center gap-2">
@@ -208,6 +261,12 @@ export default function SimpleRecipesPage() {
                           className="px-3 py-1 bg-blue-50 text-blue-600 rounded text-xs hover:bg-blue-100 transition font-medium">
                           ✏️ Edit
                         </Link>
+                        <button
+                          onClick={() => duplicateRecipe(recipe.id)}
+                          disabled={duplicating === recipe.id}
+                          className="px-3 py-1 bg-gray-50 text-gray-600 rounded text-xs hover:bg-gray-100 transition font-medium disabled:opacity-50">
+                          {duplicating === recipe.id ? '...' : '⎘ Copy'}
+                        </button>
                         <button
                           onClick={() => deleteRecipe(recipe.id, recipe.name)}
                           disabled={deleting === recipe.id}

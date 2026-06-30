@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(head:*)",
+      "Bash(grep usda-import:*)",
+      "Bash(ls migrations:*)",
+      "Bash(tail:*)",
+      "Bash(cd /c/Dev/KetoCakr/admin && npx tsc --noEmit 2>&1)",
+      "Bash(node -e \"require\\('pdf-parse'\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(dir *)",
+      "Bash(npm list *)",
+      "Bash(npm view *)",
+      "Bash(npm uninstall *)"
     ]
   }
 }

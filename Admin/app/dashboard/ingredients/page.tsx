@@ -24,10 +24,28 @@ interface Ingredient {
   default_currency?: string | null;
   price_unit?: string | null;
   unit_weight_grams?: number | null;
+  default_piece_weight_grams?: number | null;
   category_id: number | null;
   image_url: string | null;
   aliases: string[];
   ingredient_categories?: Category;
+  sugar_per_100g?: number | null;
+  sugar_alcohol_per_100g?: number | null;
+  saturated_fat_per_100g?: number | null;
+  cholesterol_per_100g?: number | null;
+  sodium_per_100g?: number | null;
+  calcium_per_100g?: number | null;
+  iron_per_100g?: number | null;
+  magnesium_per_100g?: number | null;
+  potassium_per_100g?: number | null;
+  zinc_per_100g?: number | null;
+  vitamin_a_per_100g?: number | null;
+  vitamin_c_per_100g?: number | null;
+  vitamin_d_per_100g?: number | null;
+  usda_fdc_id?: number | null;
+  nutrition_source?: string | null;
+  nutrition_verified?: boolean | null;
+  is_sugar_alcohol?: boolean;
 }
 
 interface RecipeUsage {
@@ -46,6 +64,32 @@ interface RecipeUsage {
 
 interface IngredientWithCount extends Ingredient {
   recipeCount: number;
+}
+
+type LookupSource = 'usda' | 'fatsecret' | 'openfoodfacts';
+type LookupMode = LookupSource | 'compare';
+
+interface CompareEntry {
+  result: LookupResult | null;
+  error: string | null;
+}
+
+interface LookupNutrients {
+  calories: number | null; protein: number | null; fat: number | null;
+  carbs: number | null; fiber: number | null; sugar: number | null;
+  sugarAlcohol: number | null; saturatedFat: number | null; cholesterol: number | null;
+  sodium: number | null; calcium: number | null; iron: number | null;
+  magnesium: number | null; potassium: number | null; zinc: number | null;
+  vitaminA: number | null; vitaminC: number | null; vitaminD: number | null;
+}
+
+interface LookupResult {
+  id: string;
+  label: string;
+  sublabel: string;
+  nutrients: LookupNutrients | null;
+  usdaFdcId?: number;
+  fatsecretFoodId?: string;
 }
 
 export default function IngredientsPage() {
@@ -77,9 +121,27 @@ export default function IngredientsPage() {
     default_currency: 'EUR',
     price_unit: 'kg',
     unit_weight_grams: '',
+    default_piece_weight_grams: '',
     category_id: '',
     image_url: '',
     aliases: '',
+    sugar_per_100g: '',
+    sugar_alcohol_per_100g: '',
+    saturated_fat_per_100g: '',
+    cholesterol_per_100g: '',
+    sodium_per_100g: '',
+    calcium_per_100g: '',
+    iron_per_100g: '',
+    magnesium_per_100g: '',
+    potassium_per_100g: '',
+    zinc_per_100g: '',
+    vitamin_a_per_100g: '',
+    vitamin_c_per_100g: '',
+    vitamin_d_per_100g: '',
+    usda_fdc_id: '',
+    nutrition_source: 'manual',
+    nutrition_verified: false,
+    is_sugar_alcohol: false,
   });
 
   // ─── New State ────────────────────────────────────────────────
@@ -100,6 +162,14 @@ export default function IngredientsPage() {
   // Link ingredient_database_id to a recipe_ingredient
   const [linkingUsageId, setLinkingUsageId] = useState<number | null>(null);
   const [linkSearch, setLinkSearch] = useState('');
+
+  // Nutrition lookup (single ingredient, in-form)
+  const [lookupOpen, setLookupOpen] = useState(false);
+  const [lookupSource, setLookupSource] = useState<LookupMode>('usda');
+  const [compareData, setCompareData] = useState<Record<LookupSource, CompareEntry> | null>(null);
+  const [lookupQuery, setLookupQuery] = useState('');
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [lookupResults, setLookupResults] = useState<LookupResult[]>([]);
 
   useEffect(() => {
     checkAuth();
@@ -322,6 +392,214 @@ export default function IngredientsPage() {
     if (expandedId) loadIngredientUsages(expandedId);
   }
 
+  // ─── Nutrition Lookup (single ingredient) ─────────────────────
+  async function lookupNutrition() {
+    const q = (lookupQuery.trim() || formData.name_en.trim());
+    if (!q) { alert('Въведете име (EN) или заявка за търсене'); return; }
+    setLookupLoading(true);
+    setLookupResults([]);
+    try {
+      if (lookupSource === 'usda') {
+        const res = await fetch(`/api/usda-search?query=${encodeURIComponent(q)}`);
+        if (!res.ok) throw new Error(`USDA API error: ${res.status}`);
+        const json = await res.json();
+        setLookupResults((json.results || []).map((r: any) => ({
+          id: String(r.fdcId),
+          label: r.description,
+          sublabel: `${r.dataType} · ${r.calories_per_100g ?? '—'} kcal · C ${r.carbs_per_100g ?? '—'}g`,
+          usdaFdcId: r.fdcId,
+          nutrients: {
+            calories: r.calories_per_100g, protein: r.protein_per_100g, fat: r.fat_per_100g,
+            carbs: r.carbs_per_100g, fiber: r.fiber_per_100g, sugar: r.sugar_per_100g,
+            sugarAlcohol: null, saturatedFat: r.saturated_fat_per_100g,
+            cholesterol: r.cholesterol_per_100g, sodium: r.sodium_per_100g,
+            calcium: r.calcium_per_100g, iron: r.iron_per_100g, magnesium: r.magnesium_per_100g,
+            potassium: r.potassium_per_100g, zinc: r.zinc_per_100g,
+            vitaminA: r.vitamin_a_per_100g, vitaminC: r.vitamin_c_per_100g, vitaminD: r.vitamin_d_per_100g,
+          },
+        })));
+      } else if (lookupSource === 'fatsecret') {
+        const res = await fetch(`/api/fatsecret-search?query=${encodeURIComponent(q)}`);
+        if (!res.ok) throw new Error(`FatSecret API error: ${res.status}`);
+        const json = await res.json();
+        setLookupResults((json.results || []).map((r: any) => ({
+          id: r.id,
+          label: r.name,
+          sublabel: r.brand ? `🏷 ${r.brand}` : (r.description || r.type || ''),
+          nutrients: null,
+          fatsecretFoodId: r.id,
+        })));
+      } else {
+        const res = await fetch(`/api/openfoodfacts-search?query=${encodeURIComponent(q)}`);
+        if (!res.ok) throw new Error(`OFF API error: ${res.status}`);
+        const json = await res.json();
+        setLookupResults((json.results || []).map((r: any, i: number) => ({
+          id: `off-${i}`,
+          label: r.name,
+          sublabel: `${r.brand ? r.brand + ' · ' : ''}${r.nutrients?.calories ?? '—'} kcal · ${r.confidence}% conf.`,
+          nutrients: r.nutrients,
+        })));
+      }
+    } catch (e: any) {
+      const msg = String(e?.message || e);
+      alert(/50[234]/.test(msg)
+        ? 'Източникът е временно недостъпен (сървърна грешка 50x). Опитай отново след малко или избери друг източник.'
+        : 'Грешка при търсене: ' + msg);
+    }
+    setLookupLoading(false);
+  }
+
+  async function applyLookupResult(result: LookupResult, sourceOverride?: LookupSource) {
+    let nutrients = result.nutrients;
+    // FatSecret: search items have no nutrients — fetch detail by food_id
+    if (!nutrients && result.fatsecretFoodId) {
+      setLookupLoading(true);
+      try {
+        const res = await fetch(`/api/fatsecret-search?food_id=${encodeURIComponent(result.fatsecretFoodId)}`);
+        const json = await res.json();
+        if (!json.id) throw new Error('No detail returned');
+        nutrients = json.nutrients;
+      } catch {
+        alert('Не може да се зареди детайл от FatSecret');
+        setLookupLoading(false);
+        return;
+      }
+      setLookupLoading(false);
+    }
+    if (!nutrients) return;
+
+    const s = (v: number | null | undefined) => (v != null ? String(v) : '');
+    setFormData(prev => ({
+      ...prev,
+      calories_per_100g: nutrients!.calories ?? 0,
+      protein_per_100g: nutrients!.protein ?? 0,
+      fat_per_100g: nutrients!.fat ?? 0,
+      carbs_per_100g: nutrients!.carbs ?? 0,
+      fiber_per_100g: nutrients!.fiber ?? 0,
+      sugar_per_100g: s(nutrients!.sugar),
+      sugar_alcohol_per_100g: s(nutrients!.sugarAlcohol),
+      saturated_fat_per_100g: s(nutrients!.saturatedFat),
+      cholesterol_per_100g: s(nutrients!.cholesterol),
+      sodium_per_100g: s(nutrients!.sodium),
+      calcium_per_100g: s(nutrients!.calcium),
+      iron_per_100g: s(nutrients!.iron),
+      magnesium_per_100g: s(nutrients!.magnesium),
+      potassium_per_100g: s(nutrients!.potassium),
+      zinc_per_100g: s(nutrients!.zinc),
+      vitamin_a_per_100g: s(nutrients!.vitaminA),
+      vitamin_c_per_100g: s(nutrients!.vitaminC),
+      vitamin_d_per_100g: s(nutrients!.vitaminD),
+      usda_fdc_id: result.usdaFdcId ? String(result.usdaFdcId) : prev.usda_fdc_id,
+      nutrition_source: sourceOverride ?? (lookupSource as LookupSource),
+      nutrition_verified: true,
+    }));
+    setLookupResults([]);
+    setLookupOpen(false);
+  }
+
+  // ─── Compare all 3 sources (top result each, in parallel) ─────
+  function mapUsdaToLookup(r: any): LookupResult {
+    return {
+      id: String(r.fdcId),
+      label: r.description,
+      sublabel: r.dataType,
+      usdaFdcId: r.fdcId,
+      nutrients: {
+        calories: r.calories_per_100g, protein: r.protein_per_100g, fat: r.fat_per_100g,
+        carbs: r.carbs_per_100g, fiber: r.fiber_per_100g, sugar: r.sugar_per_100g,
+        sugarAlcohol: null, saturatedFat: r.saturated_fat_per_100g,
+        cholesterol: r.cholesterol_per_100g, sodium: r.sodium_per_100g,
+        calcium: r.calcium_per_100g, iron: r.iron_per_100g, magnesium: r.magnesium_per_100g,
+        potassium: r.potassium_per_100g, zinc: r.zinc_per_100g,
+        vitaminA: r.vitamin_a_per_100g, vitaminC: r.vitamin_c_per_100g, vitaminD: r.vitamin_d_per_100g,
+      },
+    };
+  }
+
+  async function lookupCompare() {
+    const q = (lookupQuery.trim() || formData.name_en.trim());
+    if (!q) { alert('Въведете име (EN) или заявка за търсене'); return; }
+    setLookupLoading(true);
+    setLookupResults([]);
+    setCompareData(null);
+
+    const data: Record<LookupSource, CompareEntry> = {
+      usda: { result: null, error: null },
+      fatsecret: { result: null, error: null },
+      openfoodfacts: { result: null, error: null },
+    };
+
+    await Promise.allSettled([
+      (async () => {
+        try {
+          const res = await fetch(`/api/usda-search?query=${encodeURIComponent(q)}`);
+          if (!res.ok) throw new Error(String(res.status));
+          const json = await res.json();
+          const r = (json.results || [])[0];
+          if (r) data.usda.result = mapUsdaToLookup(r);
+        } catch (e: any) { data.usda.error = String(e?.message || e); }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(`/api/fatsecret-search?query=${encodeURIComponent(q)}`);
+          if (!res.ok) throw new Error(String(res.status));
+          const json = await res.json();
+          const first = (json.results || [])[0];
+          if (first) {
+            const dres = await fetch(`/api/fatsecret-search?food_id=${encodeURIComponent(first.id)}`);
+            if (!dres.ok) throw new Error(String(dres.status));
+            const dj = await dres.json();
+            if (dj.id) {
+              data.fatsecret.result = {
+                id: dj.id,
+                label: dj.name,
+                sublabel: dj.brand ? `🏷 ${dj.brand}` : '',
+                fatsecretFoodId: dj.id,
+                nutrients: dj.nutrients,
+              };
+            }
+          }
+        } catch (e: any) { data.fatsecret.error = String(e?.message || e); }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(`/api/openfoodfacts-search?query=${encodeURIComponent(q)}`);
+          if (!res.ok) throw new Error(String(res.status));
+          const json = await res.json();
+          const r = (json.results || [])[0];
+          if (r) {
+            data.openfoodfacts.result = {
+              id: 'off-0',
+              label: r.name,
+              sublabel: `${r.brand ? r.brand + ' · ' : ''}${r.confidence}% conf.`,
+              nutrients: r.nutrients,
+            };
+          }
+        } catch (e: any) { data.openfoodfacts.error = String(e?.message || e); }
+      })(),
+    ]);
+
+    setCompareData(data);
+    setLookupLoading(false);
+  }
+
+  function applyMergedCompare() {
+    if (!compareData) return;
+    const order: LookupSource[] = ['usda', 'fatsecret', 'openfoodfacts'];
+    const sources = order.map(s => compareData[s].result?.nutrients).filter(Boolean) as LookupNutrients[];
+    if (sources.length === 0) return;
+    const keys = Object.keys(sources[0]) as (keyof LookupNutrients)[];
+    const merged = {} as LookupNutrients;
+    for (const k of keys) {
+      merged[k] = sources.find(n => n[k] != null)?.[k] ?? null;
+    }
+    const usdaRes = compareData.usda.result;
+    applyLookupResult(
+      { id: 'merged', label: 'merged', sublabel: '', nutrients: merged, usdaFdcId: usdaRes?.usdaFdcId },
+      usdaRes ? 'usda' : (compareData.fatsecret.result ? 'fatsecret' : 'openfoodfacts')
+    );
+  }
+
   // ─── Existing Image Upload Functions ─────────────────────────
   async function uploadImage(file: File) {
     try {
@@ -372,8 +650,15 @@ export default function IngredientsPage() {
       calories_per_100g: 0, protein_per_100g: 0,
       fat_per_100g: 0, carbs_per_100g: 0, fiber_per_100g: 0,
       default_unit: 'g', default_price: '0', default_currency: 'EUR',
-      price_unit: 'kg', unit_weight_grams: '', category_id: '',
+      price_unit: 'kg', unit_weight_grams: '', default_piece_weight_grams: '', category_id: '',
       image_url: '', aliases: '',
+      sugar_per_100g: '', sugar_alcohol_per_100g: '',
+      saturated_fat_per_100g: '', cholesterol_per_100g: '',
+      sodium_per_100g: '', calcium_per_100g: '', iron_per_100g: '',
+      magnesium_per_100g: '', potassium_per_100g: '', zinc_per_100g: '',
+      vitamin_a_per_100g: '', vitamin_c_per_100g: '', vitamin_d_per_100g: '',
+      usda_fdc_id: '', nutrition_source: 'manual', nutrition_verified: false,
+      is_sugar_alcohol: false,
     });
     setEditingId(null);
   }
@@ -392,9 +677,27 @@ export default function IngredientsPage() {
       default_currency: ingredient.default_currency ?? 'EUR',
       price_unit: ingredient.price_unit ?? 'kg',
       unit_weight_grams: ingredient.unit_weight_grams?.toString() ?? '',
+      default_piece_weight_grams: ingredient.default_piece_weight_grams?.toString() ?? '',
       category_id: ingredient.category_id?.toString() || '',
       image_url: ingredient.image_url || '',
       aliases: ingredient.aliases?.join(', ') || '',
+      sugar_per_100g: ingredient.sugar_per_100g?.toString() ?? '',
+      sugar_alcohol_per_100g: ingredient.sugar_alcohol_per_100g?.toString() ?? '',
+      saturated_fat_per_100g: ingredient.saturated_fat_per_100g?.toString() ?? '',
+      cholesterol_per_100g: ingredient.cholesterol_per_100g?.toString() ?? '',
+      sodium_per_100g: ingredient.sodium_per_100g?.toString() ?? '',
+      calcium_per_100g: ingredient.calcium_per_100g?.toString() ?? '',
+      iron_per_100g: ingredient.iron_per_100g?.toString() ?? '',
+      magnesium_per_100g: ingredient.magnesium_per_100g?.toString() ?? '',
+      potassium_per_100g: ingredient.potassium_per_100g?.toString() ?? '',
+      zinc_per_100g: ingredient.zinc_per_100g?.toString() ?? '',
+      vitamin_a_per_100g: ingredient.vitamin_a_per_100g?.toString() ?? '',
+      vitamin_c_per_100g: ingredient.vitamin_c_per_100g?.toString() ?? '',
+      vitamin_d_per_100g: ingredient.vitamin_d_per_100g?.toString() ?? '',
+      usda_fdc_id: ingredient.usda_fdc_id?.toString() ?? '',
+      nutrition_source: ingredient.nutrition_source || 'manual',
+      nutrition_verified: ingredient.nutrition_verified || false,
+      is_sugar_alcohol: ingredient.is_sugar_alcohol || false,
     });
     setEditingId(ingredient.id);
   }
@@ -419,11 +722,29 @@ export default function IngredientsPage() {
       fiber_per_100g: parseFloat(formData.fiber_per_100g as any) || 0,
       default_unit: formData.default_unit || 'g',
       unit_weight_grams: formData.unit_weight_grams ? parseFloat(formData.unit_weight_grams as any) : null,
+      default_piece_weight_grams: (formData.default_piece_weight_grams as string) ? parseFloat(formData.default_piece_weight_grams as string) : null,
       updated_at: new Date().toISOString(),
       default_price: parseFloat(formData.default_price as any) || 0,
       default_currency: formData.default_currency || 'EUR',
       price_unit: formData.price_unit || 'kg',
       last_price_update: new Date().toISOString(),
+      sugar_per_100g: (formData.sugar_per_100g as string) ? parseFloat(formData.sugar_per_100g as string) : null,
+      sugar_alcohol_per_100g: (formData.sugar_alcohol_per_100g as string) ? parseFloat(formData.sugar_alcohol_per_100g as string) : null,
+      saturated_fat_per_100g: (formData.saturated_fat_per_100g as string) ? parseFloat(formData.saturated_fat_per_100g as string) : null,
+      cholesterol_per_100g: (formData.cholesterol_per_100g as string) ? parseFloat(formData.cholesterol_per_100g as string) : null,
+      sodium_per_100g: (formData.sodium_per_100g as string) ? parseFloat(formData.sodium_per_100g as string) : null,
+      calcium_per_100g: (formData.calcium_per_100g as string) ? parseFloat(formData.calcium_per_100g as string) : null,
+      iron_per_100g: (formData.iron_per_100g as string) ? parseFloat(formData.iron_per_100g as string) : null,
+      magnesium_per_100g: (formData.magnesium_per_100g as string) ? parseFloat(formData.magnesium_per_100g as string) : null,
+      potassium_per_100g: (formData.potassium_per_100g as string) ? parseFloat(formData.potassium_per_100g as string) : null,
+      zinc_per_100g: (formData.zinc_per_100g as string) ? parseFloat(formData.zinc_per_100g as string) : null,
+      vitamin_a_per_100g: (formData.vitamin_a_per_100g as string) ? parseFloat(formData.vitamin_a_per_100g as string) : null,
+      vitamin_c_per_100g: (formData.vitamin_c_per_100g as string) ? parseFloat(formData.vitamin_c_per_100g as string) : null,
+      vitamin_d_per_100g: (formData.vitamin_d_per_100g as string) ? parseFloat(formData.vitamin_d_per_100g as string) : null,
+      usda_fdc_id: formData.usda_fdc_id ? parseInt(formData.usda_fdc_id as string) : null,
+      nutrition_source: formData.nutrition_source || 'manual',
+      nutrition_verified: formData.nutrition_verified as boolean,
+      is_sugar_alcohol: formData.is_sugar_alcohol as boolean || false,
     };
 
     try {
@@ -603,6 +924,9 @@ export default function IngredientsPage() {
               <p className="text-gray-600 mt-1">Manage ingredients with nutritional information</p>
             </div>
             <div className="flex space-x-2">
+              <a href="/dashboard/ingredients/usda-import" className="bg-[#A80048] text-white px-4 py-2 rounded-lg hover:bg-[#8a003c] flex items-center gap-1">
+                🔬 USDA Import
+              </a>
               <button onClick={downloadCSVTemplate} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 📥 Download Template
               </button>
@@ -749,6 +1073,247 @@ export default function IngredientsPage() {
                     </div>
                   </div>
 
+                  {/* Sugar alcohol flag */}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="is_sugar_alcohol"
+                      checked={formData.is_sugar_alcohol as boolean}
+                      onChange={(e) => setFormData({ ...formData, is_sugar_alcohol: e.target.checked })}
+                      className="w-4 h-4 accent-purple-600"
+                    />
+                    <label htmlFor="is_sugar_alcohol" className="text-sm text-gray-700 cursor-pointer">
+                      Захарен алкохол (еритритол, ксилитол и др.) — изключва се от total_carbs
+                    </label>
+                  </div>
+
+                  {/* ── Nutrition Lookup ── */}
+                  <div className="border border-purple-200 rounded-lg p-3 bg-purple-50/50 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => { setLookupOpen(!lookupOpen); if (!lookupOpen) { setLookupQuery(formData.name_en); setLookupResults([]); } }}
+                      className="text-sm font-semibold text-[#A80048] hover:underline"
+                    >
+                      🔍 {lookupOpen ? 'Скрий търсенето на нутриенти' : 'Попълни нутриенти от база данни'}
+                    </button>
+
+                    {lookupOpen && (
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap gap-1.5">
+                          {(['usda', 'fatsecret', 'openfoodfacts', 'compare'] as LookupMode[]).map(src => (
+                            <button
+                              key={src}
+                              type="button"
+                              onClick={() => { setLookupSource(src); setLookupResults([]); setCompareData(null); }}
+                              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                                lookupSource === src ? 'bg-[#A80048] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                              }`}
+                            >
+                              {src === 'usda' ? '🔬 USDA' : src === 'fatsecret' ? '🧬 FatSecret' : src === 'openfoodfacts' ? '🌍 Open Food Facts' : '⭐ Сравни 3-те'}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={lookupQuery}
+                            onChange={(e) => setLookupQuery(e.target.value)}
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); lookupSource === 'compare' ? lookupCompare() : lookupNutrition(); } }}
+                            className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-[#A80048]"
+                            placeholder="Търсене (EN)..."
+                          />
+                          <button
+                            type="button"
+                            onClick={() => (lookupSource === 'compare' ? lookupCompare() : lookupNutrition())}
+                            disabled={lookupLoading}
+                            className="bg-[#A80048] text-white px-3 py-1.5 rounded text-sm hover:bg-[#8a003c] disabled:opacity-50"
+                          >
+                            {lookupLoading ? '...' : 'Търси'}
+                          </button>
+                        </div>
+
+                        {lookupResults.length > 0 && (
+                          <div className="max-h-56 overflow-y-auto space-y-1">
+                            {lookupResults.map(r => (
+                              <div
+                                key={r.id}
+                                onClick={() => applyLookupResult(r)}
+                                className="p-2 border border-gray-200 rounded bg-white cursor-pointer hover:bg-purple-50 text-sm"
+                              >
+                                <div className="font-medium text-gray-900">{r.label}</div>
+                                <div className="text-xs text-gray-500">{r.sublabel}</div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {lookupSource === 'compare' && compareData && !lookupLoading && (
+                          <div className="space-y-2">
+                            {(['usda', 'fatsecret', 'openfoodfacts'] as LookupSource[]).map(src => {
+                              const entry = compareData[src];
+                              const label = src === 'usda' ? '🔬 USDA' : src === 'fatsecret' ? '🧬 FatSecret' : '🌍 Open Food Facts';
+                              const n = entry.result?.nutrients;
+                              return (
+                                <div key={src} className="p-2 border border-gray-200 rounded bg-white text-sm">
+                                  <div className="flex justify-between items-center gap-2">
+                                    <span className="font-semibold text-gray-800">{label}</span>
+                                    {entry.result && (
+                                      <button
+                                        type="button"
+                                        onClick={() => applyLookupResult(entry.result!, src)}
+                                        className="bg-[#A80048] text-white px-2 py-1 rounded text-xs hover:bg-[#8a003c] flex-shrink-0"
+                                      >
+                                        Използвай
+                                      </button>
+                                    )}
+                                  </div>
+                                  {entry.result ? (
+                                    <>
+                                      <div className="text-xs text-gray-700 mt-1 truncate">{entry.result.label}{entry.result.sublabel ? ` · ${entry.result.sublabel}` : ''}</div>
+                                      {n && (
+                                        <div className="text-xs text-gray-500 mt-0.5">
+                                          {n.calories ?? '—'} kcal · P {n.protein ?? '—'} · F {n.fat ?? '—'} · C {n.carbs ?? '—'} · Фибри {n.fiber ?? '—'}
+                                        </div>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <div className="text-xs text-amber-600 mt-1">
+                                      {entry.error
+                                        ? (/50[234]/.test(entry.error) ? 'Временно недостъпен (50x)' : 'Грешка: ' + entry.error)
+                                        : 'Няма резултат'}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                            {Object.values(compareData).filter(e => e.result).length >= 2 && (
+                              <button
+                                type="button"
+                                onClick={applyMergedCompare}
+                                className="w-full bg-purple-600 text-white px-3 py-1.5 rounded text-sm hover:bg-purple-700"
+                              >
+                                ⭐ Обедини (приоритет USDA → FS → OFF)
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                        {!lookupLoading && lookupResults.length === 0 && !compareData && (
+                          <p className="text-xs text-gray-500">Избери източник, търси и кликни върху резултат — нутриентите ще се попълнят във формата.</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* ── Детайлни нутриенти ── */}
+                  <div className="border border-gray-200 rounded-lg p-3 space-y-3">
+                    <h4 className="text-sm font-semibold text-gray-700">🔬 Детайлни нутриенти (per 100g)</h4>
+
+                    {/* Въглехидрати детайли */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-1.5">Въглехидрати детайли</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Захар (g)</label>
+                          <input type="number" step="0.1" value={formData.sugar_per_100g as string} onChange={(e) => setFormData({ ...formData, sugar_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Захарни алкохоли (g)</label>
+                          <input type="number" step="0.1" value={formData.sugar_alcohol_per_100g as string} onChange={(e) => setFormData({ ...formData, sugar_alcohol_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Мазнини детайли */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-1.5">Мазнини детайли</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Наситени мазнини (g)</label>
+                          <input type="number" step="0.1" value={formData.saturated_fat_per_100g as string} onChange={(e) => setFormData({ ...formData, saturated_fat_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Холестерол (mg)</label>
+                          <input type="number" step="0.1" value={formData.cholesterol_per_100g as string} onChange={(e) => setFormData({ ...formData, cholesterol_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Минерали */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-1.5">Минерали (mg)</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Натрий</label>
+                          <input type="number" step="0.1" value={formData.sodium_per_100g as string} onChange={(e) => setFormData({ ...formData, sodium_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Калций</label>
+                          <input type="number" step="0.1" value={formData.calcium_per_100g as string} onChange={(e) => setFormData({ ...formData, calcium_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Желязо</label>
+                          <input type="number" step="0.1" value={formData.iron_per_100g as string} onChange={(e) => setFormData({ ...formData, iron_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Магнезий</label>
+                          <input type="number" step="0.1" value={formData.magnesium_per_100g as string} onChange={(e) => setFormData({ ...formData, magnesium_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Калий</label>
+                          <input type="number" step="0.1" value={formData.potassium_per_100g as string} onChange={(e) => setFormData({ ...formData, potassium_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Цинк</label>
+                          <input type="number" step="0.1" value={formData.zinc_per_100g as string} onChange={(e) => setFormData({ ...formData, zinc_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Витамини */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-1.5">Витамини</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Вит. A (mcg)</label>
+                          <input type="number" step="0.1" value={formData.vitamin_a_per_100g as string} onChange={(e) => setFormData({ ...formData, vitamin_a_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Вит. C (mg)</label>
+                          <input type="number" step="0.1" value={formData.vitamin_c_per_100g as string} onChange={(e) => setFormData({ ...formData, vitamin_c_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Вит. D (mcg)</label>
+                          <input type="number" step="0.1" value={formData.vitamin_d_per_100g as string} onChange={(e) => setFormData({ ...formData, vitamin_d_per_100g: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm" placeholder="—" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* USDA Metadata */}
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium mb-1.5">USDA Metadata</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">FDC ID</label>
+                          <input type="number" value={formData.usda_fdc_id as string} disabled className="w-full px-2 py-1.5 border border-gray-200 rounded text-sm bg-gray-50 text-gray-400" placeholder="Auto-filled" />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Nutrition Source</label>
+                          <select value={formData.nutrition_source as string} onChange={(e) => setFormData({ ...formData, nutrition_source: e.target.value })} className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm">
+                            <option value="manual">Ръчно</option>
+                            <option value="usda">USDA</option>
+                            <option value="manufacturer">Производител</option>
+                          </select>
+                        </div>
+                      </div>
+                      <label className="flex items-center space-x-2 mt-2 cursor-pointer">
+                        <input type="checkbox" checked={formData.nutrition_verified as boolean} onChange={(e) => setFormData({ ...formData, nutrition_verified: e.target.checked })} className="w-4 h-4 accent-purple-600" />
+                        <span className="text-xs text-gray-600 font-medium">Нутриентите са верифицирани</span>
+                      </label>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Default Unit</label>
                     <select value={formData.default_unit} onChange={(e) => setFormData({ ...formData, default_unit: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
@@ -756,6 +1321,22 @@ export default function IngredientsPage() {
                       <option value="ml">ml (милилитри)</option>
                       <option value="pcs">pcs (броя)</option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Тегло на 1 бр. (г)
+                      <span className="ml-1 text-xs text-gray-400 font-normal">— само за съставки в бройки</span>
+                    </label>
+                    <input
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={formData.default_piece_weight_grams as string}
+                      onChange={(e) => setFormData({ ...formData, default_piece_weight_grams: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      placeholder="напр. 50 за яйце, 150 за лук"
+                    />
                   </div>
 
                   {/* Pricing */}
@@ -883,6 +1464,11 @@ export default function IngredientsPage() {
                                           {ing.ingredient_categories && (
                                             <span className="inline-block mt-0.5 px-1.5 py-0.5 text-xs bg-purple-100 text-purple-700 rounded">
                                               {ing.ingredient_categories.name}
+                                            </span>
+                                          )}
+                                          {ing.default_piece_weight_grams && (
+                                            <span className="text-xs text-gray-500">
+                                              1 бр. = {ing.default_piece_weight_grams}г
                                             </span>
                                           )}
                                         </div>

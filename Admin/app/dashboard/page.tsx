@@ -196,6 +196,22 @@ export default function DashboardPage() {
                 <div className="text-2xl mb-2">🧪</div>
                 <div className="font-semibold">Lab Notes</div>
               </button>
+
+              <button
+                onClick={() => router.push('/dashboard/tarot-cards')}
+                className="p-4 border-2 border-violet-200 rounded-lg hover:border-violet-400 hover:bg-violet-50 transition"
+              >
+                <div className="text-2xl mb-2">🔮</div>
+                <div className="font-semibold">Таро Карти</div>
+              </button>
+
+              <button
+                onClick={() => router.push('/dashboard/pdf-importer')}
+                className="p-4 border-2 border-amber-200 rounded-lg hover:border-amber-400 hover:bg-amber-50 transition"
+              >
+                <div className="text-2xl mb-2">📄</div>
+                <div className="font-semibold">PDF Importer</div>
+              </button>
             </div>
           </div>
         </div>

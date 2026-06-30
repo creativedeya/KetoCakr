@@ -136,6 +136,32 @@ notes/                    — Obsidian vault
 - **Генерация на изображения**: Replicate / OpenAI → `/api/generate-recipe-images`, `/api/generate-step-image`
 - **Upload**: Supabase Storage → `/api/upload-step-image`
 
+## Simple Recipes — Dual-Table Rule
+
+Simple recipes (`is_simple_recipe = true`) exist in BOTH:
+- `base_recipes` — source of truth for nutrition, ingredients, steps
+- `ready_recipes` — publishable record visible to mobile users
+
+**RULE:** Every write to `base_recipes` for a simple recipe MUST be mirrored to `ready_recipes`.
+This applies to: name, description, image_url, servings, all nutrition totals, published_at.
+
+Field mapping (`base_recipes` → `ready_recipes`):
+- `name` → `name_bg`
+- `name_en` → `name_en`
+- `description` → `description_bg`
+- `description_en` → `description_en`
+- `image_url` → `hero_image_url`
+- `servings` → `total_servings`
+- nutrition totals → same column names
+- `published_at` → `published_at` + derive `status` ('published' / 'draft')
+
+API routes that handle this:
+- `POST /api/simple-recipes` → inserts into both tables (`id` is shared)
+- `PATCH /api/simple-recipes/[id]` → updates both tables (lookup by `id`)
+
+Do NOT add UI fields that write to only one table without syncing the other.
+The `id` is shared between both tables (ready_recipes.id = base_recipes.id for simple recipes).
+
 ## Планирани задачи за Admin
 - [ ] Batch превод на 111 стъпки без EN (OpenAI API)
 - [ ] Ingredients cleanup/deduplication tool

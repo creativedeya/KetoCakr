@@ -45,7 +45,6 @@ export default function Step4Review() {
         <TextInput
           value={recipeName}
           onChangeText={(text) => {
-            console.log('Step4 - TextInput onChange:', text);
             setRecipeName(text);
           }}
           placeholder={defaultName}

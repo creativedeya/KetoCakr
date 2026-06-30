@@ -21,6 +21,8 @@ type ReadyRecipe = {
   total_net_carbs: number;
   created_at: string;
   published_at: string;
+  source_url?: string;
+  selected_components?: any[];
 };
 
 type DessertType = {
@@ -245,6 +247,11 @@ export default function ReadyRecipesList() {
                         {recipe.name_bg && (
                           <p className="text-sm text-gray-500">{recipe.name_bg}</p>
                         )}
+                        {(recipe as any).selected_components?.some((c: any) => c.role === 'simple') && (
+                          <span className="text-xs text-rose-600 bg-rose-50 px-2 py-0.5 rounded font-medium">
+                            ⚡ Simple
+                          </span>
+                        )}
                         <div className="flex items-center gap-2 mt-1">
                           {recipe.is_featured && (
                             <span className="flex items-center gap-1 text-xs text-purple-600">
@@ -256,6 +263,18 @@ export default function ReadyRecipesList() {
                             <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded">
                               Free
                             </span>
+                          )}
+                          {recipe.source_url && (
+                            <a
+                              href={recipe.source_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-xs text-red-600 bg-red-50 px-2 py-0.5 rounded hover:bg-red-100 transition"
+                              title="Watch video"
+                            >
+                              ▶ Video
+                            </a>
                           )}
                         </div>
                       </div>

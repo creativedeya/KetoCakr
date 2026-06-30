@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Trash2, Copy, Save, Sparkles, Upload, X, ImageIcon, FileText, ArrowLeft } from 'lucide-react';
+import RecipeResourcesManager from '@/components/RecipeResourcesManager';
+import { Plus, Trash2, Copy, Save, Sparkles, Upload, X, ImageIcon, FileText, ArrowLeft, Settings2 } from 'lucide-react';
+import { GenerationSettingsModal } from '@/app/components/GenerationSettingsModal';
+import { GenerationSettings, DEFAULT_GENERATION_SETTINGS } from '@/lib/types/generationSettings';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -11,6 +14,13 @@ type DessertType = {
   id: number;
   name: string;
   name_en: string;
+};
+
+type ServingContainer = {
+  id: number;
+  name: string;
+  name_en: string | null;
+  category: string | null;
 };
 
 type RecipeRole = {
@@ -64,10 +74,14 @@ export default function ReadyRecipeEdit() {
   const [recipeRoles, setRecipeRoles] = useState<RecipeRole[]>([]);
   const [baseRecipes, setBaseRecipes] = useState<BaseRecipe[]>([]);
   const [templates, setTemplates] = useState<AssemblyTemplate[]>([]);
+  const [servingContainers, setServingContainers] = useState<ServingContainer[]>([]);
 
   // Form State
   const [selectedDessertType, setSelectedDessertType] = useState<number | null>(null);
+  const [selectedServingContainer, setSelectedServingContainer] = useState<number | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
+  const [layerCountOverride, setLayerCountOverride] = useState<number | null>(null);
+  const [templateIsMultiLayer, setTemplateIsMultiLayer] = useState(false);
   const [components, setComponents] = useState<ComponentSelection[]>([]);
   const [nameEn, setNameEn] = useState('');
   const [nameBg, setNameBg] = useState('');
@@ -90,6 +104,19 @@ export default function ReadyRecipeEdit() {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [generationProgress, setGenerationProgress] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageProvider, setImageProvider] = useState<'reve' | 'gemini'>('reve');
+  const [refineInstruction, setRefineInstruction] = useState('');
+  const [refining, setRefining] = useState(false);
+  const [generationSettings, setGenerationSettings] = useState<GenerationSettings>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('keto-generation-settings');
+        if (saved) return JSON.parse(saved) as GenerationSettings;
+      } catch {}
+    }
+    return DEFAULT_GENERATION_SETTINGS;
+  });
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   // Cost State
   const [estimatedCost, setEstimatedCost] = useState(0);
@@ -126,16 +153,41 @@ export default function ReadyRecipeEdit() {
     }
   }, [components]);
 
+  // Detect if selected template is multi-layer (role=1 AND step_type='layer' count > 1)
+  // Controls visibility of the "Брой блатове" override input.
+  useEffect(() => {
+    if (!selectedTemplate) {
+      setTemplateIsMultiLayer(false);
+      return;
+    }
+    supabase
+      .from('assembly_template_steps')
+      .select('id', { count: 'exact', head: true })
+      .eq('assembly_template_id', selectedTemplate)
+      .eq('recipe_role_id', 1)
+      .eq('step_type', 'layer')
+      .then(({ count }) => {
+        setTemplateIsMultiLayer((count ?? 0) > 1);
+      });
+  }, [selectedTemplate]);
+
   async function loadInitialData() {
     try {
-      const [dessertTypesRes, rolesRes] = await Promise.all([
+      const [dessertTypesRes, rolesRes, simpleRes, containersRes] = await Promise.all([
         supabase.from('dessert_types').select('*').order('name'),
-        supabase.from('recipe_roles').select('*').order('id')
+        supabase.from('recipe_roles').select('*').order('id'),
+        supabase.from('base_recipes').select('*').eq('is_simple_recipe', true).order('name'),
+        fetch('/api/equipment?serving_container=true').then(r => r.json()),
       ]);
 
       if (dessertTypesRes.data) setDessertTypes(dessertTypesRes.data);
       if (rolesRes.data) setRecipeRoles(rolesRes.data);
-      
+      if (simpleRes.data) setBaseRecipes(prev => [
+        ...prev.filter(br => !(br as any).is_simple_recipe),
+        ...simpleRes.data,
+      ]);
+      if (containersRes.success) setServingContainers(containersRes.data || []);
+
     } catch (error) {
       console.error('Error loading initial data:', error);
     }
@@ -162,7 +214,9 @@ export default function ReadyRecipeEdit() {
         setIntroTextEn(data.custom_intro_text_en || '');
         setIntroTextBg(data.custom_intro_text_bg || '');
         setSelectedDessertType(data.dessert_type_id);
+        setSelectedServingContainer(data.serving_container_id || null);
         setSelectedTemplate(data.assembly_template_id);
+        setLayerCountOverride(data.layer_count_override ?? null);
         setComponents(data.selected_components || []);
         setDifficulty(data.difficulty_level || 3);
         setIsFree(data.is_free ?? true);
@@ -176,6 +230,7 @@ export default function ReadyRecipeEdit() {
         setSellingPrice(data.selling_price?.toString() || '');
         setPriceCurrency(data.price_currency || 'EUR');
 
+
         console.log('✅ Recipe loaded:', data.name_en);
       }
     } catch (error) {
@@ -187,15 +242,27 @@ export default function ReadyRecipeEdit() {
   }
 
   async function loadBaseRecipes(dessertTypeId: number) {
-    const { data, error } = await supabase
-      .from('base_recipes')
-      .select('*')
-      .contains('compatible_dessert_types', [dessertTypeId])
-      .order('recipe_role_id')
-      .order('name');
+    // Load both puzzle components AND simple recipes for this dessert type
+    const [{ data: puzzleData, error: puzzleError }, { data: simpleData, error: simpleError }] = await Promise.all([
+      supabase
+        .from('base_recipes')
+        .select('*')
+        .contains('compatible_dessert_types', [dessertTypeId])
+        .eq('is_simple_recipe', false)
+        .order('recipe_role_id')
+        .order('name'),
+      supabase
+        .from('base_recipes')
+        .select('*')
+        .eq('is_simple_recipe', true)
+        .order('name'),
+    ]);
 
-    if (error) console.error('Error loading base recipes:', error);
-    if (data) setBaseRecipes(data);
+    if (puzzleError) console.error('Error loading base recipes:', puzzleError);
+    if (simpleError) console.error('Error loading simple recipes:', simpleError);
+
+    const combined = [...(puzzleData || []), ...(simpleData || [])];
+    setBaseRecipes(combined);
   }
 
   async function loadTemplates(dessertTypeId: number) {
@@ -260,14 +327,57 @@ export default function ReadyRecipeEdit() {
           for (const ing of ingredients) {
             const db = ing.ingredients_database as unknown as { default_price: number; price_unit: string } | null;
             if (!db) continue;
+            
             const qty = ing.quantity ?? 0;
             const price = db.default_price ?? 0;
-            const unit = db.price_unit ?? '';
-            if (unit === 'kg' || unit === 'l') {
-              compCost += (qty / 1000) * price;
-            } else {
-              compCost += qty * price;
+            const qtyUnit = ing.unit ?? '';  // 📌 Единица на количеството (g, ml, piece)
+            const priceUnit = db.price_unit ?? '';  // 📌 Единица на цената (kg, l, piece)
+
+            console.log(`  📦 Ingredient: qty=${qty}${qtyUnit}, price=${price}/${priceUnit}`);
+
+            // Normalize unit to standard form (handle Cyrillic + Latin variants)
+            const normalizeUnit = (u: string): string => {
+              const s = (u || '').toLowerCase().trim();
+              // Weight → kg
+              if (['г', 'g', 'gr', 'gram', 'grams', 'грам', 'грама'].includes(s)) return 'g';
+              // Volume → l
+              if (['мл', 'ml', 'милилитър', 'милилитра'].includes(s)) return 'ml';
+              // Spoons (approx: tsp=5ml, tbsp=15ml)
+              if (['ч.л.', 'tsp', 'ч. л.'].includes(s)) return 'tsp';
+              if (['с.л.', 'tbsp', 'с. л.'].includes(s)) return 'tbsp';
+              // Pieces
+              if (['бр', 'бр.', 'бройки', 'pcs', 'piece', 'pieces', 'pkg', 'брой'].includes(s)) return 'piece';
+              // Unknown / zero-quantity decorative units
+              if (['за поръсване', 'по избор', 'на вкус', 'на щипка', 'pinch'].includes(s)) return 'zero';
+              return s;
+            };
+
+            const normQtyUnit = normalizeUnit(qtyUnit);
+            let normalizedQty = qty;
+
+            if (normQtyUnit === 'zero') {
+              // Decorative/optional — skip cost calculation
+              normalizedQty = 0;
+            } else if (priceUnit === 'kg') {
+              if (normQtyUnit === 'g') normalizedQty = qty / 1000;
+              else if (normQtyUnit === 'tsp') normalizedQty = (qty * 5) / 1000;   // tsp → g → kg
+              else if (normQtyUnit === 'tbsp') normalizedQty = (qty * 15) / 1000; // tbsp → g → kg
+              else if (normQtyUnit === 'oz') normalizedQty = qty / 35.274;
+              else normalizedQty = qty / 1000; // fallback: assume grams
+            } else if (priceUnit === 'l') {
+              if (normQtyUnit === 'ml') normalizedQty = qty / 1000;
+              else if (normQtyUnit === 'tsp') normalizedQty = (qty * 5) / 1000;
+              else if (normQtyUnit === 'tbsp') normalizedQty = (qty * 15) / 1000;
+              else if (normQtyUnit === 'fl oz') normalizedQty = qty / 33.814;
+              else normalizedQty = qty / 1000; // fallback: assume ml
+            } else if (priceUnit === 'piece' || priceUnit === 'бр' || priceUnit === 'buc') {
+              // quantity is already in pieces
+              normalizedQty = qty;
             }
+
+            const ingredientCost = normalizedQty * price;
+            console.log(`  ✅ Cost: ${normalizedQty} × ${price} = ${ingredientCost} EUR`);
+            compCost += ingredientCost;
           }
         }
 
@@ -419,43 +529,23 @@ export default function ReadyRecipeEdit() {
     }
 
     setIsGeneratingImage(true);
-    setGenerationProgress('Подготовка на prompt...');
+    setGenerationProgress(imageProvider === 'reve' ? 'Reve генериране (15-30 сек)...' : 'Gemini генериране (30-60 сек)...');
 
     try {
-      const componentNames = components
-        .map(c => {
-          const recipe = baseRecipes.find(br => br.id === c.base_recipe_id);
-          return recipe?.name;
-        })
-        .filter(Boolean)
-        .join(', ');
-
-      const dessertType = dessertTypes.find(dt => dt.id === selectedDessertType);
-
-      const fullPrompt = `Professional food photography of ${nameEn}, a keto ${dessertType?.name || 'dessert'}. 
-Components: ${componentNames}. 
-${imagePromptDetails ? `Additional details: ${imagePromptDetails}` : ''}
-Studio lighting, high-end food styling, ultra detailed, appetizing presentation, 
-clean white background, shallow depth of field, professional culinary photography.`;
-
-      setGenerationProgress('Генериране... (30-60 сек)');
-
-      const response = await fetch('/api/generate/image', {
+      const response = await fetch('/api/generate-recipe-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: fullPrompt,
-          referenceImages: referenceUrls,
-          model: 'flux-pro'
-        })
+        body: JSON.stringify({ recipe_id: recipeId, provider: imageProvider, generationSettings }),
       });
 
-      if (!response.ok) throw new Error('Image generation failed');
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.details || err.error || 'Image generation failed');
+      }
 
       const data = await response.json();
-      
-      if (data.imageUrl) {
-        setHeroImageUrl(data.imageUrl);
+      if (data.image_url) {
+        setHeroImageUrl(data.image_url);
         setGenerationProgress('Готово! ✅');
       } else {
         throw new Error('No image URL returned');
@@ -467,6 +557,31 @@ clean white background, shallow depth of field, professional culinary photograph
       setGenerationProgress('');
     } finally {
       setIsGeneratingImage(false);
+    }
+  }
+
+  async function handleRefine() {
+    if (!refineInstruction.trim()) return;
+    setRefining(true);
+    try {
+      const response = await fetch('/api/refine-recipe-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipe_id: recipeId, instruction: refineInstruction.trim() }),
+      });
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.details || err.error || 'Refine failed');
+      }
+      const data = await response.json();
+      if (data.image_url) {
+        setHeroImageUrl(data.image_url);
+        setRefineInstruction('');
+      }
+    } catch (error) {
+      alert('Грешка при прецизиране: ' + (error as Error).message);
+    } finally {
+      setRefining(false);
     }
   }
 
@@ -517,7 +632,9 @@ clean white background, shallow depth of field, professional culinary photograph
         name_bg: nameBg || null,
         slug: slug,
         dessert_type_id: selectedDessertType,
+        serving_container_id: selectedServingContainer || null,
         assembly_template_id: selectedTemplate,
+        layer_count_override: layerCountOverride,
         selected_components: components,
         description_en: descriptionEn || null,
         description_bg: descriptionBg || null,
@@ -544,7 +661,8 @@ clean white background, shallow depth of field, professional culinary photograph
         cost_currency: costCurrency,
         selling_price: sellingPrice ? parseFloat(sellingPrice) : null,
         price_currency: priceCurrency,
-        cost_calculated_at: estimatedCost > 0 ? new Date().toISOString() : null
+        cost_calculated_at: estimatedCost > 0 ? new Date().toISOString() : null,
+
       };
 
       const { data, error } = await supabase
@@ -690,6 +808,20 @@ clean white background, shallow depth of field, professional culinary photograph
                     </select>
                   </div>
 
+                  <div>
+                    <label className="block font-medium mb-2">Съд за сервиране/печене</label>
+                    <select
+                      value={selectedServingContainer || ''}
+                      onChange={(e) => setSelectedServingContainer(Number(e.target.value) || null)}
+                      className="w-full px-4 py-2 border rounded-lg"
+                    >
+                      <option value="">Без съд...</option>
+                      {servingContainers.map(sc => (
+                        <option key={sc.id} value={sc.id}>{sc.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   {selectedDessertType && templates.length > 0 && (
                     <div>
                       <label className="block font-medium mb-2">Шаблон (опционално)</label>
@@ -703,6 +835,22 @@ clean white background, shallow depth of field, professional culinary photograph
                           <option key={t.id} value={t.id}>{t.name}</option>
                         ))}
                       </select>
+                    </div>
+                  )}
+
+                  {selectedTemplate && templateIsMultiLayer && (
+                    <div>
+                      <label className="block font-medium mb-2">Брой блатове</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={layerCountOverride ?? ''}
+                        onChange={(e) => setLayerCountOverride(e.target.value ? Number(e.target.value) : null)}
+                        placeholder="По подразбиране (от шаблона)"
+                        className="w-full px-4 py-2 border rounded-lg"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Оставете празно за брой от шаблона. Влияе само на генерирането на hero image.</p>
                     </div>
                   )}
 
@@ -846,6 +994,7 @@ clean white background, shallow depth of field, professional culinary photograph
                   </label>
                 </div>
               </div>
+
             </>
           )}
 
@@ -941,6 +1090,59 @@ clean white background, shallow depth of field, professional culinary photograph
                   );
                 })
               )}
+              {/* Simple Recipes Section */}
+              <div className="mt-6 p-4 border-2 border-rose-200 rounded-lg bg-rose-50">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-lg text-rose-800">
+                    ⚡ Simple Recipes
+                    <span className="text-sm text-rose-600 ml-2 font-normal">
+                      (самостоятелни рецепти)
+                    </span>
+                  </h3>
+                  <button
+                    onClick={() => addComponent(0)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
+                  >
+                    <Plus size={16} />
+                    Добави
+                  </button>
+                </div>
+                {(() => {
+                  const simpleRecipes = baseRecipes.filter(br => (br as any).is_simple_recipe);
+                  const simpleComponents = components.filter(c => c.recipe_role_id === 0 || (c as any).role === 'simple');
+                  return simpleComponents.length === 0 ? (
+                    <p className="text-rose-400 text-sm italic">Няма simple рецепти</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {simpleComponents.map((comp) => {
+                        const globalIndex = components.indexOf(comp);
+                        return (
+                          <div key={globalIndex} className="flex gap-3 items-center p-3 bg-white rounded-lg border border-rose-200">
+                            <div className="flex-1">
+                              <select
+                                value={comp.base_recipe_id}
+                                onChange={(e) => updateComponent(globalIndex, 'base_recipe_id', e.target.value)}
+                                className="w-full px-3 py-2 border rounded-lg"
+                              >
+                                <option value="">Избери simple рецепта...</option>
+                                {simpleRecipes.map(br => (
+                                  <option key={br.id} value={br.id}>{br.name}</option>
+                                ))}
+                              </select>
+                            </div>
+                            <button
+                              onClick={() => removeComponent(globalIndex)}
+                              className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </div>
             </div>
           )}
 
@@ -1100,11 +1302,13 @@ clean white background, shallow depth of field, professional culinary photograph
               {heroImageUrl && (
                 <div className="mb-6">
                   <label className="block font-medium mb-2">Текуща Снимка:</label>
-                  <img 
-                    src={heroImageUrl} 
-                    alt="Hero" 
-                    className="w-full h-64 object-cover rounded-lg border-2 border-green-500"
-                  />
+                  <div className="w-full bg-gray-100 rounded-lg border-2 border-green-500 flex items-center justify-center max-h-96">
+                    <img
+                      src={heroImageUrl}
+                      alt="Hero"
+                      className="w-full max-h-96 object-contain rounded-lg"
+                    />
+                  </div>
                 </div>
               )}
 
@@ -1136,52 +1340,49 @@ clean white background, shallow depth of field, professional culinary photograph
                 </div>
               </div>
 
-              {/* AI Generation Section */}
+              {/* Provider Selector + Visual Settings */}
               <div className="mb-4">
-                <label className="block font-medium mb-2">AI Генериране - Уточняващи Думи</label>
-                <textarea
-                  value={imagePromptDetails}
-                  onChange={(e) => setImagePromptDetails(e.target.value)}
-                  rows={3}
-                  className="w-full px-4 py-2 border rounded-lg"
-                  placeholder="with chocolate shavings, golden lighting..."
-                />
-              </div>
-
-              <div className="mb-6">
-                <label className="block font-medium mb-2">Reference Images</label>
-                
-                {referenceImages.length > 0 && (
-                  <div className="grid grid-cols-4 gap-3 mb-3">
-                    {referenceImages.map((file, idx) => (
-                      <div key={idx} className="relative">
-                        <img 
-                          src={URL.createObjectURL(file)} 
-                          alt={`Ref ${idx + 1}`}
-                          className="w-full h-24 object-cover rounded-lg"
-                        />
-                        <button
-                          onClick={() => removeReference(idx)}
-                          className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="font-medium text-sm text-gray-700">AI Провайдър</label>
+                  <button
+                    type="button"
+                    onClick={() => setShowSettingsModal(true)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
+                  >
+                    <Settings2 className="w-3.5 h-3.5" />
+                    Visual Settings
+                    <span className="ml-1 px-1.5 py-0.5 bg-blue-200 text-blue-800 rounded text-[10px] uppercase font-bold">
+                      {generationSettings.lightingStyle}
+                    </span>
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setImageProvider('reve')}
+                    className={`flex-1 py-2 px-4 rounded-lg font-medium border-2 transition-colors text-sm ${
+                      imageProvider === 'reve'
+                        ? 'bg-purple-600 text-white border-purple-600'
+                        : 'bg-white text-gray-600 border-gray-300 hover:border-purple-400'
+                    }`}
+                  >
+                    ✨ Reve (препоръчан)
+                  </button>
+                  <button
+                    onClick={() => setImageProvider('gemini')}
+                    className={`flex-1 py-2 px-4 rounded-lg font-medium border-2 transition-colors text-sm ${
+                      imageProvider === 'gemini'
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'
+                    }`}
+                  >
+                    Gemini
+                  </button>
+                </div>
+                {imageProvider === 'reve' && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Reve ще използва снимките на компонентите като референции (Remix), или само текст (Create) ако липсват.
+                  </p>
                 )}
-
-                <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 cursor-pointer">
-                  <Upload size={20} />
-                  <span>Upload References</span>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleReferenceUpload}
-                    className="hidden"
-                  />
-                </label>
               </div>
 
               <button
@@ -1192,6 +1393,33 @@ clean white background, shallow depth of field, professional culinary photograph
                 <Sparkles size={20} />
                 {isGeneratingImage ? generationProgress : 'Генерирай AI Снимка'}
               </button>
+
+              {/* Refine section — shown only after an image exists */}
+              {heroImageUrl && (
+                <div className="mt-5 pt-4 border-t border-gray-200">
+                  <label className="block font-medium mb-2 text-sm">
+                    Прецизиране с Reve Edit
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={refineInstruction}
+                      onChange={(e) => setRefineInstruction(e.target.value)}
+                      placeholder="напр. 'премахни декорацията', 'направи глазурата по-лъскава'"
+                      className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                      onKeyDown={(e) => e.key === 'Enter' && !refining && refineInstruction.trim() && handleRefine()}
+                    />
+                    <button
+                      onClick={handleRefine}
+                      disabled={!refineInstruction.trim() || refining}
+                      className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 text-sm font-medium whitespace-nowrap"
+                    >
+                      {refining ? 'Обработка...' : 'Refine'}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Рефинирането запазва оригиналната снимка в Storage (при нужда от rollback).</p>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -1278,6 +1506,21 @@ clean white background, shallow depth of field, professional culinary photograph
           </div>
         </div>
       </div>
+
+      {/* Resources Manager */}
+      <div className="mt-8 bg-white rounded-lg shadow p-6">
+        <RecipeResourcesManager recipeId={recipeId} recipeType="ready" extraTypes={['simple']} />
+      </div>
+
+      <GenerationSettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+        settings={generationSettings}
+        onSave={(newSettings) => {
+          setGenerationSettings(newSettings);
+          try { localStorage.setItem('keto-generation-settings', JSON.stringify(newSettings)); } catch {}
+        }}
+      />
     </div>
   );
 }

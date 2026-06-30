@@ -10,7 +10,9 @@
     "search": "Търси",
     "loading": "Зареждане...",
     "error": "Грешка",
-    "success": "Успех"
+    "success": "Успех",
+    "watchVideo": "ГЛЕДАЙ ВИДЕО",
+    "by": "от"
   },
   
   "tabs": {
@@ -99,6 +101,10 @@
       "macroCalculator": {
         "title": "Макро калкулатор",
         "description": "Персонални дневни нужди"
+      },
+      "sweetenerComparison": {
+         "title": "Сравнение на подсладители",
+         "description": "Сравни и преобразувай захарни заместители"
       },
       "encyclopedia": {
         "title": "Енциклопедия на съставките",

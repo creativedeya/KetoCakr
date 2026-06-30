@@ -1,22 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+async function fetchWithRetry(url: string, init: RequestInit, retries = 2): Promise<Response> {
+  let lastRes: Response | null = null;
+  for (let i = 0; i <= retries; i++) {
+    const res = await fetch(url, init);
+    if (res.ok) return res;
+    lastRes = res;
+    if (res.status < 500) return res;
+    await new Promise(r => setTimeout(r, 600 * (i + 1)));
+  }
+  return lastRes!;
+}
+
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get('query');
+  console.log('🌍 [OFF] Route called, query:', query);
+
   if (!query) {
+    console.error('❌ [OFF] Missing query');
     return NextResponse.json({ error: 'Missing query' }, { status: 400 });
   }
 
   try {
-    const response = await fetch(
-      `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,image_url,nutriments,nutrition_data_per`,
-      { headers: { 'User-Agent': 'KetoCakrAdmin/1.0 (admin@ketocakr.com)' } }
-    );
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,image_url,nutriments,nutrition_data_per`;
+    console.log('📤 [OFF] Fetching:', url);
+
+    const response = await fetchWithRetry(url, {
+      headers: {
+        'User-Agent': 'KetoCakR-Admin/1.0 (https://ketocakelab.com; contact@ketocakelab.com)',
+        'Accept': 'application/json',
+      },
+      cache: 'no-store',
+    });
+
+    console.log('📥 [OFF] Response status:', response.status);
 
     if (!response.ok) {
-      return NextResponse.json({ error: `OFF API error: ${response.status}` }, { status: 502 });
+      const text = await response.text();
+      console.error('❌ [OFF] API error:', response.status, text.substring(0, 200));
+      return NextResponse.json(
+        { results: [], error: `OFF unavailable (${response.status})` },
+        { status: 503 }
+      );
     }
 
     const data = await response.json();
+    console.log('📥 [OFF] Products count:', data.products?.length ?? 0);
 
     const results = (data.products || [])
       .filter((p: any) => p.product_name)
@@ -60,8 +89,11 @@ export async function GET(request: NextRequest) {
         };
       });
 
+    console.log('✅ [OFF] Returning', results.length, 'results');
     return NextResponse.json({ results });
   } catch (error: any) {
+    console.error('❌ [OFF] Unexpected error:', error.message);
+    console.error('❌ [OFF] Stack:', error.stack);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -19,6 +19,9 @@ export const bg = {
     viewAll: 'Виж всички',
     createNew: 'Създай нова',
     noResults: 'Няма резултати',
+    of: 'от',
+    watchVideo: 'ГЛЕДАЙ ВИДЕО',
+    by: 'от',
   },
 
   tabs: {
@@ -72,6 +75,28 @@ export const bg = {
     },
     yourCreations: 'Твоите рецепти',
     noCreations: 'Нямаш рецепти все още',
+    fromTheBlog: 'От блога',
+    blogEnglishOnly: 'Статиите засега са само на английски',
+    tarot: {
+      title: 'Картата за деня',
+      cta: 'Изтегли картата на деня',
+      drawButton: 'Изтегли картата',
+      shuffleHint: 'Само веднъж на ден',
+      revealButton: 'Разкрий посланието →',
+      teaser: 'Една подсказка те очаква днес.',
+      dailyRitual: 'Дневен ритуал',
+      energyLabel: 'ЕНЕРГИЯ НА ДЕНЯ',
+      morningLabel: '✦ СУТРЕШНА ПОДСКАЗКА',
+      trapLabel: '⚠ КАПАН НА ДЕНЯ',
+      eveningLabel: '↻ ВЕЧЕРЕН ВЪПРОС',
+      suits: {
+        major: 'ВЕЛИКИ АРКАНИ',
+        pentacles: 'ПЕНТАКЛИ · ЗЕМЯ',
+        cups: 'ЧАШИ · ВОДА',
+        swords: 'МЕЧОВЕ · ВЪЗДУХ',
+        wands: 'ЖЕЗЛИ · ОГЪН',
+      },
+    },
   },
 
   search: {
@@ -153,6 +178,18 @@ export const bg = {
         title: 'Нутриционни таблици',
         subtitle: 'Калории и макроси',
       },
+      labNotes: {
+        title: 'Лаб бележки',
+        description: 'Научна кето база знания',
+      },
+      sweetenerComparison: {
+        title: 'Наръчник за подсладители',
+        description: 'Сравни и конвертирай подсладители',
+      },
+      blog: {
+        title: 'Статии',
+        description: 'Съвети и рецепти от лаборатория',
+      },
     },
     tipText:
       'При печене на кето блатове, винаги предварително затопляй фурната на 180°C. Това гарантира равномерно печене и по-добра текстура.',
@@ -209,7 +246,18 @@ export const bg = {
     dessertSelection: {
       title: 'Избери десерт',
       subtitle: 'Какво ще приготвим днес?',
+      stepTitle: 'Изберете тип десерт',
+      stepSubtitle: 'Какъв вид кето десерт искате да направите?',
+      noData: 'Не са намерени типове десерти в базата данни.',
+      checkConsole: 'Проверете конзолата за повече детайли',
     },
+    confirmCancel: {
+      title: 'Прекъсване',
+      message: 'Сигурни ли сте, че искате да прекъснете? Прогресът няма да бъде запазен.',
+      cancel: 'Откажи',
+      confirm: 'Прекъсни',
+    },
+    createTitle: 'Създай рецепта',
     buildStep: {
       roles: {
         crust: 'Блат',
@@ -262,6 +310,9 @@ export const bg = {
         title: 'Грешка',
         message: 'Неуспешно запазване на рецептата',
       },
+      selectAllRequired: 'Моля, изберете всички необходими компоненти',
+      successCreated: 'Вашата рецепта беше създадена успешно!',
+      errorCreate: 'Неуспешно създаване на рецепта. Моля, опитайте отново.',
     },
   },
 
@@ -301,6 +352,17 @@ export const bg = {
       fiber: 'Фибри',
       netCarbs: 'Нетни въглехидрати',
       perServing: 'Хранителни стойности на порция',
+      sugar: 'Захар',
+      saturatedFat: 'Наситени мазнини',
+      cholesterol: 'Холестерол',
+      sodium: 'Натрий',
+      calcium: 'Калций',
+      iron: 'Желязо',
+      magnesium: 'Магнезий',
+      potassium: 'Калий',
+      minerals: 'Минерали',
+      showFull: 'Виж пълни данни',
+      hideFull: 'Скрий пълни данни',
     },
     instructions: {
       step: 'Стъпка',
@@ -635,6 +697,42 @@ export const bg = {
     custom: 'По избор',
     total: 'Общо',
     percentWarning: 'Сумата трябва да е 100%',
+  },
+
+  labNotes: {
+    title: 'Лаб бележки',
+    subtitle: 'Научна база от кето знания',
+    categories: {
+      chocolate: 'Шоколад и Ганаш',
+      flours: 'Брашна и Блатове',
+      sweeteners: 'Подсладители',
+      assembly: 'Сглобяване',
+      mistakes: 'Чести грешки',
+      general: 'Общи',
+    },
+    notes: 'бележки',
+    note: 'бележка',
+    noNotes: 'Няма бележки в тази категория.',
+    blockLabel: 'ЛАБ. БЕЛЕЖКА',
+  },
+
+  blog: {
+    title: 'Статии',
+  },
+
+  cookingMode: {
+    selectComponent: 'Какво ще готвиш?',
+    steps: 'стъпки',
+    completeComponent: 'Завърши компонента',
+    forward: 'Напред',
+    listenInstructions: 'Слушай инструкциите',
+    loading: 'Зарежда...',
+    stop: 'Спиране',
+    ingredients: 'Съставки',
+    equipment: 'Оборудване',
+    textOnly: 'Текст',
+    imagesText: 'Снимки',
+    cooking: 'Готвя',
   },
 };
 

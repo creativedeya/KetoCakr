@@ -10,7 +10,9 @@
     "search": "Search",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "watchVideo": "WATCH VIDEO",
+    "by": "by"
   },
   
   "tabs": {
@@ -99,6 +101,10 @@
       "macroCalculator": {
         "title": "Macro Calculator",
         "description": "Personal daily needs"
+      },
+      "sweetenerComparison": {
+        "title": "Sweetener Comparison",
+        "description": "Compare & convert sugar substitutes"
       },
       "encyclopedia": {
         "title": "Ingredient Encyclopedia",

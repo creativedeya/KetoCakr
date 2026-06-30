@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { Colors } from '../../constants/Colors';
 import { useTranslation } from '../../constants/i18n';
-import RecipeDetailView from '../../components/RecipeDetailView';
+import RecipeDetailView, { EquipmentItem, LabNoteItem } from '../../components/RecipeDetailView';
 
 export default function UserRecipeScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -22,7 +22,7 @@ export default function UserRecipeScreen() {
         .from('user_recipes')
         .select(`
           *,
-          dessert_type:dessert_types(id, name, name_en)
+          dessert_type:dessert_types(id, name, name_en, image_url)
         `)
         .eq('id', id)
         .single();
@@ -45,7 +45,7 @@ export default function UserRecipeScreen() {
         .select(`
           *,
           role:recipe_roles(id, name, name_en),
-          ingredients:recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, unit_weight_grams, cat:ingredient_categories(id, name, name_en)))
+          ingredients:recipe_ingredients(id, ingredient_database_id, ingredient_name, quantity, unit, order_index, ingredient:ingredients_database(id, name_en, name_bg, image_url, category_id, unit_weight_grams, fiber_per_100g, sugar_per_100g, sugar_alcohol_per_100g, saturated_fat_per_100g, cholesterol_per_100g, sodium_per_100g, calcium_per_100g, iron_per_100g, magnesium_per_100g, potassium_per_100g, zinc_per_100g, vitamin_a_per_100g, vitamin_c_per_100g, vitamin_d_per_100g, cat:ingredient_categories(id, name, name_en)))
         `)
         .in('id', baseRecipeIds);
       if (error) throw error;
@@ -106,6 +106,36 @@ export default function UserRecipeScreen() {
     enabled: baseRecipeIds.length > 0,
   });
 
+  // recipe_equipment с JOIN към equipment таблица
+  const { data: equipmentData } = useQuery({
+    queryKey: ['userRecipeEquipment', baseRecipeIds],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('recipe_equipment')
+        .select('id, recipe_id, equipment_id, quantity, equipment:equipment(id, name, name_en, image_url, reference_image_url)')
+        .in('recipe_id', baseRecipeIds);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: baseRecipeIds.length > 0,
+  });
+
+  // lab_notes за всички base_recipes
+  const { data: labNotesData } = useQuery({
+    queryKey: ['userRecipeLabNotes', baseRecipeIds],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('lab_notes')
+        .select('id, recipe_id, content, content_bg, category, title, title_bg, display_order, is_active')
+        .in('recipe_id', baseRecipeIds)
+        .eq('is_active', true)
+        .order('display_order');
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: baseRecipeIds.length > 0,
+  });
+
   const isLoading = recipeLoading || baseLoading || stepsLoading;
   const error = recipeError || baseError || stepsError;
 
@@ -146,8 +176,9 @@ export default function UserRecipeScreen() {
 
       components.push({
         id: String(br.id),
-        name: br.name,
+        name: language === 'en' ? (br.name_en || br.name) : br.name,
         roleName,
+        imageUrl: (br as any).image_url || null,
         totalWeightGrams: br.total_weight_grams,
         totalCalories: br.total_calories,
         totalProtein: br.total_protein,
@@ -177,6 +208,20 @@ export default function UserRecipeScreen() {
             ? (ing.ingredient?.cat?.name_en || undefined)
             : (ing.ingredient?.cat?.name || undefined),
           componentId: String(br.id),
+          fiberPer100g: ing.ingredient?.fiber_per_100g ?? null,
+          sugarPer100g: ing.ingredient?.sugar_per_100g ?? null,
+          sugarAlcoholPer100g: ing.ingredient?.sugar_alcohol_per_100g ?? null,
+          saturatedFatPer100g: ing.ingredient?.saturated_fat_per_100g ?? null,
+          cholesterolPer100g: ing.ingredient?.cholesterol_per_100g ?? null,
+          sodiumPer100g: ing.ingredient?.sodium_per_100g ?? null,
+          calciumPer100g: ing.ingredient?.calcium_per_100g ?? null,
+          ironPer100g: ing.ingredient?.iron_per_100g ?? null,
+          magnesiumPer100g: ing.ingredient?.magnesium_per_100g ?? null,
+          potassiumPer100g: ing.ingredient?.potassium_per_100g ?? null,
+          zincPer100g: ing.ingredient?.zinc_per_100g ?? null,
+          vitaminAPer100g: ing.ingredient?.vitamin_a_per_100g ?? null,
+          vitaminCPer100g: ing.ingredient?.vitamin_c_per_100g ?? null,
+          vitaminDPer100g: ing.ingredient?.vitamin_d_per_100g ?? null,
         });
       });
 
@@ -191,11 +236,47 @@ export default function UserRecipeScreen() {
           imageUrl: step.step_image_url,
           durationMinutes: step.step_duration_minutes,
           componentId: String(br.id),
+          equipmentNeeded: step.equipment_needed ?? [],
         });
       });
     }
 
     const dessertType = (recipe as any).dessert_type;
+
+    // ─── Equipment: дедупликация по equipment.id — не сумираме броя между рецепти
+    const equipmentMap = new Map<number, EquipmentItem>();
+    for (const row of (equipmentData || [])) {
+      const eq = (row as any).equipment;
+      if (!eq) continue;
+      const eqId = eq.id as number;
+      if (!equipmentMap.has(eqId)) {
+        equipmentMap.set(eqId, {
+          id: eqId,
+          name: language === 'en' ? (eq.name_en || eq.name || '') : (eq.name || ''),
+          imageUrl: eq.image_url || eq.reference_image_url || null,
+          quantity: (row as any).quantity || 1,
+        });
+      }
+    }
+    const allEquipment = Array.from(equipmentMap.values());
+
+    // ─── Lab Notes: свързани с image_url от съответния base_recipe
+    const baseRecipeImageMap = new Map<number, string | null>();
+    const recipeRoleMap = new Map<number, number>();
+    for (const br of sorted) {
+      baseRecipeImageMap.set(br.id, (br as any).image_url || null);
+      recipeRoleMap.set(br.id, (br as any).recipe_role_id || 999);
+    }
+    const allLabNotes: LabNoteItem[] = [...(labNotesData || [])]
+      .sort((a: any, b: any) => (recipeRoleMap.get(a.recipe_id) ?? 999) - (recipeRoleMap.get(b.recipe_id) ?? 999))
+      .map((note: any) => ({
+        id: String(note.id),
+        recipeId: note.recipe_id,
+        text: language === 'en' ? (note.content || note.content_bg || '') : (note.content_bg || note.content || ''),
+        title: language === 'en' ? (note.title || note.title_bg || '') : (note.title_bg || note.title || ''),
+        categoria: note.category || null,
+        baseRecipeImageUrl: baseRecipeImageMap.get(note.recipe_id) || null,
+      }));
 
     const nutrition = {
       totalCalories: components.reduce((s: number, c: any) => s + (c.totalCalories || 0), 0),
@@ -226,10 +307,12 @@ export default function UserRecipeScreen() {
       recipeId: String(id),
       name: (recipe as any).name || fallbackName,
       heroImageUrl,
+      sourceUrl: (recipe as any).source_url || undefined,
       introText: undefined as string | undefined,
       dessertTypeName: language === 'bg'
         ? dessertType?.name
         : (dessertType?.name_en || dessertType?.name),
+      dessertTypeImageUrl: (dessertType as any)?.image_url || null,
       components,
       ingredients: allIngredients,
       steps: allSteps,
@@ -237,8 +320,10 @@ export default function UserRecipeScreen() {
       nutrition,
       totalServings: (recipe as any).total_servings || 12,
       totalWeightGrams: totalWeight,
+      equipment: allEquipment,
+      labNotes: allLabNotes,
     };
-  }, [recipe, baseRecipes, stepsData, assemblyTemplate, language]);
+  }, [recipe, baseRecipes, stepsData, equipmentData, labNotesData, assemblyTemplate, language]);
 
   if (isLoading || (!transformedData && !error)) {
     return (

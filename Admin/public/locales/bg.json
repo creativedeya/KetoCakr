@@ -1,0 +1,36 @@
+{
+  "common": {
+    "create": "Създай",
+    "edit": "Редактирай",
+    "delete": "Изтрий",
+    "save": "Запази",
+    "cancel": "Отмени",
+    "close": "Затвори",
+    "loading": "Зареждане...",
+    "error": "Грешка",
+    "success": "Успех",
+    "noResults": "Няма резултати"
+  },
+  "admin": {
+    "assemblyTemplates": "Шаблони за асамблаж",
+    "createTemplate": "Създай шаблон за асамблаж",
+    "noTemplates": "Няма шаблони за асамблаж",
+    "createFirst": "Създай първи шаблон",
+    "templateKey": "Ключ на шаблона",
+    "nameBg": "Име (Български)",
+    "nameEn": "Име (Английски)",
+    "introTextBg": "Вводен текст (Български)",
+    "introTextEn": "Вводен текст (Английски)",
+    "soakingRequired": "Необходимо намокряне",
+    "steps": "Стъпки",
+    "templateMetadata": "Метаданни",
+    "names": "Имена",
+    "introText": "Вводен текст",
+    "instructions": "Инструкции",
+    "settings": "Настройки",
+    "noChanges": "Без промени",
+    "addStep": "Добави стъпка",
+    "noSteps": "Няма стъпки",
+    "addFirst": "Добави първа стъпка"
+  }
+}

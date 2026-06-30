@@ -9,6 +9,7 @@ import { Colors } from '../../constants/Colors';
 import { useRecipeGeneratorStore } from '../../store/useRecipeGeneratorStore';
 import { useCreateUserRecipe } from '../../api/hooks';
 import { useDessertTypes } from '../../api/hooks';
+import { useTranslation } from '../../constants/i18n';
 
 // Icon wrappers
 const X = (props: any) => <Ionicons name="close" {...props} />;
@@ -21,6 +22,7 @@ import Step3Portions from '../../components/recipe-generator/Step3Portions';
 import Step4Review from '../../components/recipe-generator/Step4Review';
 
 export default function RecipeGeneratorModal() {
+  const { t } = useTranslation();
   const currentStep = useRecipeGeneratorStore((state) => state.currentStep);
   const previousStep = useRecipeGeneratorStore((state) => state.previousStep);
   const nextStep = useRecipeGeneratorStore((state) => state.nextStep);
@@ -37,12 +39,12 @@ export default function RecipeGeneratorModal() {
 
   const handleClose = () => {
     Alert.alert(
-      'Прекъсване',
-      'Сигурни ли сте, че искате да прекъснете? Прогресът няма да бъде запазен.',
+      t('recipeBuilder.confirmCancel.title'),
+      t('recipeBuilder.confirmCancel.message'),
       [
-        { text: 'Откажи', style: 'cancel' },
+        { text: t('recipeBuilder.confirmCancel.cancel'), style: 'cancel' },
         {
-          text: 'Прекъсни',
+          text: t('recipeBuilder.confirmCancel.confirm'),
           style: 'destructive',
           onPress: () => {
             reset();
@@ -86,7 +88,7 @@ export default function RecipeGeneratorModal() {
 
   const handleCreateRecipe = async () => {
     if (!selectedDessertTypeId || selectedComponents.length === 0) {
-      Alert.alert('Грешка', 'Моля, изберете всички необходими компоненти');
+      Alert.alert(t('common.error'), t('recipeBuilder.alerts.selectAllRequired'));
       return;
     }
 
@@ -99,16 +101,11 @@ export default function RecipeGeneratorModal() {
     if (!recipeName || recipeName.trim() === '') {
       // User left it empty - use default
       finalRecipeName = `Моя ${displayDessertName} - ${new Date().toLocaleDateString('bg-BG')}`;
-      console.log('USER LEFT NAME EMPTY - Using default:', finalRecipeName);
     } else {
       // User typed something - use EXACTLY what they typed
       finalRecipeName = recipeName.trim();
-      console.log('USER ENTERED NAME - Using their input:', finalRecipeName);
     }
     
-    console.log('=== FINAL NAME TO SAVE ===');
-    console.log('Will save to database:', finalRecipeName);
-    console.log('=========================');
 
     try {
       await createRecipe.mutateAsync({
@@ -124,8 +121,8 @@ export default function RecipeGeneratorModal() {
       });
 
       Alert.alert(
-        'Успех! 🎉',
-        'Вашата рецепта беше създадена успешно!',
+        t('recipeBuilder.alerts.success.title'),
+        t('recipeBuilder.alerts.successCreated'),
         [
           {
             text: 'OK',
@@ -139,8 +136,8 @@ export default function RecipeGeneratorModal() {
     } catch (error) {
       console.error('Create recipe error:', error);
       Alert.alert(
-        'Грешка',
-        'Неуспешно създаване на рецепта. Моля, опитайте отново.'
+        t('recipeBuilder.alerts.error.title'),
+        t('recipeBuilder.alerts.errorCreate')
       );
     }
   };
@@ -159,7 +156,7 @@ export default function RecipeGeneratorModal() {
           </TouchableOpacity>
 
           <Text className="text-lg font-bold" style={{ color: Colors.text.primary }}>
-            Създай рецепта
+            {t('recipeBuilder.createTitle')}
           </Text>
 
           <TouchableOpacity onPress={handleClose} className="p-2 -mr-2">
@@ -181,7 +178,7 @@ export default function RecipeGeneratorModal() {
         </View>
 
         <Text className="text-sm mt-2" style={{ color: Colors.text.secondary }}>
-          Стъпка {currentStep} от 4
+          {t('recipeDetail.instructions.step')} {currentStep} {t('common.of')} 4
         </Text>
       </View>
 
@@ -210,7 +207,7 @@ export default function RecipeGeneratorModal() {
             <ActivityIndicator color={Colors.text.inverse} />
           ) : (
             <Text className="text-center font-bold text-base" style={{ color: Colors.text.inverse }}>
-              {currentStep === 4 ? 'Създай рецепта' : 'Напред'}
+              {currentStep === 4 ? t('recipeBuilder.createTitle') : t('cookingMode.forward')}
             </Text>
           )}
         </TouchableOpacity>

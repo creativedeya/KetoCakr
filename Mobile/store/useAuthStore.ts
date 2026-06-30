@@ -64,18 +64,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   try {
     set({ isLoading: true, error: null });
     
-    console.log('=== SIGNIN START ===');
-    console.log('Email:', email);
-    console.log('Password length:', password.length);
     
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    console.log('=== SIGNIN RESPONSE ===');
-    console.log('Data:', JSON.stringify(data, null, 2));
-    console.log('Error:', error);
 
     if (error) throw error;
 
@@ -93,8 +87,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
     }
   } catch (error: any) {
-    console.log('=== SIGNIN ERROR ===');
-    console.log('Error:', error);
     
     set({ 
       error: error.message || 'Грешка при вход',
@@ -108,10 +100,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   try {
     set({ isLoading: true, error: null });
     
-    console.log('=== SIGNUP START ===');
-    console.log('Email:', email);
-    console.log('Password length:', password.length);
-    console.log('Full name:', fullName);
     
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -123,18 +111,12 @@ export const useAuthStore = create<AuthState>((set) => ({
       },
     });
 
-    console.log('=== SIGNUP RESPONSE ===');
-    console.log('Data:', JSON.stringify(data, null, 2));
-    console.log('Error:', error);
 
     if (error) throw error;
     
     set({ isLoading: false });
     return data;
   } catch (error: any) {
-    console.log('=== SIGNUP ERROR ===');
-    console.log('Error message:', error.message);
-    console.log('Error details:', JSON.stringify(error, null, 2));
     
     set({ 
       error: error.message || 'Грешка при регистрация',

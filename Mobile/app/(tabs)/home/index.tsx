@@ -20,7 +20,20 @@ import { Typography, Spacing, BorderRadius, Shadows, IconSize } from '../../../c
 import SectionHeader from '../../../components/SectionHeader';
 import FilterChip from '../../../components/FilterChip';
 import EmptyState from '../../../components/EmptyState';
+import TarotDailyCardSection from '../../../components/TarotDailyCardSection';
 import { useTranslation } from '../../../constants/i18n';
+
+type BlogPostPreview = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  date: string;
+  cover: string | null;
+  category: string | null;
+};
+
+const ADMIN_API_URL = process.env.EXPO_PUBLIC_ADMIN_API_URL ?? 'https://admin.ketocakelab.com';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -53,12 +66,14 @@ export default function HomeScreen() {
       const { data: ids } = await supabase
         .from('ready_recipes')
         .select('id')
+        .eq('status', 'published')
         .eq('is_visible_to_users', true);
 
       if (!ids || ids.length === 0) {
         const { data: allIds } = await supabase
           .from('ready_recipes')
-          .select('id');
+          .select('id')
+          .eq('status', 'published');
         if (!allIds || allIds.length === 0) return null;
         const idx2 = todaySeed % allIds.length;
         const { data: fallbackData } = await supabase
@@ -153,6 +168,22 @@ export default function HomeScreen() {
     },
   });
 
+  // ─── QUERY 4б: Blog post previews ───
+  const { data: blogPosts } = useQuery({
+    queryKey: ['homeBlogPosts'],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`${ADMIN_API_URL}/api/public/blog-posts`);
+        if (!res.ok) return [] as BlogPostPreview[];
+        const json = await res.json();
+        return (json.results ?? []) as BlogPostPreview[];
+      } catch {
+        return [] as BlogPostPreview[];
+      }
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
   // ─── QUERY 4: Готови рецепти (с филтър по тип) ───
   const {
     data: readyRecipes,
@@ -163,6 +194,7 @@ export default function HomeScreen() {
       let query = supabase
         .from('ready_recipes')
         .select('id, name_bg, name_en, hero_image_url, total_calories, total_net_carbs, total_servings, dessert_type_id')
+        .eq('status', 'published')
         .order('created_at', { ascending: false })
         .limit(8);
 
@@ -215,7 +247,7 @@ export default function HomeScreen() {
             <View style={styles.dailyCard}>
               {dailyRecipe.hero_image_url ? (
                 <TouchableOpacity
-                  onPress={() => router.push(`/recipe-detail/${dailyRecipe.id}`)}
+                  onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: dailyRecipe.id } })}
                   activeOpacity={0.9}
                 >
                   <ImageBackground
@@ -247,7 +279,7 @@ export default function HomeScreen() {
                         ) : null}
                         <TouchableOpacity
                           style={styles.dailyButton}
-                          onPress={() => router.push(`/recipe-detail/${dailyRecipe.id}`)}
+                          onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: dailyRecipe.id } })}
                         >
                           <Text style={styles.dailyButtonText}>{t('home.viewRecipe')}</Text>
                         </TouchableOpacity>
@@ -258,7 +290,7 @@ export default function HomeScreen() {
               ) : (
                 <TouchableOpacity
                   style={styles.dailyPlaceholder}
-                  onPress={() => router.push(`/recipe-detail/${dailyRecipe.id}`)}
+                  onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: dailyRecipe.id } })}
                   activeOpacity={0.9}
                 >
                   <Text style={styles.dailyPlaceholderEmoji}>🎂</Text>
@@ -272,7 +304,7 @@ export default function HomeScreen() {
                   ) : null}
                   <TouchableOpacity
                     style={styles.dailyButton}
-                    onPress={() => router.push(`/recipe-detail/${dailyRecipe.id}`)}
+                    onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: dailyRecipe.id } })}
                   >
                     <Text style={styles.dailyButtonText}>{t('home.viewRecipe')}</Text>
                   </TouchableOpacity>
@@ -374,8 +406,14 @@ export default function HomeScreen() {
           </View>
         )}
 
+        {/* ─── СЕКЦИЯ 4.5: ТАРО КАРТА НА ДЕНЯ ─── */}
+        <View style={styles.section}>
+          <SectionHeader title={t('home.tarot.title')} />
+          <TarotDailyCardSection />
+        </View>
+
         {/* ─── СЕКЦИЯ 5: ГОТОВИ РЕЦЕПТИ ПО ТИП ─── */}
-        <View style={[styles.section, styles.lastSection]}>
+        <View style={styles.section}>
           <SectionHeader title={t('home.quickActions.readyRecipes.title')} />
 
           {/* Filter Pills */}
@@ -418,7 +456,7 @@ export default function HomeScreen() {
                   <TouchableOpacity
                     key={recipe.id}
                     style={styles.readyRecipeCard}
-                    onPress={() => router.push(`/recipe-detail/${recipe.id}`)}
+                    onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: recipe.id } })}
                   >
                     {recipe.hero_image_url ? (
                       <Image
@@ -433,10 +471,10 @@ export default function HomeScreen() {
                     )}
                     <View style={styles.readyRecipeInfo}>
                       <Text style={styles.readyRecipeName} numberOfLines={2}>
-                        {language === 'bg' ? recipe.name_bg : (recipe.name_en || recipe.name_bg)}
+                        {language === 'bg' ? (recipe.name_bg || recipe.name_en) : (recipe.name_en || recipe.name_bg)}
                       </Text>
                       {recipe.total_calories ? (() => {
-                        const servings = recipe.total_servings || 8;
+                        const servings = recipe.total_servings || 12;
                         const calPerServing = Math.round(recipe.total_calories / servings);
                         const ncPerServing = recipe.total_net_carbs
                           ? Math.round(recipe.total_net_carbs / servings)
@@ -475,7 +513,70 @@ export default function HomeScreen() {
           )}
         </View>
 
+        {/* ─── СЕКЦИЯ 6: ОТ БЛОГА ─── */}
+        {blogPosts && blogPosts.length > 0 && (
+          <View style={[styles.section, styles.lastSection]}>
+            <SectionHeader
+              title={t('home.fromTheBlog')}
+              actionText={t('common.viewAll')}
+              onAction={() => router.push('/blog')}
+            />
+            {language === 'bg' && (
+              <Text style={styles.blogEnglishOnlyNote}>
+                {t('home.blogEnglishOnly')}
+              </Text>
+            )}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.horizontalList}
+            >
+              {blogPosts.map((post) => (
+                <TouchableOpacity
+                  key={post.id}
+                  style={styles.blogPostCard}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/blog',
+                      params: { initialUrl: `https://ketocakelab.com/blog/${post.slug}` },
+                    })
+                  }
+                  activeOpacity={0.8}
+                >
+                  {post.cover ? (
+                    <Image
+                      source={{ uri: post.cover }}
+                      style={styles.blogPostImage}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <View style={styles.blogPostImagePlaceholder}>
+                      <Text style={styles.blogPostEmoji}>📖</Text>
+                    </View>
+                  )}
+                  <View style={styles.blogPostInfo}>
+                    {post.category && (
+                      <View style={styles.blogCategoryBadge}>
+                        <Text style={styles.blogCategoryText}>{post.category}</Text>
+                      </View>
+                    )}
+                    <Text style={styles.blogPostTitle} numberOfLines={2}>
+                      {post.title}
+                    </Text>
+                    {post.summary ? (
+                      <Text style={styles.blogPostSummary} numberOfLines={2}>
+                        {post.summary}
+                      </Text>
+                    ) : null}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
       </ScrollView>
+
     </View>
   );
 }
@@ -799,5 +900,63 @@ const styles = StyleSheet.create({
     ...Typography.body2,
     color: Colors.primary.main,
     fontWeight: '600',
+  },
+
+  // ─── Blog Preview Cards ───
+  blogEnglishOnlyNote: {
+    ...Typography.caption,
+    color: Colors.text.tertiary,
+    marginTop: -Spacing.xs,
+    marginBottom: Spacing.sm,
+  },
+  blogPostCard: {
+    width: 180,
+    backgroundColor: Colors.background.primary,
+    borderRadius: BorderRadius.lg,
+    overflow: 'hidden',
+    ...Shadows.sm,
+  },
+  blogPostImage: {
+    width: '100%',
+    height: 110,
+  },
+  blogPostImagePlaceholder: {
+    width: '100%',
+    height: 110,
+    backgroundColor: Colors.primary.opacity[10],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  blogPostEmoji: {
+    fontSize: 32,
+  },
+  blogPostInfo: {
+    padding: Spacing.md,
+    gap: Spacing.xs,
+  },
+  blogCategoryBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: Colors.primary.opacity[10],
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.sm,
+  },
+  blogCategoryText: {
+    ...Typography.caption,
+    color: Colors.primary.main,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontSize: 9,
+  },
+  blogPostTitle: {
+    ...Typography.body2,
+    color: Colors.text.primary,
+    fontWeight: '600',
+  },
+  blogPostSummary: {
+    ...Typography.caption,
+    color: Colors.text.secondary,
+    lineHeight: 16,
   },
 });

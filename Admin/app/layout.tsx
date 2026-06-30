@@ -7,8 +7,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "KetoCakr Admin",
-  description: "Admin panel for KetoCakr",
+  title: "KetoCakeLab Admin",
+  description: "Admin panel for KetoCakeLab",
 };
 
 export default function RootLayout({
@@ -18,13 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="grammarly" content="false" />
-      </head>
-      <body
-        className={inter.className}
-        suppressHydrationWarning
-      >
+      <body className={inter.className}>
         {children}
       </body>
     </html>

@@ -1,0 +1,131 @@
+# TASK — Fix Tab 1 Blog Section: Layout, Article 404, Cover Image, Language Note
+
+> Executor: Claude Code at `C:\Dev\KetoCakR\Mobile\`.
+> Follow-up to the previous blog-access fixes (route registration + IP fix already
+> resolved). Four issues found during real-device testing.
+
+---
+
+## Issue 1 — Change Vertical List to Horizontal Scroll
+
+**File:** `Mobile/app/(tabs)/home/index.tsx`, "From the Blog" section.
+
+Currently a vertical list. Change to a horizontal `ScrollView` (or `FlatList` with
+`horizontal`), matching the same pattern already used elsewhere on Home for similar
+card rows (per `CLAUDE_CODE_TASK.md` Phase 2.4 "Your Creations" — horizontal
+`ScrollView` of cards — reuse that exact pattern/styling for consistency, don't invent
+a new card-row style).
+
+```tsx
+<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: Spacing.md, gap: Spacing.sm }}>
+  {blogPosts.map(post => (
+    <BlogPreviewCard key={post.slug} post={post} onPress={() => openArticle(post.slug)} />
+  ))}
+</ScrollView>
+```
+
+---
+
+## Issue 2 — Tapping an Article Card → 404
+
+**Investigate first:**
+
+The Tab 4 → generic `/blog` route was already fixed (registered in root `_layout.tsx`).
+This 404 is happening when navigating to a **specific article** with a slug/URL param,
+which is a different navigation call than the generic one. Most likely cause: the
+specific-article navigation passes params in a way that either:
+- Targets a route that was never registered (e.g. if article taps try to push to
+  `/blog/[slug]` as a separate route instead of reusing `/blog` with an `initialUrl`
+  param, per the original spec in `TASK_MOBILE_BLOG_ACCESS.md` Phase 3.2), or
+- Passes the param correctly to `/blog`, but the WebView screen component doesn't
+  actually read/use `initialUrl` from `useLocalSearchParams()` (or whatever the
+  Mobile project's param-reading convention is) and always falls back to the generic
+  blog index — which wouldn't 404, so check this only if the first explanation doesn't
+  match what's observed.
+
+```bash
+grep -n "router.push" Mobile/app/\(tabs\)/home/index.tsx | grep -i blog
+grep -n "useLocalSearchParams\|initialUrl" Mobile/app/blog/index.tsx
+```
+
+**Fix:** ensure article taps navigate to the registered `/blog` route (not a
+non-existent nested route), passing the specific article URL as a param:
+```tsx
+router.push({ pathname: '/blog', params: { initialUrl: `https://ketocakelab.com/blog/${post.slug}` } });
+```
+And confirm `Mobile/app/blog/index.tsx` reads this param and uses it as the WebView's
+`source.uri`, defaulting to the generic blog index when absent — exactly as specified
+in the original task. If this logic was never implemented (only the generic `/blog`
+case was), implement it now.
+
+---
+
+## Issue 3 — Show Real Cover Image Instead of an Icon
+
+**File:** wherever `BlogPreviewCard` (or equivalent inline card markup) lives in the
+Tab 1 section.
+
+Each post already carries a `cover` URL (from the `/api/public/blog-posts` response,
+per the existing Admin route). Replace whatever icon/placeholder is currently shown
+with the actual cover image:
+
+```tsx
+<Image
+  source={{ uri: post.cover }}
+  style={{ width: 160, height: 100, borderRadius: BorderRadius.md }}
+  resizeMode="cover"
+/>
+```
+(Adapt to whichever image component the project already uses elsewhere — check if
+`expo-image` is already a dependency and preferred over RN's core `Image`, for
+consistency with how other recipe/cover images are rendered elsewhere in Mobile.)
+
+If `post.cover` is null/missing for a given post, fall back to a neutral placeholder
+(reuse whatever placeholder pattern already exists for recipes without `image_url`,
+per `CLAUDE_CODE_TASK.md` Phase 2.2 "Placeholder if no image_url").
+
+---
+
+## Issue 4 — English-Only Content Note for Bulgarian Interface
+
+The blog (Notion-backed) currently only has English articles. When the app's language
+is set to Bulgarian, keep the "From the Blog" section visible as-is (same posts, same
+English titles/summaries — do not hide the section, do not attempt translation), but
+add a small note/label near the section header indicating the content is English-only.
+
+**File:** same Tab 1 section, `SectionHeader` area.
+
+```tsx
+<SectionHeader
+  title={t('home.fromTheBlog')}
+  actionText={t('home.seeAll')}
+  onAction={() => router.push('/blog')}
+/>
+{language === 'bg' && (
+  <Text style={{ fontSize: Typography.caption.fontSize, color: Colors.text.tertiary, paddingHorizontal: Spacing.md, marginTop: -Spacing.xs }}>
+    {t('home.blogEnglishOnly')}
+  </Text>
+)}
+```
+
+Add new translation keys:
+- `bg.ts`: `home.blogEnglishOnly: "Статиите засега са само на английски"`
+- `en.ts`: `home.blogEnglishOnly: ""` (empty or omit the check entirely for English UI —
+  the note only makes sense when the interface language differs from the content
+  language)
+
+Confirm whatever language-detection variable/hook already exists in the project
+(`useTranslation` or equivalent, per `CLAUDE_CODE_TASK.md` stack notes) to drive the
+`language === 'bg'` condition — use the existing pattern, don't introduce a new one.
+
+---
+
+## Acceptance Checklist
+
+- [ ] "From the Blog" section in Tab 1 scrolls horizontally, matches existing card-row visual style (e.g. "Your Creations" pattern).
+- [ ] Tapping any article card opens that specific article in the WebView (no 404).
+- [ ] Each card shows the real cover image (not an icon), with sensible fallback if `cover` is null.
+- [ ] When app language is Bulgarian, a small "English only" note appears near the section header; section itself stays visible with the same English posts.
+- [ ] When app language is English, no such note appears.
+- [ ] Tab 4 → Blog (generic index) still works after these changes (no regression).
+- [ ] Verified on real device/emulator, not just code review.

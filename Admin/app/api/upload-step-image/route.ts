@@ -54,11 +54,34 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(filePath);
 
     console.log('✅ Upload success:', publicUrl);
+    console.log('Upload response:', { publicUrl, filePath });
+
+    // Write step_image_url to DB using service role (bypasses RLS)
+    const stepId = formData.get('stepId') as string | null;
+    if (stepId) {
+      const { error: dbError } = await supabase
+        .from('recipe_instruction_steps')
+        .update({ step_image_url: publicUrl })
+        .eq('id', parseInt(stepId));
+
+      if (dbError) {
+        console.error('❌ DB update error:', dbError);
+        // Still return success for the upload, but flag the DB error
+        return NextResponse.json({
+          success: true,
+          imageUrl: publicUrl,
+          filePath: filePath,
+          dbError: dbError.message
+        });
+      }
+      console.log('✅ DB step_image_url updated for step id:', stepId);
+    }
 
     return NextResponse.json({
       success: true,
       imageUrl: publicUrl,
-      filePath: filePath
+      filePath: filePath,
+      savedToDb: !!stepId
     });
 
   } catch (error: any) {

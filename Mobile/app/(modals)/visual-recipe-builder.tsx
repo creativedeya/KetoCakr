@@ -15,14 +15,16 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { DessertType, BaseRecipe } from '../../../shared/types';
 import { useTranslation } from '../../constants/i18n';
-import PanSizePicker from '../../components/PanSizePicker';
-import { getPanByServings, BASE_PAN, BASE_SERVINGS } from '../../constants/BakingPans';
+import { getPanByServings, BASE_PAN, BASE_SERVINGS, ROUND_PANS } from '../../constants/BakingPans';
+import { useLanguageStore } from '../../store/useLanguageStore';
 import { pickImage, uploadRecipeImage, updateRecipeImage } from '../../lib/imageUpload';
 
 const PLACEHOLDER_USER_ID = '00000000-0000-0000-0000-000000000000';
+const SERVING_STEPS = [6, 8, 10, 12, 14, 18, 20, 35];
 
 export default function VisualRecipeBuilder() {
   const { t, language } = useTranslation();
+  const { unitSystem } = useLanguageStore();
   const [step, setStep] = useState<'dessert' | 'build' | 'finalize'>('dessert');
   const [selectedDessertType, setSelectedDessertType] = useState<DessertType | null>(null);
   const [selectedTab, setSelectedTab] = useState(1);
@@ -106,6 +108,30 @@ export default function VisualRecipeBuilder() {
     netCarbs: Math.round(totalNutritionRaw.netCarbs * scaleFactor / safeServings),
   };
 
+  // Finalize step — nutrition recalculated per chosen servings
+  const finalPan = getPanByServings(servings);
+  const finalScaleFactor = finalPan ? finalPan.scaleFactor / BASE_PAN.scaleFactor : 1;
+  const finalTotalCal = Math.round(totalNutritionRaw.calories * finalScaleFactor);
+  const totalWeightRaw = Object.values(selectedComponents).reduce(
+    (acc, recipe) => acc + (recipe?.total_weight_grams || 0),
+    0
+  );
+  const finalTotalWeight = Math.round(totalWeightRaw * finalScaleFactor);
+  const finalWeightPerServing = Math.round(finalTotalWeight / (servings || 1));
+  const finalPerServing = {
+    calories: Math.round(totalNutritionRaw.calories * finalScaleFactor / (servings || 1)),
+    protein:  Math.round(totalNutritionRaw.protein  * finalScaleFactor / (servings || 1)),
+    fat:      Math.round(totalNutritionRaw.fat       * finalScaleFactor / (servings || 1)),
+    netCarbs: Math.round(totalNutritionRaw.netCarbs  * finalScaleFactor / (servings || 1)),
+  };
+  const isRoundFinalPan = finalPan ? ROUND_PANS.some(p => p.servings === servings) : false;
+  const finalPanSizeStr = finalPan
+    ? (unitSystem === 'metric' ? finalPan.metricSize : finalPan.imperialSize)
+    : null;
+  const finalPanLabel = finalPanSizeStr
+    ? `${finalPanSizeStr}${isRoundFinalPan ? ` ${t('panPicker.round')}` : ''}`
+    : null;
+
   useEffect(() => {
     Animated.spring(nutritionAnim, {
       toValue: 1,
@@ -136,7 +162,6 @@ export default function VisualRecipeBuilder() {
       );
       return;
     }
-    setServings(selectedPanServings);
     setStep('finalize');
   };
 
@@ -359,53 +384,110 @@ export default function VisualRecipeBuilder() {
             )}
           </View>
 
-          {/* Servings */}
-          <View style={{ marginBottom: 24 }}>
-            <Text style={{ fontSize: 16, fontWeight: '600', color: Colors.text.primary, marginBottom: 8 }}>
+          {/* Servings — compact stepper */}
+          <View style={{ marginBottom: 8 }}>
+            <Text style={{ fontSize: 16, fontWeight: '600', color: Colors.text.primary, marginBottom: 12 }}>
               {t('recipeBuilder.finalizeStep.servings')}
             </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              <TouchableOpacity
-                onPress={() => setServings(Math.max(1, servings - 1))}
-                style={{
-                  backgroundColor: Colors.background.primary,
-                  borderWidth: 2,
-                  borderColor: Colors.border.light,
-                  borderRadius: 12,
-                  width: 48,
-                  height: 48,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Text style={{ fontSize: 24, color: Colors.text.primary }}>−</Text>
-              </TouchableOpacity>
-              <View style={{
-                flex: 1,
-                backgroundColor: Colors.background.primary,
-                borderWidth: 2,
-                borderColor: Colors.primary.main,
-                borderRadius: 12,
-                paddingVertical: 12,
-                alignItems: 'center',
-              }}>
-                <Text style={{ fontSize: 24, fontWeight: 'bold', color: Colors.primary.main }}>{servings}</Text>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              backgroundColor: Colors.background.primary,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 14,
+            }}>
+              {/* Left: total weight */}
+              <View style={{ alignItems: 'flex-start', minWidth: 60 }}>
+                <Text style={{ fontSize: 15, fontWeight: '600', color: Colors.text.primary }}>{finalTotalWeight}г</Text>
+                <Text style={{ fontSize: 9, color: Colors.text.secondary, marginTop: 2 }}>
+                  {language === 'bg' ? 'общо' : 'total'}
+                </Text>
               </View>
-              <TouchableOpacity
-                onPress={() => setServings(servings + 1)}
-                style={{
-                  backgroundColor: Colors.background.primary,
-                  borderWidth: 2,
-                  borderColor: Colors.border.light,
-                  borderRadius: 12,
-                  width: 48,
-                  height: 48,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Text style={{ fontSize: 24, color: Colors.text.primary }}>+</Text>
-              </TouchableOpacity>
+              {/* Center: stepper */}
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    const idx = SERVING_STEPS.indexOf(servings);
+                    if (idx > 0) setServings(SERVING_STEPS[idx - 1]);
+                  }}
+                  disabled={SERVING_STEPS.indexOf(servings) === 0}
+                  style={{
+                    width: 32, height: 32, borderRadius: 16,
+                    backgroundColor: SERVING_STEPS.indexOf(servings) === 0
+                      ? Colors.background.secondary : Colors.primary.main,
+                    alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.text.inverse, lineHeight: 24 }}>−</Text>
+                </TouchableOpacity>
+                <View style={{ alignItems: 'center', minWidth: 40 }}>
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.text.primary }}>{servings}</Text>
+                  <Text style={{ fontSize: 9, color: Colors.text.secondary, marginTop: 2 }}>{t('panPicker.servings')}</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    const idx = SERVING_STEPS.indexOf(servings);
+                    if (idx < SERVING_STEPS.length - 1) setServings(SERVING_STEPS[idx + 1]);
+                  }}
+                  disabled={SERVING_STEPS.indexOf(servings) === SERVING_STEPS.length - 1}
+                  style={{
+                    width: 32, height: 32, borderRadius: 16,
+                    backgroundColor: SERVING_STEPS.indexOf(servings) === SERVING_STEPS.length - 1
+                      ? Colors.background.secondary : Colors.primary.main,
+                    alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', color: Colors.text.inverse, lineHeight: 24 }}>+</Text>
+                </TouchableOpacity>
+              </View>
+              {/* Right: weight per serving */}
+              <View style={{ alignItems: 'flex-end', minWidth: 60 }}>
+                <Text style={{ fontSize: 15, fontWeight: '600', color: Colors.primary.main }}>{finalWeightPerServing}г</Text>
+                <Text style={{ fontSize: 9, color: Colors.text.secondary, marginTop: 2 }}>
+                  {language === 'bg' ? 'на порция' : 'per piece'}
+                </Text>
+              </View>
+            </View>
+            {/* Pan info */}
+            {finalPanLabel && (
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8, paddingHorizontal: 4 }}>
+                <Ionicons name="resize-outline" size={14} color={Colors.text.secondary} />
+                <Text style={{ fontSize: 13, color: Colors.text.secondary, marginLeft: 6 }}>
+                  {t('panPicker.title')}: {finalPanLabel}
+                </Text>
+              </View>
+            )}
+          </View>
+
+          {/* Nutrition per serving */}
+          <View style={{
+            backgroundColor: Colors.background.primary,
+            borderRadius: 16,
+            padding: 16,
+            marginBottom: 24,
+          }}>
+            <Text style={{ fontSize: 13, color: Colors.text.secondary, marginBottom: 10 }}>
+              {t('panPicker.perServing')}
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: Colors.text.primary }}>{finalPerServing.calories}</Text>
+                <Text style={{ fontSize: 10, color: Colors.text.secondary }}>{t('recipeBuilder.buildStep.nutrition.kcal')}</Text>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: Colors.text.primary }}>{finalPerServing.protein}g</Text>
+                <Text style={{ fontSize: 10, color: Colors.text.secondary }}>{t('recipeBuilder.buildStep.nutrition.protein')}</Text>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: Colors.text.primary }}>{finalPerServing.fat}g</Text>
+                <Text style={{ fontSize: 10, color: Colors.text.secondary }}>{t('recipeBuilder.buildStep.nutrition.fat')}</Text>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: Colors.primary.main }}>{finalPerServing.netCarbs}g</Text>
+                <Text style={{ fontSize: 10, color: Colors.text.secondary }}>{t('recipeBuilder.buildStep.nutrition.net')}</Text>
+              </View>
             </View>
           </View>
 
@@ -499,9 +581,9 @@ export default function VisualRecipeBuilder() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 24, gap: 16 }}
         >
-          {dessertTypes?.map((dessert) => (
+          {dessertTypes?.map((dessert, idx) => (
             <TouchableOpacity
-              key={dessert.id}
+              key={String(dessert.id)}
               onPress={() => handleSelectDessert(dessert)}
               style={{ alignItems: 'center' }}
             >
@@ -646,12 +728,12 @@ export default function VisualRecipeBuilder() {
             justifyContent: 'center',
             gap: 12,
           }}>
-            {baseRecipes?.map((recipe) => {
+            {baseRecipes?.map((recipe, idx) => {
               const isSelected = selectedComponents[selectedTab]?.id === recipe.id;
 
               return (
                 <TouchableOpacity
-                  key={recipe.id}
+                  key={String(recipe.id)}
                   onPress={() => handleSelectComponent(recipe)}
                   style={{ width: '45%' }}
                 >
@@ -694,10 +776,10 @@ export default function VisualRecipeBuilder() {
                       {language === 'en' ? (recipe.name_en || recipe.name) : recipe.name}
                     </Text>
 
-                    {/* Nutrition hint */}
+                    {/* Nutrition hint — per serving */}
                     {recipe.total_calories ? (
                       <Text style={{ fontSize: 12, color: Colors.text.secondary }}>
-                        {formatNum(recipe.total_calories)} {t('recipeBuilder.buildStep.nutrition.kcal')}
+                        {Math.round((recipe.total_calories || 0) / (recipe.servings || 8))} cal · {Math.round((recipe.total_net_carbs || 0) / (recipe.servings || 8))}g NC /{language === 'bg' ? 'порция' : 'serving'}
                       </Text>
                     ) : null}
 
@@ -724,30 +806,21 @@ export default function VisualRecipeBuilder() {
           </View>
         </ScrollView>
 
-        {/* Bottom: PanSizePicker + Role Tabs + Save */}
+        {/* Bottom: Role Tabs + Save */}
         <View style={{ backgroundColor: Colors.background.secondary, paddingBottom: 32 }}>
-          {/* Pan Size Picker (compact chips) */}
-          <View style={{ paddingTop: Spacing.sm }}>
-            <PanSizePicker
-              selectedServings={selectedPanServings}
-              onSelectServings={setSelectedPanServings}
-              compact
-            />
-          </View>
-
           {/* Role Tabs */}
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12, gap: 12 }}
           >
-            {RECIPE_ROLES.map((role) => {
+            {RECIPE_ROLES.map((role, idx) => {
               const isSelected = selectedTab === role.id;
               const hasComponent = !!selectedComponents[role.id];
 
               return (
                 <TouchableOpacity
-                  key={role.id}
+                  key={String(role.id)}
                   onPress={() => setSelectedTab(role.id)}
                   style={{
                     paddingHorizontal: 24,

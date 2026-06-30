@@ -21,6 +21,9 @@ export const en: TranslationKeys = {
     viewAll: 'View all',
     createNew: 'Create new',
     noResults: 'No results',
+    of: 'of',
+    watchVideo: 'WATCH VIDEO',
+    by: 'by',
   },
 
   tabs: {
@@ -74,6 +77,28 @@ export const en: TranslationKeys = {
     },
     yourCreations: 'Your Creations',
     noCreations: 'No recipes yet',
+    fromTheBlog: 'From the Blog',
+    blogEnglishOnly: '',
+    tarot: {
+      title: 'Card of the Day',
+      cta: 'Draw your card of the day',
+      drawButton: 'Draw your card',
+      shuffleHint: 'Once per day',
+      revealButton: 'Reveal the message →',
+      teaser: 'A hint awaits you today.',
+      dailyRitual: 'Daily Ritual',
+      energyLabel: 'ENERGY OF THE DAY',
+      morningLabel: '✦ MORNING TIP',
+      trapLabel: '⚠ DAILY TRAP',
+      eveningLabel: '↻ EVENING QUESTION',
+      suits: {
+        major: 'MAJOR ARCANA',
+        pentacles: 'PENTACLES · EARTH',
+        cups: 'CUPS · WATER',
+        swords: 'SWORDS · AIR',
+        wands: 'WANDS · FIRE',
+      },
+    },
   },
 
   search: {
@@ -155,6 +180,18 @@ export const en: TranslationKeys = {
         title: 'Nutrition Tables',
         subtitle: 'Calories and macros',
       },
+      labNotes: {
+        title: 'Lab Notes',
+        description: 'Scientific keto knowledge base',
+      },
+      sweetenerComparison: {
+        title: 'Sweetener Guide',
+        description: 'Compare & convert sweeteners',
+      },
+      blog: {
+        title: 'Blog',
+        description: 'Tips & recipes from the lab',
+      },
     },
     tipText:
       'When baking keto crusts, always preheat the oven to 180°C (350°F). This ensures even baking and better texture.',
@@ -211,7 +248,18 @@ export const en: TranslationKeys = {
     dessertSelection: {
       title: 'Choose Dessert',
       subtitle: 'What shall we make today?',
+      stepTitle: 'Select dessert type',
+      stepSubtitle: 'What kind of keto dessert would you like to make?',
+      noData: 'No dessert types found in the database.',
+      checkConsole: 'Check the console for more details',
     },
+    confirmCancel: {
+      title: 'Cancel',
+      message: 'Are you sure you want to cancel? Your progress will not be saved.',
+      cancel: 'Go back',
+      confirm: 'Cancel',
+    },
+    createTitle: 'Create Recipe',
     buildStep: {
       roles: {
         crust: 'Crust',
@@ -264,6 +312,9 @@ export const en: TranslationKeys = {
         title: 'Error',
         message: 'Failed to save recipe',
       },
+      selectAllRequired: 'Please select all required components',
+      successCreated: 'Your recipe was created successfully!',
+      errorCreate: 'Failed to create recipe. Please try again.',
     },
   },
 
@@ -303,6 +354,17 @@ export const en: TranslationKeys = {
       fiber: 'Fiber',
       netCarbs: 'Net Carbs',
       perServing: 'Nutritional values per serving',
+      sugar: 'Sugar',
+      saturatedFat: 'Saturated Fat',
+      cholesterol: 'Cholesterol',
+      sodium: 'Sodium',
+      calcium: 'Calcium',
+      iron: 'Iron',
+      magnesium: 'Magnesium',
+      potassium: 'Potassium',
+      minerals: 'Minerals',
+      showFull: 'View full nutrition',
+      hideFull: 'Hide full nutrition',
     },
     instructions: {
       step: 'Step',
@@ -637,5 +699,41 @@ export const en: TranslationKeys = {
     custom: 'Custom',
     total: 'Total',
     percentWarning: 'Total must equal 100%',
+  },
+
+  labNotes: {
+    title: 'Lab Notes',
+    subtitle: 'Scientific keto knowledge base',
+    categories: {
+      chocolate: 'Chocolate & Ganache',
+      flours: 'Flours & Bases',
+      sweeteners: 'Sweeteners',
+      assembly: 'Assembly',
+      mistakes: 'Common Mistakes',
+      general: 'General',
+    },
+    notes: 'notes',
+    note: 'note',
+    noNotes: 'No notes in this category yet.',
+    blockLabel: 'LAB NOTE',
+  },
+
+  blog: {
+    title: 'Blog',
+  },
+
+  cookingMode: {
+    selectComponent: 'What will you cook?',
+    steps: 'steps',
+    completeComponent: 'Complete component',
+    forward: 'Next',
+    listenInstructions: 'Listen to instructions',
+    loading: 'Loading...',
+    stop: 'Stop',
+    ingredients: 'Ingredients',
+    equipment: 'Equipment',
+    textOnly: 'Text',
+    imagesText: 'Photos',
+    cooking: 'Cooking',
   },
 };

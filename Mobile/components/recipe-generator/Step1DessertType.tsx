@@ -5,8 +5,10 @@ import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'rea
 import { Colors } from '../../constants/Colors';
 import { useRecipeGeneratorStore } from '../../store/useRecipeGeneratorStore';
 import { useDessertTypes } from '../../api/hooks';
+import { useTranslation } from '../../constants/i18n';
 
 export default function Step1DessertType() {
+  const { t } = useTranslation();
   const selectedDessertTypeId = useRecipeGeneratorStore((state) => state.selectedDessertTypeId);
   const setDessertType = useRecipeGeneratorStore((state) => state.setDessertType);
 
@@ -16,7 +18,7 @@ export default function Step1DessertType() {
     return (
       <View className="flex-1 items-center justify-center p-6">
         <ActivityIndicator size="large" color={Colors.primary.main} />
-        <Text className="mt-4" style={{ color: Colors.text.secondary }}>Зареждане...</Text>
+        <Text className="mt-4" style={{ color: Colors.text.secondary }}>{t('common.loading')}</Text>
       </View>
     );
   }
@@ -32,14 +34,14 @@ export default function Step1DessertType() {
 
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-lg font-semibold mb-2" style={{ color: Colors.error.main }}>❌ Грешка</Text>
+        <Text className="text-lg font-semibold mb-2" style={{ color: Colors.error.main }}>❌ {t('common.error')}</Text>
         <ScrollView className="max-h-60 w-full">
           <Text className="text-sm font-mono p-3 rounded" style={{ color: Colors.text.secondary, backgroundColor: Colors.background.secondary }}>
             {errorMessage}
           </Text>
         </ScrollView>
         <Text className="text-xs mt-4" style={{ color: Colors.text.tertiary }}>
-          Проверете конзолата за повече детайли
+          {t('recipeBuilder.dessertSelection.checkConsole')}
         </Text>
       </View>
     );
@@ -48,9 +50,9 @@ export default function Step1DessertType() {
   if (!dessertTypes || dessertTypes.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-lg font-semibold mb-2" style={{ color: Colors.text.secondary }}>⚠️ Няма данни</Text>
+        <Text className="text-lg font-semibold mb-2" style={{ color: Colors.text.secondary }}>⚠️ {t('common.noResults')}</Text>
         <Text className="text-center" style={{ color: Colors.text.tertiary }}>
-          Не са намерени типове десерти в базата данни.
+          {t('recipeBuilder.dessertSelection.noData')}
         </Text>
       </View>
     );
@@ -58,9 +60,9 @@ export default function Step1DessertType() {
 
   return (
     <ScrollView className="flex-1 p-6">
-      <Text className="text-2xl font-bold mb-2" style={{ color: Colors.text.primary }}>Изберете тип десерт</Text>
+      <Text className="text-2xl font-bold mb-2" style={{ color: Colors.text.primary }}>{t('recipeBuilder.dessertSelection.stepTitle')}</Text>
       <Text className="mb-6" style={{ color: Colors.text.secondary }}>
-        Какъв вид кето десерт искате да направите?
+        {t('recipeBuilder.dessertSelection.stepSubtitle')}
       </Text>
 
       <View className="space-y-3">

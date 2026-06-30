@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Link, RefreshCw, AlertCircle } from 'lucide-react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
+import { IngredientAutocomplete } from '@/components/IngredientAutocomplete';
 
 interface UnlinkedIngredient {
   id: string;
@@ -11,118 +12,134 @@ interface UnlinkedIngredient {
   unit: string | null;
 }
 
-interface IngredientMatch {
-  id: string;
-  name: string;
-  score: number;
-}
-
 interface IngredientRowProps {
   ingredient: UnlinkedIngredient;
   onLinked: () => void;
 }
 
 function IngredientRow({ ingredient, onLinked }: IngredientRowProps) {
-  const [matches, setMatches] = useState<IngredientMatch[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [linking, setLinking] = useState<string | null>(null);
+  const [name, setName] = useState(ingredient.ingredient_name);
+  const [quantity, setQuantity] = useState<number | null>(ingredient.quantity);
+  const [unit, setUnit] = useState(ingredient.unit ?? '');
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchMatches();
-  }, [ingredient.id]);
+  const isDirty =
+    name !== ingredient.ingredient_name ||
+    quantity !== ingredient.quantity ||
+    unit !== (ingredient.unit ?? '');
 
-  async function fetchMatches() {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/recipe-ingredients/suggest-matches', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredientName: ingredient.ingredient_name }),
-      });
-      const data = await res.json();
-      setMatches(data.matches || []);
-    } catch {
-      setMatches([]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleLink(databaseId: string) {
-    setLinking(databaseId);
+  async function handleSelect(option: { id: string; name_bg: string; name_en: string }) {
+    setSaving(true);
     try {
       const { error } = await supabase
         .from('recipe_ingredients')
-        .update({ ingredient_database_id: databaseId })
+        .update({
+          ingredient_database_id: option.id,
+          ingredient_name: option.name_bg,
+          quantity,
+          unit: unit || null,
+        })
         .eq('id', ingredient.id);
-
       if (error) throw error;
       onLinked();
     } catch (err: any) {
       alert(`Failed to link: ${err.message}`);
-      setLinking(null);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleSave() {
+    if (!name.trim()) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('recipe_ingredients')
+        .update({ ingredient_name: name.trim(), quantity, unit: unit || null })
+        .eq('id', ingredient.id);
+      if (error) throw error;
+      onLinked();
+    } catch (err: any) {
+      alert(`Failed to save: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleRemove() {
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('recipe_ingredients')
+        .delete()
+        .eq('id', ingredient.id);
+      if (error) throw error;
+      onLinked();
+    } catch (err: any) {
+      alert(`Failed to remove: ${err.message}`);
+      setSaving(false);
     }
   }
 
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-lg">
-      {/* Ingredient name + quantity */}
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <span className="font-medium text-gray-900">{ingredient.ingredient_name}</span>
-          {ingredient.quantity && (
-            <span className="text-gray-500 text-sm ml-2">
-              — {ingredient.quantity} {ingredient.unit}
-            </span>
-          )}
-        </div>
+    <div className="p-3 bg-white border border-gray-200 rounded-lg">
+      <div className="flex items-center gap-2">
+        {/* Editable name with autocomplete */}
+        <IngredientAutocomplete
+          value={name}
+          onChange={setName}
+          onSelect={handleSelect}
+          placeholder="Търси в базата..."
+          className="flex-1"
+        />
+
+        {/* Quantity */}
+        <input
+          type="number"
+          min={0}
+          step={0.1}
+          value={quantity ?? ''}
+          onChange={e => setQuantity(e.target.value === '' ? null : parseFloat(e.target.value))}
+          placeholder="qty"
+          className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-sm"
+        />
+
+        {/* Unit */}
+        <input
+          type="text"
+          value={unit}
+          onChange={e => setUnit(e.target.value)}
+          placeholder="unit"
+          className="w-16 px-2 py-2 border border-gray-300 rounded-lg text-sm"
+        />
+
+        {/* Save button — visible when any field changed */}
+        {isDirty && (
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="text-xs bg-blue-600 text-white px-2 py-1.5 rounded hover:bg-blue-700 disabled:opacity-50 whitespace-nowrap flex-shrink-0"
+          >
+            {saving ? '...' : 'Запази'}
+          </button>
+        )}
+
+        {saving && !isDirty && (
+          <RefreshCw className="h-3.5 w-3.5 text-gray-400 animate-spin flex-shrink-0" />
+        )}
+
+        {/* Remove */}
         <button
-          onClick={fetchMatches}
-          title="Retry matching"
-          className="text-gray-400 hover:text-gray-600 p-1 rounded"
+          onClick={handleRemove}
+          disabled={saving}
+          className="text-red-400 hover:text-red-600 disabled:opacity-50 px-1 text-lg leading-none flex-shrink-0"
         >
-          <RefreshCw className="h-3.5 w-3.5" />
+          ×
         </button>
       </div>
-
-      {/* Matches */}
-      {loading ? (
-        <p className="text-xs text-gray-400 italic">Searching...</p>
-      ) : matches.length === 0 ? (
-        <p className="text-xs text-red-500 italic">No matches found (below 50% similarity)</p>
-      ) : (
-        <div className="space-y-1.5">
-          {matches.map((match) => (
-            <div
-              key={match.id}
-              className="flex items-center justify-between bg-gray-50 rounded px-3 py-1.5"
-            >
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-gray-700">{match.name}</span>
-                <span
-                  className={`text-xs font-medium px-1.5 py-0.5 rounded ${
-                    match.score >= 0.8
-                      ? 'bg-green-100 text-green-700'
-                      : match.score >= 0.6
-                      ? 'bg-yellow-100 text-yellow-700'
-                      : 'bg-orange-100 text-orange-700'
-                  }`}
-                >
-                  {Math.round(match.score * 100)}%
-                </span>
-              </div>
-              <button
-                onClick={() => handleLink(match.id)}
-                disabled={linking !== null}
-                className="flex items-center gap-1 text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Link className="h-3 w-3" />
-                {linking === match.id ? 'Linking...' : 'Link'}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+      <p className="text-xs text-gray-400 mt-1">
+        Избери от менюто за автоматично свързване, или редактирай и натисни Запази
+      </p>
     </div>
   );
 }

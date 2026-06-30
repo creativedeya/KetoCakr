@@ -93,7 +93,7 @@ export default function TabsLayout() {
 
       {/* Tools Tab */}
       <Tabs.Screen
-        name="tools/index"
+        name="tools"
         options={{
           title: t('tabs.tools'),
           tabBarIcon: ({ color, focused }) => (

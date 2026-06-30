@@ -5,7 +5,8 @@
       "Bash(head:*)",
       "Bash(grep error TS:*)",
       "Bash(cd:*)",
-      "Bash(grep recipe-detail:*)"
+      "Bash(grep recipe-detail:*)",
+      "Bash(grep visual-recipe:*)"
     ]
   }
 }

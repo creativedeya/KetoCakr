@@ -40,6 +40,8 @@ export default function BaseRecipesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'complete' | 'incomplete'>('all');
   const [filterRole, setFilterRole] = useState<number | null>(null);
+  const [duplicating, setDuplicating] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -149,6 +151,44 @@ export default function BaseRecipesPage() {
     }
 
     setFilteredRecipes(filtered);
+  }
+
+  async function handleDuplicateRecipe(recipeId: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!confirm('Duplicate this recipe?')) return;
+    setDuplicating(recipeId);
+    try {
+      const res = await fetch('/api/base-recipes/duplicate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipeId }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Failed');
+      router.push(`/dashboard/base-recipes/${data.newRecipe.id}`);
+    } catch (err: any) {
+      alert('Error duplicating recipe: ' + err.message);
+    } finally {
+      setDuplicating(null);
+    }
+  }
+
+  async function handleDeleteRecipe(recipeId: string, recipeName: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!confirm(`Изтрий "${recipeName}"?\n\nТова ще изтрие и всички стъпки и съставки на рецептата. Действието е необратимо!`)) return;
+    setDeleting(recipeId);
+    try {
+      const res = await fetch(`/api/base-recipes/delete?id=${recipeId}&force=true`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Failed');
+      setRecipes(prev => prev.filter(r => r.id !== recipeId));
+    } catch (err: any) {
+      alert('❌ Грешка при изтриване: ' + err.message);
+    } finally {
+      setDeleting(null);
+    }
   }
 
   async function handleLogout() {
@@ -447,6 +487,25 @@ export default function BaseRecipesPage() {
                         ⚠️ Incomplete - missing {recipe.stepCount === 0 ? 'steps' : ''}{recipe.stepCount === 0 && recipe.ingredientCount === 0 ? ' & ' : ''}{recipe.ingredientCount === 0 ? 'ingredients' : ''}
                       </div>
                     )}
+
+                    <div className="mt-3 flex justify-end gap-2">
+                      <button
+                        onClick={(e) => handleDuplicateRecipe(recipe.id, e)}
+                        disabled={duplicating === recipe.id}
+                        className="px-3 py-1 text-xs bg-gray-100 text-gray-600 rounded hover:bg-gray-200 disabled:opacity-50 transition"
+                        title="Duplicate recipe"
+                      >
+                        {duplicating === recipe.id ? '⟳ Копиране...' : '⎘ Копирай'}
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteRecipe(recipe.id, recipe.name, e)}
+                        disabled={deleting === recipe.id}
+                        className="px-3 py-1 text-xs bg-red-50 text-red-600 rounded hover:bg-red-100 disabled:opacity-50 transition"
+                        title="Delete recipe"
+                      >
+                        {deleting === recipe.id ? '⟳ Изтриване...' : '🗑 Изтрий'}
+                      </button>
+                    </div>
                   </div>
                 </div>
               );

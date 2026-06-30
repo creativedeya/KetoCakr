@@ -1,0 +1,36 @@
+{
+  "common": {
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "noResults": "No results"
+  },
+  "admin": {
+    "assemblyTemplates": "Assembly Templates",
+    "createTemplate": "Create Assembly Template",
+    "noTemplates": "No assembly templates yet",
+    "createFirst": "Create First Template",
+    "templateKey": "Template Key",
+    "nameBg": "Name (Bulgarian)",
+    "nameEn": "Name (English)",
+    "introTextBg": "Intro Text (Bulgarian)",
+    "introTextEn": "Intro Text (English)",
+    "soakingRequired": "Soaking Required",
+    "steps": "Steps",
+    "templateMetadata": "Metadata",
+    "names": "Names",
+    "introText": "Intro Text",
+    "instructions": "Instructions",
+    "settings": "Settings",
+    "noChanges": "No changes",
+    "addStep": "Add Step",
+    "noSteps": "No steps",
+    "addFirst": "Add First Step"
+  }
+}

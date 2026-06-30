@@ -1,0 +1,529 @@
+# KetoCakR Mobile — App Store Readiness Assessment
+**Date:** 2026-05-20  
+**Status:** NOT READY (55-60% complete)
+
+---
+
+## Executive Summary
+
+**Can we launch NOW?** ❌ **NO** — Missing critical features and store requirements.
+
+**Timeline to launch:** 6-8 weeks minimum (with parallel DB work)
+
+**Current state:** Solid foundation, core features 70% done, store requirements 20% done.
+
+---
+
+## Store Requirements Status
+
+### ✅ READY (No Work Needed)
+
+- [x] App name + branding (BLAGO)
+- [x] App icon (504x504px, exists in assets/)
+- [x] Splash screen (exists, needs production build)
+- [x] Privacy policy (can be generated)
+- [x] Terms of service (can be generated)
+- [x] Support email configured
+
+### ⚠️ PARTIAL (Minor Work)
+
+- [ ] App screenshots (8-10 per platform)
+  - **Status:** Need to take fresh screenshots
+  - **Time:** 2-3 hours (arrange phone, take 20+ images, crop to store formats)
+  - **Sizes:** 
+    - iOS: 1170x2532, 1284x2778
+    - Android: 1080x1920, 1440x2560
+
+- [ ] Description (store listing)
+  - **Status:** Skeleton exists, needs refinement
+  - **Time:** 2-3 hours
+  - **Content:** Feature list, benefits, screenshots, keywords
+
+- [ ] Privacy policy + Terms
+  - **Status:** Templates available
+  - **Time:** 1-2 hours
+  - **Required for:** Both iOS (AppStore) and Android (PlayStore)
+
+### ❌ MISSING (Must Do Before Launch)
+
+- [ ] Production build configuration
+  - **Status:** Dev build only
+  - **Time:** 4-6 hours
+  - **What:** Remove console logs, debug flags, staging API URLs
+  - **Tools:** EAS Build (Expo)
+
+- [ ] App signing certificates (iOS)
+  - **Status:** Not set up
+  - **Time:** 1-2 hours
+  - **What:** Generate Apple Developer certificates, provisioning profiles
+  - **Cost:** $99/year (Apple Developer Account)
+
+- [ ] Google Play signing (Android)
+  - **Status:** Not set up
+  - **Time:** 1-2 hours
+  - **What:** Generate keystore, upload key
+  - **Cost:** $25 one-time (Google Play Account)
+
+- [ ] Beta testing setup
+  - **Status:** Not done
+  - **Time:** 3-4 hours
+  - **What:** TestFlight (iOS), Google Play Internal Testing (Android)
+  - **Critical:** Find 10-20 beta testers, gather feedback
+
+---
+
+## Feature Completeness
+
+### 🎯 CORE FEATURES (MVP Level)
+
+| Feature | iOS | Android | Status | Priority |
+|---------|-----|---------|--------|----------|
+| Home Tab | ✅ | ✅ | Ready | P0 |
+| Search Tab | ✅ | ✅ | Ready | P0 |
+| Recipe Detail | ✅ | ✅ | Ready | P0 |
+| Ingredients List | ✅ | ✅ | Ready | P0 |
+| Equipment Info | ✅ | ✅ | Just Fixed | P0 |
+| Cooking Mode (Steps) | ✅ | ✅ | Just Fixed | P0 |
+| Bilingual (BG/EN) | ✅ | ✅ | Ready | P0 |
+| Shopping List | ✅ | ✅ | Ready | P1 |
+| Create Recipe | ⚠️ | ⚠️ | Partial (UI only) | P1 |
+
+### 📊 NICE-TO-HAVE FEATURES
+
+| Feature | Status | Impact on Launch |
+|---------|--------|------------------|
+| User accounts | ❌ Not started | Can skip (v1.1) |
+| Cloud sync | ❌ Not started | Can skip (v1.1) |
+| Favorites/Collections | ⚠️ 50% done | Nice to have (can defer) |
+| Nutrition calculator | ✅ 90% done | Keep for launch |
+| Unit converter | ✅ 100% done | Keep for launch |
+| Baking timer | ✅ 100% done | Keep for launch |
+| Macro calculator | ✅ 100% done | Keep for launch |
+| Price calculator | ✅ 90% done | Nice to have |
+
+### ❌ NOT READY (Must Defer to v1.1+)
+
+| Feature | Status | Why Defer |
+|---------|--------|-----------|
+| User accounts/login | Not started | Complex, can launch anonymous |
+| Cloud sync | Not started | Requires backend setup |
+| AI recipe generator | Partial | UI only, no API integration |
+| Recipe builder (advanced) | Partial | "Encountered two..." bug unsolved |
+| Multi-diet support | Planned | V1.1 feature |
+| Sweetener calculator | Planned | V1.1 feature |
+| Lab notes in Cooking Mode | Partially done | Can add to v1.0.1 |
+| Step images (AI) | Not started | V1.1 feature |
+
+---
+
+## Critical Bugs & Issues
+
+### 🔴 BLOCKING (Must Fix Before Launch)
+
+**None currently** — All blocking issues fixed in this session!
+
+### 🟡 HIGH (Should Fix Before Launch)
+
+1. **"Encountered two..." error in Recipe Builder**
+   - **Impact:** Users can't switch roles when creating recipes
+   - **Status:** Reported, root cause analysis needed
+   - **Workaround:** Users can create recipes but can't modify components
+   - **Time to fix:** 4-6 hours
+   - **Decision:** Either fix before launch OR ship v1.0 without advanced builder
+
+2. **Component avatars in Cooking Mode**
+   - **Impact:** UI/UX, not functionality
+   - **Status:** Task prepared, ready to execute
+   - **Time to fix:** 20-25 minutes
+   - **Decision:** Nice to have, can defer to v1.0.1
+
+### 🟢 LOW (Can Fix Post-Launch)
+
+- Lab notes display in Cooking Mode
+- AI-generated step images
+- Duplicate base recipes in admin
+- Pan size dynamic templating
+
+---
+
+## Database Readiness
+
+### ✅ READY
+
+- [x] Base recipes (74 + corrections this session)
+- [x] Ready recipes (10, just fixed name_bg)
+- [x] Ingredients database (156 items)
+- [x] Equipment catalog (22 + images)
+- [x] Step instructions (660 steps)
+- [x] Step-specific ingredients (just fixed)
+- [x] Equipment per step (just fixed)
+
+### ⚠️ PARTIAL
+
+- [ ] Lab notes (95 extracted, not integrated in UI)
+- [ ] Recipe roles (complete but needs UX refinement)
+- [ ] Dessert types (complete)
+- [ ] Ingredient categories (complete)
+- [ ] USDA nutrition data (156/156 ingredients mapped but needs verification)
+
+### ❌ NEEDS WORK (Can be post-launch)
+
+- [ ] User recipes (schema ready, feature partial)
+- [ ] Saved favorites (schema ready, UI not started)
+- [ ] Shopping list persistence (working locally, no cloud sync)
+
+---
+
+## Infrastructure Status
+
+### ✅ DEPLOYED
+
+- [x] Admin panel (admin.ketocakelab.com) — Vercel
+- [x] Landing page (ketocakelab.com) — Static HTML
+- [x] Supabase database (PostgreSQL)
+- [x] Supabase Storage (recipe images, equipment photos)
+- [x] MailerLite email (welcome sequence ready)
+
+### ⚠️ CONFIGURED
+
+- [ ] App store developer accounts
+  - iOS: Apple Developer ($99/year) — NOT SET UP
+  - Android: Google Play ($25) — NOT SET UP
+- [ ] Push notifications — Schema ready, service not integrated
+- [ ] Analytics — Can use Sentry + Amplitude
+- [ ] Crash reporting — Can use Sentry
+
+### ❌ NOT SET UP
+
+- [ ] App signing certificates
+- [ ] API keys for App Store Connect
+- [ ] Google Play API credentials
+- [ ] Firebase Cloud Messaging (optional)
+
+---
+
+## Code Quality & Testing
+
+### ✅ GOOD
+
+- [x] TypeScript strict mode (prevents type bugs)
+- [x] Consistent naming conventions
+- [x] Component modularization
+- [x] Centralized design system (Colors.ts, Theme.ts)
+- [x] Localization framework (i18n)
+- [x] Error handling (most screens)
+
+### ⚠️ NEEDS IMPROVEMENT
+
+- [ ] Unit tests — 0 written
+  - **Recommendation:** Not critical for MVP, add post-launch
+  - **Nice to have:** 20-30% coverage of critical features
+
+- [ ] E2E tests — 0 written
+  - **Recommendation:** Manual testing sufficient for MVP
+  - **Nice to have:** Detox/Playwright for key flows
+
+- [ ] Error boundaries — Not implemented
+  - **Recommendation:** Add 2-3 error boundaries
+  - **Time:** 1-2 hours
+  - **Priority:** Medium
+
+- [ ] Performance monitoring — Not set up
+  - **Recommendation:** Use Sentry
+  - **Time:** 1-2 hours
+  - **Priority:** Low
+
+### ✅ TESTING DONE
+
+- [x] Manual testing on Android (Expo Go)
+- [x] Core features tested (ingredients, cooking mode, nutrition)
+- [x] Edge cases tested (missing images, empty lists)
+- [x] Bilingual tested (BG/EN)
+- [x] Different screen sizes (tested in simulator)
+
+---
+
+## Pre-Launch Checklist
+
+### Must Do (2-3 weeks)
+
+- [ ] **Fix Recipe Builder bug** (4-6 hours)
+  - Reproduce "Encountered two..." error
+  - Root cause analysis
+  - Implement fix
+  - Test thoroughly
+
+- [ ] **Production build** (4-6 hours)
+  - Remove all console.log statements
+  - Remove dev/debug endpoints
+  - Set production API URLs
+  - Create signed APK (Android)
+  - Create signed IPA (iOS)
+
+- [ ] **App Store certificates** (2-3 hours)
+  - Create Apple Developer Account ($99)
+  - Generate signing certificates
+  - Set up provisioning profiles
+  - Configure in EAS
+
+- [ ] **Google Play setup** (2-3 hours)
+  - Create Google Play Console account ($25)
+  - Set up signing key
+  - Create app listing structure
+
+- [ ] **Beta testing** (1-2 weeks)
+  - Set up TestFlight (iOS)
+  - Set up Google Play Internal Testing (Android)
+  - Recruit 10-20 beta testers
+  - Gather feedback, fix critical issues
+
+- [ ] **Screenshots & descriptions** (4-6 hours)
+  - Take 20+ fresh screenshots
+  - Create store listing copy
+  - Add keywords for search optimization
+
+- [ ] **Privacy policy + Terms** (2-3 hours)
+  - Generate from templates
+  - Add to website
+  - Link from app
+
+### Should Do (1-2 weeks)
+
+- [ ] Component avatars in Cooking Mode (25 min)
+- [ ] Error boundaries (1-2 hours)
+- [ ] Splash screen for production (1-2 hours)
+- [ ] App store listing with screenshots
+
+### Nice to Have (Post-Launch v1.0.1)
+
+- [ ] Lab notes in Cooking Mode
+- [ ] Sentry error reporting
+- [ ] Analytics integration
+- [ ] Performance monitoring
+
+---
+
+## Timeline Estimate
+
+### Week 1-2: Bug Fixes & Production Build
+```
+Mon-Tue: Fix Recipe Builder bug (4-6h)
+Wed: Production build + signing (4-6h)
+Thu: Beta testing setup (2-3h)
+Fri: Screenshots + store copy (4-6h)
+Total: ~24 hours
+```
+
+### Week 3: Beta Testing & Feedback
+```
+Mon-Fri: Beta testers use app
+          Collect feedback
+          Fix critical bugs
+          Iterate based on feedback
+Total: ~20 hours (in parallel with DB work)
+```
+
+### Week 4: Final Review & Submission
+```
+Mon-Tue: Final polish + fixes (4-6h)
+Wed-Thu: Store review submission (2-4h)
+Fri: Monitor submission status
+Total: ~10 hours
+```
+
+**Total Time to Launch: 4-6 weeks (with parallel DB work)**
+
+---
+
+## Parallel DB Work You Can Do
+
+While we fix code issues, you can:
+
+1. **Audit all 74 base recipes** (4-6 hours)
+   - Verify all names are in BG (done for Barry)
+   - Check all images are properly uploaded
+   - Verify nutrition data accuracy
+   - Check for duplicates
+
+2. **Complete USDA nutrition import** (2-3 hours)
+   - Verify all 156 ingredients have nutrition
+   - Check for inconsistencies
+   - Update missing values
+
+3. **Fix duplicate base recipes** (1-2 hours)
+   - Identify 5 dual-role frosting/filling recipes
+   - Decide: keep both or merge?
+   - Update ready_recipes if merging
+
+4. **Lab notes review** (2-3 hours)
+   - Verify all 95 lab notes are accurate
+   - Translate any missing English versions
+   - Organize by recipe/component
+
+---
+
+## Cost Estimate
+
+| Item | Cost | Required? |
+|------|------|-----------|
+| Apple Developer Account (1 year) | $99 | Yes (iOS) |
+| Google Play Developer Account | $25 | Yes (Android) |
+| Sentry (error reporting) | Free tier | No |
+| Firebase (optional) | Free tier | No |
+| **Total** | **$124** | **Yes** |
+
+---
+
+## Go/No-Go Decision Framework
+
+### ✅ READY TO LAUNCH IF:
+1. Recipe Builder bug is fixed
+2. Production build is created
+3. Beta testing passes (no critical bugs)
+4. Store listings are complete
+5. Privacy policy + Terms are published
+
+### ❌ NOT READY IF:
+1. Recipe Builder still broken
+2. Cooking Mode shows wrong ingredients
+3. Crashes on real devices
+4. No beta testing done
+5. Store requirements incomplete
+
+---
+
+## Recommended Launch Strategy
+
+### Option 1: MVP Launch (4-6 weeks)
+**Ship v1.0 with core features only**
+
+Include:
+- ✅ Home, Search, Recipe Detail
+- ✅ Ingredients, Equipment, Cooking Mode
+- ✅ Tools (timer, converter, calculator)
+- ✅ Shopping list
+- ✅ Bilingual support
+
+Defer:
+- ❌ User accounts/cloud sync
+- ❌ Advanced recipe builder
+- ❌ Lab notes in UI
+- ❌ AI step images
+
+**Pros:** Faster launch, simpler code, fewer bugs  
+**Cons:** Limited features, can't sync data
+
+### Option 2: Extended Launch (8-10 weeks)
+**Ship v1.0 with more features**
+
+Add to MVP:
+- User accounts (simple email auth)
+- Cloud sync for favorites/shopping list
+- Advanced recipe builder (with bug fix)
+- Lab notes in Cooking Mode
+
+**Pros:** More features, better UX  
+**Cons:** More work, higher risk of bugs
+
+### Recommendation: **OPTION 1 (MVP)**
+- Faster to market (6 weeks vs 10 weeks)
+- Lower risk (fewer untested features)
+- Can add v1.1 features based on user feedback
+- Simpler to maintain and debug
+
+---
+
+## Next Steps (Priority Order)
+
+### IMMEDIATE (This Week)
+
+1. **Review this assessment** with Deyana
+2. **Decide: MVP or Extended launch?**
+3. **Execute pending Claude Code tasks:**
+   - Avatar enhancement (25 min)
+   - Archive session report (5-10 min)
+
+### NEXT WEEK (Week 1-2)
+
+4. **Fix Recipe Builder bug** (4-6 hours)
+   - Reproduce on real device
+   - Debug with console logs
+   - Implement fix
+   - Extensive testing
+
+5. **Create production build** (4-6 hours)
+   - Remove all dev code
+   - Configure production APIs
+   - Sign APK + IPA
+
+6. **Set up beta testing** (2-3 hours)
+   - TestFlight (iOS)
+   - Google Play Internal (Android)
+   - Recruit testers
+
+### WEEK 3-4 (Parallel with DB Work)
+
+7. **Beta testing phase** (1-2 weeks)
+   - Collect feedback
+   - Fix critical bugs
+   - Iterate
+
+8. **Create store listings** (4-6 hours)
+   - Screenshots + descriptions
+   - Privacy policy + Terms
+   - Keywords + marketing copy
+
+9. **Final submission** (2-4 hours)
+   - App Store Connect (iOS)
+   - Google Play Console (Android)
+   - Monitor review process
+
+---
+
+## Questions for Deyana
+
+1. **Timeline:** Can we commit 4-6 weeks to launch? Or do we need faster?
+2. **Features:** MVP (Option 1) or Extended (Option 2)?
+3. **App store budget:** $124 for developer accounts OK?
+4. **Beta testers:** Can you recruit 10-20 real users to test?
+5. **Recipe Builder:** High priority to fix, or can we ship without advanced builder?
+6. **Database timeline:** Can you audit + complete nutrition data in parallel?
+
+---
+
+## Risk Assessment
+
+### High Risk 🔴
+- Recipe Builder bug (blocks advanced features)
+- Production build configuration (affects all users)
+- Beta testing feedback (could require rework)
+
+### Medium Risk 🟡
+- Store review rejection (can happen for any reason)
+- Performance on older devices
+- Android fragmentation (many device sizes)
+
+### Low Risk 🟢
+- Bilingual support (tested, working)
+- Core features (all tested)
+- Database (solid, just audited)
+
+---
+
+## Conclusion
+
+**KetoCakR Mobile is ~55-60% ready for app store launch.**
+
+**Can we launch now?** No — need 4-6 weeks of work.
+
+**Is the foundation solid?** Yes — core features work, bugs fixed, database good.
+
+**Best path forward?** MVP launch (Option 1) in 4-6 weeks.
+
+**Next decision:** Fix Recipe Builder bug + decide on feature scope.
+
+---
+
+**Generated:** 2026-05-20  
+**Reviewed:** Pending  
+**Next Update:** After Recipe Builder bug assessment

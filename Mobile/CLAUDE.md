@@ -22,6 +22,7 @@
 - НЕ използвай lucide-react-native (dependency конфликти)
 - НЕ добавяй user authentication — засега работим без auth
 - НЕ прави expo prebuild или native builds — само Expo Go
+- Винаги актуализирай последната бележка в notes/DevLogs/ след приключване на голяма задача.
 
 ## Структура
 - app/ — екрани (Expo Router)
@@ -29,6 +30,7 @@
 - constants/ — Colors.ts, Theme.ts (дизайн система)
 - lib/ — supabase.ts client
 - store/ — Zustand stores
+- notes/ — Директна връзка към Obsidian (DevLogs, задачи, документация)
 
 ## Supabase ключови таблици
 - base_recipes — базови рецепти (компоненти на торти)

@@ -72,9 +72,65 @@
     carbs: '#A8E6CF',
     netCarbs: '#A80048',
   },
+  macros: {
+    carbs: '#E85D75',
+    protein: '#6BA5C8',
+    fat: '#F4C542',
+    calories: '#8C8C8C',
+    fiber: '#A8A59A',
+  },
+  micronutrients: {
+    sugar: '#F08BA6',
+    sugarAlcohol: '#C9A6B4',
+    saturatedFat: '#F4A460',
+    cholesterol: '#D4A574',
+    sodium: '#9B8F7D',
+    calcium: '#B8AE9C',
+    iron: '#8C7E6B',
+    magnesium: '#A69B88',
+    potassium: '#C4B9A5',
+    zinc: '#978C7A',
+    vitaminA: '#7EAAC2',
+    vitaminC: '#9BC4D9',
+    vitaminD: '#B8D4E5',
+  },
+  progressBar: {
+    low: '#E5E5E5',
+    normal: '#6BA5C8',
+    good: '#7FB685',
+    optimal: '#5A9E64',
+    high: '#F4A460',
+    excessive: '#E85D75',
+  },
+  tarot: {
+    cream: '#FBF7F0',
+    gold: '#C9A24B',
+    pentacles: '#1AA88B',
+    cups: '#4F9DC4',
+    swords: '#7C8090',
+    wands: '#E2553B',
+    majorAccent: '#A80048',
+  },
+} as const;
+
+export const TAROT_SUIT_COLORS = {
+  pentacles: '#1AA88B',
+  cups:      '#4F9DC4',
+  swords:    '#7C8090',
+  wands:     '#E2553B',
+  major:     { accent: '#A80048', gold: '#C9A24B' },
 } as const;
 
 export const PRIMARY = Colors.primary.main;
 export const SECONDARY = Colors.secondary.main;
 export const BACKGROUND = Colors.background.primary;
 export const TEXT = Colors.text.primary;
+
+export function getProgressBarColor(percentage: number): string {
+  if (percentage < 25) return Colors.progressBar.low;
+  if (percentage < 75) return Colors.progressBar.normal;
+  if (percentage < 100) return Colors.progressBar.good;
+  if (percentage < 150) return Colors.progressBar.optimal;
+  if (percentage < 200) return Colors.progressBar.high;
+  return Colors.progressBar.excessive;
+}

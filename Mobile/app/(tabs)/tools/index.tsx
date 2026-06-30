@@ -40,6 +40,27 @@ export default function ToolsScreen() {
       route: '/tools/macro-calculator',
       color: '#6B8E6B',
     },
+   {
+      icon: 'journal-outline' as const,
+      title: t('tools.items.labNotes.title'),
+      description: t('tools.items.labNotes.description'),
+      route: '/tools/lab-notes',
+      color: Colors.primary.main,
+    },
+    {
+      icon: 'nutrition-outline' as const,
+      title: t('tools.items.sweetenerComparison.title'),
+      description: t('tools.items.sweetenerComparison.description'),
+      route: '/tools/sweetener-comparison',
+      color: '#D4A574',
+    },
+    {
+      icon: 'book-outline' as const,
+      title: t('tools.items.blog.title'),
+      description: t('tools.items.blog.description'),
+      route: '/blog',
+      color: Colors.primary.main,
+    },
   ];
 
   return (

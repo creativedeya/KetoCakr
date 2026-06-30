@@ -25,7 +25,7 @@ export default function CreateScreen() {
   }, [searchQuery]);
 
   // ─── QUERY 1: Всички user recipes ───
-  const { data: userRecipes } = useQuery({
+  const { data: userRecipes, isLoading: recipesLoading } = useQuery({
     queryKey: ['userRecipesCreate'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -88,6 +88,16 @@ export default function CreateScreen() {
   };
 
   const hasRecipes = userRecipes && userRecipes.length > 0;
+  // Докато зареждаме — не показваме нищо (избягва flash на empty state)
+  if (recipesLoading) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>{t('create.title')}</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>

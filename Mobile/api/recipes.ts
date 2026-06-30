@@ -110,14 +110,6 @@ export async function createUserRecipe(
   selectedComponents: SelectedComponent[],
   totalServings: number
 ): Promise<UserRecipe> {
-  console.log('createUserRecipe called with:', {
-    userId,
-    dessertTypeId,
-    recipeName,
-    totalServings,
-    componentsCount: selectedComponents.length,
-  });
-  
   const { data, error } = await supabase
     .from('user_recipes')
     .insert({
@@ -135,7 +127,6 @@ export async function createUserRecipe(
     throw error;
   }
   
-  console.log('Created recipe:', data);
   
   // Then fetch the dessert type separately
   const { data: dessertType } = await supabase

@@ -2,7 +2,6 @@ import { View, Text } from 'react-native';
 import { Colors } from '../../constants/Colors';
 
 export default function ShoppingListScreen() {
-  console.log('🛒 Shopping List Screen Rendering!');
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background.primary }}>

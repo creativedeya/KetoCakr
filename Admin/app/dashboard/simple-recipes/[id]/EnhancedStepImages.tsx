@@ -38,6 +38,9 @@ interface Step {
   step_description_en?: string | null;
   step_image_url?: string | null;
   image_generation_hints?: string | null;
+  equipment_needed?: number[] | null;
+  ingredient_ids?: number[] | null;
+  step_duration_minutes?: number | null;
 }
 
 interface StepAIHint {
@@ -109,6 +112,7 @@ export function EnhancedStepImages({
   // State: inline description editing
   const [editingStep, setEditingStep] = useState<number | null>(null);
   const [editTexts, setEditTexts] = useState<{ [stepNumber: number]: string }>({});
+  const [editDurations, setEditDurations] = useState<{ [stepNumber: number]: number }>({});
   const [savingDescription, setSavingDescription] = useState<number | null>(null);
 
   // State: Generation visual settings — persisted in localStorage
@@ -124,7 +128,22 @@ export function EnhancedStepImages({
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   // State: Temporary AI hints (not saved to DB)
-  const [stepAIHints, setStepAIHints] = useState<Record<string, StepAIHint>>({});
+  const [stepAIHints, setStepAIHints] = useState<Record<string, StepAIHint>>(() => {
+    const initial: Record<string, StepAIHint> = {};
+    steps.forEach(step => {
+      const key = step.id ?? step.step_number;
+      initial[key] = {
+        stepId: key,
+        aiPrompt: step.step_description_bg || step.step_description || '',
+        refinement: '',
+        customInstructions: '',
+        referenceMode: 'none',
+        specificStep: step.step_number > 1 ? step.step_number - 1 : 1,
+        uploadedReferenceUrl: null,
+      };
+    });
+    return initial;
+  });
 
   // ✅ State: Reference image for visual consistency
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null);
@@ -239,7 +258,8 @@ export function EnhancedStepImages({
     const finalDescription = aiHint?.aiPrompt || stepDescription;
     const hints = aiHint?.customInstructions || currentState.customHints || '';
     const refinement = aiHint?.refinement || currentState.refinement || '';
-    const refMode = aiHint?.referenceMode || currentState.referenceMode || 'none';
+    const refMode = aiHint?.referenceMode ?? currentState.referenceMode ?? 'none';
+    console.log(`[GEN DEBUG] step=${stepNumber} hintKey=${String(step.id ?? stepNumber)} aiHint_refMode=${aiHint?.referenceMode} currentState_refMode=${currentState.referenceMode} final_refMode=${refMode} stepAIHints_keys=${JSON.stringify(Object.keys(stepAIHints))}`);
     const selectedSpecificStep = aiHint?.specificStep || currentState.specificStep || (stepNumber > 1 ? stepNumber - 1 : 1);
     const uploadedRefUrl = aiHint?.uploadedReferenceUrl || currentState.uploadedReferenceUrl || null;
 
@@ -294,6 +314,7 @@ export function EnhancedStepImages({
           referenceImageUrl: referenceImageUrl || undefined,
           ingredients: ingredients || undefined,
           utensils: utensils || undefined,
+          equipment_ids: step.equipment_needed?.filter(Boolean) ?? [],
           generationSettings,
         })
       });
@@ -357,6 +378,7 @@ export function EnhancedStepImages({
 
     try {
       const hintKey = steps.find(s => s.step_number === stepNumber)?.id || stepNumber;
+     console.log(`[DEBUG step ${stepNumber}] hintKey=${String(hintKey)} referenceMode=${stepAIHints[hintKey]?.referenceMode} checked_none=${( stepAIHints[hintKey]?.referenceMode ?? 'none') === 'none'}`);
       const formData = new FormData();
       formData.append('file', file);
       formData.append('recipeId', recipeId);
@@ -520,23 +542,52 @@ export function EnhancedStepImages({
    * Save edited description to DB, then close edit mode
    */
   async function saveDescription(stepNumber: number) {
-    const step = steps.find(s => s.step_number === stepNumber);
-    const newText = editTexts[stepNumber]?.trim();
-    if (!newText || !step?.id) return;
+    const sn = Number(stepNumber);
+    const step = steps.find(s => Number(s.step_number) === sn);
+    const newText = editTexts[sn]?.trim();
 
-    setSavingDescription(stepNumber);
+    console.log('[saveDescription] called', {
+      stepNumber,
+      sn,
+      stepFound: !!step,
+      stepId: step?.id,
+      newText,
+      editTexts_sn: editTexts[sn],
+      editDurations_sn: editDurations[sn],
+      step_duration_minutes: step?.step_duration_minutes,
+    });
+
+    if (!newText || !step?.id) {
+      console.warn('[saveDescription] EARLY RETURN — newText:', newText, 'step?.id:', step?.id);
+      return;
+    }
+
+    // Use edited duration if changed, otherwise fall back to current DB value
+    const duration = editDurations[sn] !== undefined
+      ? editDurations[sn]
+      : (step.step_duration_minutes ?? 0);
+
+    console.log('[saveDescription] sending', { stepId: step.id, description: newText, step_duration_minutes: duration });
+
+    setSavingDescription(sn);
     try {
       const res = await fetch('/api/save-step-description', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ stepId: step.id, description: newText }),
+        body: JSON.stringify({
+          stepId: step.id,
+          description: newText,
+          step_duration_minutes: duration,
+        }),
       });
       const data = await res.json();
+      console.log('[saveDescription] response', { status: res.status, data });
       if (!res.ok) throw new Error(data.error);
 
       setEditingStep(null);
-      onStepsUpdate(); // refresh parent so step props get updated description
+      onStepsUpdate();
     } catch (err: any) {
+      console.error('[saveDescription] error', err);
       alert(`❌ ${err.message}`);
     } finally {
       setSavingDescription(null);
@@ -663,6 +714,7 @@ export function EnhancedStepImages({
       </div>
 
       {steps.map(step => {
+        const hintKey = step.id != null ? step.id : step.step_number;
         const state = stepImages[step.step_number] || {};
         const mode = selectedMode[step.step_number];
         const inCompareMode = compareMode[step.step_number];
@@ -679,28 +731,54 @@ export function EnhancedStepImages({
                   Step {step.step_number}
                 </h3>
 
-                {editingStep === step.step_number ? (
+                {editingStep === Number(step.step_number) ? (
                   /* ── Inline edit mode ── */
                   <div className="space-y-2">
                     <textarea
                       autoFocus
                       rows={3}
-                      value={editTexts[step.step_number] ?? (step.step_description_bg || step.step_description)}
-                      onChange={(e) => setEditTexts(prev => ({ ...prev, [step.step_number]: e.target.value }))}
+                      value={editTexts[Number(step.step_number)] ?? (step.step_description_bg || step.step_description || '')}
+                      onChange={(e) => setEditTexts(prev => ({ ...prev, [Number(step.step_number)]: e.target.value }))}
                       className="w-full px-3 py-2 border-2 border-blue-400 rounded-lg text-sm focus:outline-none focus:border-blue-600 resize-none"
                     />
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs font-medium text-gray-600 whitespace-nowrap">⏱ Таймер (мин)</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={editDurations[Number(step.step_number)] ?? step.step_duration_minutes ?? 0}
+                        onChange={e => setEditDurations(prev => ({
+                          ...prev,
+                          [Number(step.step_number)]: parseInt(e.target.value) || 0,
+                        }))}
+                        className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                      />
+                    </div>
                     <div className="flex gap-2">
                       <button
                         type="button"
-                        onClick={() => saveDescription(step.step_number)}
-                        disabled={savingDescription === step.step_number || !editTexts[step.step_number]?.trim()}
+                        onClick={() => saveDescription(Number(step.step_number))}
+                        disabled={savingDescription === Number(step.step_number) || !editTexts[Number(step.step_number)]?.trim()}
                         className="px-4 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 disabled:opacity-50 font-medium"
+                        onMouseEnter={() => {
+                          const sn = Number(step.step_number);
+                          console.log('[SAVE BTN hover] sn:', sn,
+                            'editTexts[sn]:', editTexts[sn],
+                            'trim:', editTexts[sn]?.trim(),
+                            'savingDescription:', savingDescription,
+                            'disabled:', savingDescription === sn || !editTexts[sn]?.trim()
+                          );
+                        }}
                       >
                         {savingDescription === step.step_number ? '⏳ Saving...' : '💾 Save Changes'}
                       </button>
                       <button
                         type="button"
-                        onClick={() => { setEditingStep(null); setEditTexts(prev => ({ ...prev, [step.step_number]: '' })); }}
+                        onClick={() => {
+                          setEditingStep(null);
+                          setEditTexts(prev => ({ ...prev, [Number(step.step_number)]: '' }));
+                          setEditDurations(prev => ({ ...prev, [Number(step.step_number)]: undefined as any }));
+                        }}
                         className="px-4 py-1.5 border border-gray-300 text-sm rounded-lg hover:bg-gray-50 text-gray-600"
                       >
                         Cancel
@@ -716,8 +794,17 @@ export function EnhancedStepImages({
                     <button
                       type="button"
                       onClick={() => {
-                        setEditTexts(prev => ({ ...prev, [step.step_number]: step.step_description_bg || step.step_description }));
-                        setEditingStep(step.step_number);
+                        const sn = Number(step.step_number);
+                        const txt = step.step_description_bg || step.step_description || '';
+                        const dur = step.step_duration_minutes ?? 0;
+                        console.log('[EDIT CLICK] sn:', sn, 'txt:', txt, 'dur:', dur);
+                        setEditTexts(prev => {
+                          const next = { ...prev, [sn]: txt };
+                          console.log('[EDIT CLICK] editTexts after set:', next);
+                          return next;
+                        });
+                        setEditDurations(prev => ({ ...prev, [sn]: dur }));
+                        setEditingStep(sn);
                       }}
                       className="shrink-0 px-2 py-1 text-xs text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded border border-transparent hover:border-blue-200 transition-colors"
                       title="Edit description"
@@ -727,7 +814,7 @@ export function EnhancedStepImages({
                   </div>
                 )}
 
-                {step.step_description_en && editingStep !== step.step_number && (
+                {step.step_description_en && editingStep !== Number(step.step_number) && (
                   <p className="text-gray-400 text-xs mt-1 italic">
                     {step.step_description_en}
                   </p>
@@ -900,18 +987,18 @@ export function EnhancedStepImages({
                             <button
                               type="button"
                               onClick={() => {
-                                const hint = stepAIHints[step.id || step.step_number];
+                                const hint = stepAIHints[hintKey];
                                 const current = hint?.aiPrompt || (step.step_description_bg || step.step_description);
                                 const edited = prompt('Edit AI Prompt:', current);
                                 if (edited !== null && edited !== current) {
                                   setStepAIHints(prev => ({
                                     ...prev,
-                                    [step.id || step.step_number]: {
-                                      stepId: step.id || step.step_number,
+                                    [hintKey]: {
+                                      stepId: hintKey,
                                       aiPrompt: edited,
                                       refinement: hint?.refinement || '',
                                       customInstructions: hint?.customInstructions || '',
-                                      referenceMode: hint?.referenceMode || (step.step_number > 1 ? 'previous' : 'none'),
+                                      referenceMode: hint?.referenceMode ?? 'none',
                                       specificStep: hint?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
                                       uploadedReferenceUrl: hint?.uploadedReferenceUrl || null
                                     }
@@ -924,7 +1011,7 @@ export function EnhancedStepImages({
                             </button>
                           </div>
                           <div className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white text-sm text-gray-700 min-h-[100px] p-2 whitespace-pre-wrap break-words">
-                            {stepAIHints[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description)}
+                            {stepAIHints[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description)}
                           </div>
                         </div>
                       </div>
@@ -940,17 +1027,17 @@ export function EnhancedStepImages({
                           rows={2}
                           placeholder="e.g., 'Add more chocolate', 'warmer light', 'rustic style'..."
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          value={stepAIHints[step.id || step.step_number]?.refinement || ''}
+                          value={stepAIHints[hintKey]?.refinement || ''}
                           onChange={(e) => setStepAIHints(prev => ({
                             ...prev,
-                            [step.id || step.step_number]: {
-                              stepId: step.id || step.step_number,
-                              aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
+                            [hintKey]: {
+                              stepId: hintKey,
+                              aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
                               refinement: e.target.value,
-                              customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
-                              referenceMode: prev[step.id || step.step_number]?.referenceMode || (step.step_number > 1 ? 'previous' : 'none'),
-                              specificStep: prev[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
-                              uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                              customInstructions: prev[hintKey]?.customInstructions || '',
+                              referenceMode: prev[hintKey]?.referenceMode ?? 'none',
+                              specificStep: prev[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
+                              uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                             }
                           }))}
                         />
@@ -964,17 +1051,17 @@ export function EnhancedStepImages({
                           type="text"
                           placeholder="e.g., 'no hands', 'top view', 'show vanilla extract'..."
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          value={stepAIHints[step.id || step.step_number]?.customInstructions || ''}
+                          value={stepAIHints[hintKey]?.customInstructions || ''}
                           onChange={(e) => setStepAIHints(prev => ({
                             ...prev,
-                            [step.id || step.step_number]: {
-                              stepId: step.id || step.step_number,
-                              aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                              refinement: prev[step.id || step.step_number]?.refinement || '',
+                            [hintKey]: {
+                              stepId: hintKey,
+                              aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                              refinement: prev[hintKey]?.refinement || '',
                               customInstructions: e.target.value,
-                              referenceMode: prev[step.id || step.step_number]?.referenceMode || (step.step_number > 1 ? 'previous' : 'none'),
-                              specificStep: prev[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
-                              uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                              referenceMode: prev[hintKey]?.referenceMode ?? 'none',
+                              specificStep: prev[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
+                              uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                             }
                           }))}
                         />
@@ -991,19 +1078,22 @@ export function EnhancedStepImages({
                               type="radio"
                               name={`reference-mode-${step.step_number}`}
                               value="none"
-                              checked={(stepAIHints[step.id || step.step_number]?.referenceMode || 'none') === 'none'}
-                              onChange={() => setStepAIHints(prev => ({
+                              checked={(stepAIHints[hintKey]?.referenceMode ?? 'none') === 'none'}
+                              onChange={() => {
+                                console.log(`[NONE RADIO] step=${step.step_number} hintKey=${String(step.id || step.step_number)} firing`);
+                                setStepAIHints(prev => ({
                                 ...prev,
-                                [step.id || step.step_number]: {
-                                  stepId: step.id || step.step_number,
-                                  aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                                  refinement: prev[step.id || step.step_number]?.refinement || '',
-                                  customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
+                                [hintKey]: {
+                                  stepId: hintKey,
+                                  aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                                  refinement: prev[hintKey]?.refinement || '',
+                                  customInstructions: prev[hintKey]?.customInstructions || '',
                                   referenceMode: 'none',
-                                  specificStep: prev[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
-                                  uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                                  specificStep: prev[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
+                                  uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                                 }
-                              }))}
+                              }));
+                              }}
                               className="w-4 h-4"
                             />
                             <span className="text-sm text-gray-700">None (no reference)</span>
@@ -1014,17 +1104,17 @@ export function EnhancedStepImages({
                               type="radio"
                               name={`reference-mode-${step.step_number}`}
                               value="previous"
-                              checked={(stepAIHints[step.id || step.step_number]?.referenceMode || (step.step_number > 1 ? 'previous' : 'none')) === 'previous'}
+                              checked={(stepAIHints[hintKey]?.referenceMode ?? (step.step_number > 1 ? 'previous' : 'none')) === 'previous'}
                               onChange={() => setStepAIHints(prev => ({
                                 ...prev,
-                                [step.id || step.step_number]: {
-                                  stepId: step.id || step.step_number,
-                                  aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                                  refinement: prev[step.id || step.step_number]?.refinement || '',
-                                  customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
+                                [hintKey]: {
+                                  stepId: hintKey,
+                                  aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                                  refinement: prev[hintKey]?.refinement || '',
+                                  customInstructions: prev[hintKey]?.customInstructions || '',
                                   referenceMode: step.step_number > 1 ? 'previous' : 'none',
                                   specificStep: step.step_number > 1 ? step.step_number - 1 : 1,
-                                  uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                                  uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                                 }
                               }))}
                               disabled={step.step_number <= 1}
@@ -1041,17 +1131,17 @@ export function EnhancedStepImages({
                                 type="radio"
                                 name={`reference-mode-${step.step_number}`}
                                 value="specific"
-                                checked={(stepAIHints[step.id || step.step_number]?.referenceMode) === 'specific'}
+                                checked={(stepAIHints[hintKey]?.referenceMode) === 'specific'}
                                 onChange={() => setStepAIHints(prev => ({
                                   ...prev,
-                                  [step.id || step.step_number]: {
-                                    stepId: step.id || step.step_number,
-                                    aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                                    refinement: prev[step.id || step.step_number]?.refinement || '',
-                                    customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
+                                  [hintKey]: {
+                                    stepId: hintKey,
+                                    aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                                    refinement: prev[hintKey]?.refinement || '',
+                                    customInstructions: prev[hintKey]?.customInstructions || '',
                                     referenceMode: 'specific',
-                                    specificStep: prev[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
-                                    uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                                    specificStep: prev[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
+                                    uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                                   }
                                 }))}
                                 className="w-4 h-4"
@@ -1060,18 +1150,18 @@ export function EnhancedStepImages({
                             </label>
                             <select
                               className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                              value={stepAIHints[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1)}
-                              disabled={(stepAIHints[step.id || step.step_number]?.referenceMode) !== 'specific'}
+                              value={stepAIHints[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1)}
+                              disabled={(stepAIHints[hintKey]?.referenceMode) !== 'specific'}
                               onChange={(e) => setStepAIHints(prev => ({
                                 ...prev,
-                                [step.id || step.step_number]: {
-                                  stepId: step.id || step.step_number,
-                                  aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                                  refinement: prev[step.id || step.step_number]?.refinement || '',
-                                  customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
+                                [hintKey]: {
+                                  stepId: hintKey,
+                                  aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                                  refinement: prev[hintKey]?.refinement || '',
+                                  customInstructions: prev[hintKey]?.customInstructions || '',
                                   referenceMode: 'specific',
                                   specificStep: Number(e.target.value),
-                                  uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                                  uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                                 }
                               }))}
                             >
@@ -1089,17 +1179,17 @@ export function EnhancedStepImages({
                                 type="radio"
                                 name={`reference-mode-${step.step_number}`}
                                 value="upload"
-                                checked={(stepAIHints[step.id || step.step_number]?.referenceMode) === 'upload'}
+                                checked={(stepAIHints[hintKey]?.referenceMode) === 'upload'}
                                 onChange={() => setStepAIHints(prev => ({
                                   ...prev,
-                                  [step.id || step.step_number]: {
-                                    stepId: step.id || step.step_number,
-                                    aiPrompt: prev[step.id || step.step_number]?.aiPrompt || (step.step_description_bg || step.step_description),
-                                    refinement: prev[step.id || step.step_number]?.refinement || '',
-                                    customInstructions: prev[step.id || step.step_number]?.customInstructions || '',
+                                  [hintKey]: {
+                                    stepId: hintKey,
+                                    aiPrompt: prev[hintKey]?.aiPrompt || (step.step_description_bg || step.step_description),
+                                    refinement: prev[hintKey]?.refinement || '',
+                                    customInstructions: prev[hintKey]?.customInstructions || '',
                                     referenceMode: 'upload',
-                                    specificStep: prev[step.id || step.step_number]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
-                                    uploadedReferenceUrl: prev[step.id || step.step_number]?.uploadedReferenceUrl || null
+                                    specificStep: prev[hintKey]?.specificStep || (step.step_number > 1 ? step.step_number - 1 : 1),
+                                    uploadedReferenceUrl: prev[hintKey]?.uploadedReferenceUrl || null
                                   }
                                 }))}
                                 className="w-4 h-4"
@@ -1110,7 +1200,7 @@ export function EnhancedStepImages({
                               <input
                                 type="file"
                                 accept="image/*"
-                                disabled={(stepAIHints[step.id || step.step_number]?.referenceMode) !== 'upload' || state.isUploadingReference}
+                                disabled={(stepAIHints[hintKey]?.referenceMode) !== 'upload' || state.isUploadingReference}
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) uploadReferenceImage(step.step_number, file);
@@ -1120,7 +1210,7 @@ export function EnhancedStepImages({
                               {state.isUploadingReference && (
                                 <p className="mt-2 text-sm text-gray-600">⏳ Uploading reference image...</p>
                               )}
-                              {stepAIHints[step.id || step.step_number]?.uploadedReferenceUrl && (
+                              {stepAIHints[hintKey]?.uploadedReferenceUrl && (
                                 <p className="mt-2 text-sm text-green-600">Reference uploaded and ready.</p>
                               )}
                             </div>
@@ -1133,7 +1223,7 @@ export function EnhancedStepImages({
                     <button
                       type="button"
                       onClick={() => {
-                        const hint = stepAIHints[step.id || step.step_number];
+                        const hint = stepAIHints[hintKey];
                         if (!hint) {
                           alert('⚠️ No changes to save');
                           return;

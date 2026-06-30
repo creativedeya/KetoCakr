@@ -7,9 +7,12 @@ interface ImageUploadProps {
   value: string;
   onChange: (url: string) => void;
   recipeId?: string;
+  bucket?: string;
+  pathPrefix?: string;
+  uploadApiRoute?: string;
 }
 
-export default function ImageUpload({ value, onChange, recipeId }: ImageUploadProps) {
+export default function ImageUpload({ value, onChange, recipeId, bucket = 'recipe-images', pathPrefix, uploadApiRoute }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -17,22 +20,35 @@ export default function ImageUpload({ value, onChange, recipeId }: ImageUploadPr
   async function handleImageUpload(file: File) {
     try {
       setUploading(true);
-      
+
       const fileExt = file.name.split('.').pop();
-      const fileName = `${recipeId || Date.now()}-${Date.now()}.${fileExt}`;
-      const filePath = `recipe-images/${fileName}`;
+      const folder = pathPrefix || bucket;
+      const filePath = `${folder}/${recipeId || Date.now()}-${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('recipe-images')
-        .upload(filePath, file);
+      if (uploadApiRoute) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('fileName', filePath);
 
-      if (uploadError) throw uploadError;
+        const res = await fetch(uploadApiRoute, { method: 'POST', body: fd });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error);
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('recipe-images')
-        .getPublicUrl(filePath);
+        onChange(result.url);
+      } else {
+        const { error: uploadError } = await supabase.storage
+          .from(bucket)
+          .upload(filePath, file);
 
-      onChange(publicUrl);
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from(bucket)
+          .getPublicUrl(filePath);
+
+        onChange(publicUrl);
+      }
+
       alert('Изображението беше качено успешно!');
     } catch (error) {
       console.error('Error uploading image:', error);

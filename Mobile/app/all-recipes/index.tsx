@@ -41,6 +41,7 @@ export default function AllRecipesScreen() {
       let q = supabase
         .from('ready_recipes')
         .select('id, name_bg, name_en, hero_image_url, total_calories, total_net_carbs, total_servings')
+        .eq('status', 'published')
         .order('created_at', { ascending: false });
 
       if (debouncedQuery.trim()) {
@@ -115,7 +116,7 @@ export default function AllRecipesScreen() {
                   <TouchableOpacity
                     key={recipe.id}
                     style={styles.card}
-                    onPress={() => router.push(`/recipe-detail/${recipe.id}`)}
+                    onPress={() => router.push({ pathname: '/recipe-detail/[id]', params: { id: recipe.id } })}
                   >
                     {recipe.hero_image_url ? (
                       <Image

@@ -50,9 +50,13 @@ export async function GET(request: NextRequest) {
         iron_per_100g: getNutrient(1089),
         magnesium_per_100g: getNutrient(1090),
         potassium_per_100g: getNutrient(1092),
+        zinc_per_100g: getNutrient(1095),
         sugar_per_100g: getNutrient(2000),
         cholesterol_per_100g: getNutrient(1253),
         saturated_fat_per_100g: getNutrient(1258),
+        vitamin_a_per_100g: getNutrient(1106),
+        vitamin_c_per_100g: getNutrient(1162),
+        vitamin_d_per_100g: getNutrient(1114),
       };
     });
 

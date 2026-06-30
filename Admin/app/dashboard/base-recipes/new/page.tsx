@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { IngredientAutocomplete as IngredientAutocompleteNamed } from '@/components/IngredientAutocomplete';
+// Some pages use a richer API for ingredient rows — treat the imported component as `any` here
+const IngredientAutocomplete: any = IngredientAutocompleteNamed;
+import LabNotesManager from '@/components/LabNotesManager';
 
 interface RecipeRole {
   id: number;
@@ -43,6 +47,7 @@ interface Ingredient {
   ingredient_name: string;
   quantity: number | null;
   unit: string | null;
+  ingredient_id?: string;
 }
 
 interface InstructionStep {
@@ -53,6 +58,8 @@ interface InstructionStep {
 export default function NewBaseRecipePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [generatingSteps, setGeneratingSteps] = useState(false);
+  const [createdRecipeId, setCreatedRecipeId] = useState<string | null>(null);
   const [recipeRoles, setRecipeRoles] = useState<RecipeRole[]>([]);
   const [dessertTypes, setDessertTypes] = useState<DessertType[]>([]);
   const [allTags, setAllTags] = useState<RecipeTag[]>([]);
@@ -137,8 +144,42 @@ export default function NewBaseRecipePage() {
     setSteps(updated);
   }
 
+  async function handleGenerateSteps() {
+    const source = formData.description || formData.description_en;
+    if (!source) {
+      alert('Добави описание първо (BG или EN)');
+      return;
+    }
+
+    const confirmed = steps.some(s => s.instruction_text.trim())
+      ? confirm('Ще се заменят текущите стъпки. Продължи?')
+      : true;
+    if (!confirmed) return;
+
+    setGeneratingSteps(true);
+    try {
+      const res = await fetch('/api/generate-steps', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description: source })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      const newSteps = data.steps.map((s: any) => ({
+        step_number: s.step_number,
+        instruction_text: s.step_description
+      }));
+      setSteps(newSteps);
+    } catch (err: any) {
+      alert(`Грешка при генерация: ${err.message}`);
+    } finally {
+      setGeneratingSteps(false);
+    }
+  }
+
   function toggleDessertType(typeId: number) {
-    const current = formData.compatible_dessert_types;
+    const current = formData.compatible_dessert_types ?? [];
     if (current.includes(typeId)) {
       setFormData({
         ...formData,
@@ -184,9 +225,9 @@ export default function NewBaseRecipePage() {
     setIngredients(ingredients.filter((_, i) => i !== index));
   }
 
-  function updateIngredient(index: number, field: keyof Ingredient, value: any) {
+  function updateIngredient(index: number, name: string, quantity: number | null, unit: string, ingredientId?: string) {
     const updated = [...ingredients];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = { ingredient_name: name, quantity, unit, ingredient_id: ingredientId };
     setIngredients(updated);
   }
 
@@ -203,6 +244,8 @@ export default function NewBaseRecipePage() {
         .single();
 
       if (recipeError) throw recipeError;
+
+      setCreatedRecipeId(recipe.id);
 
       // 2. Insert tags
       if (selectedTags.length > 0) {
@@ -231,6 +274,7 @@ export default function NewBaseRecipePage() {
       if (validIngredients.length > 0) {
         const ingredientsData = validIngredients.map((ing, idx) => ({
           recipe_id: recipe.id,
+          ingredient_database_id: ing.ingredient_id || null,
           ingredient_name: ing.ingredient_name.trim(),
           quantity: ing.quantity || 0,
           unit: ing.unit || 'g',
@@ -253,7 +297,7 @@ export default function NewBaseRecipePage() {
         const stepsData = validSteps.map(step => ({
           recipe_id: recipe.id,
           step_number: step.step_number,
-          instruction_text: step.instruction_text.trim()
+          step_description: step.instruction_text.trim()
         }));
 
         const { error: stepsError } = await supabase
@@ -263,12 +307,10 @@ export default function NewBaseRecipePage() {
         if (stepsError) throw stepsError;
       }
 
-      alert('Рецептата беше създадена успешно!');
-      router.push('/dashboard/base-recipes');
+      alert('✅ Рецептата беше създадена успешно! Сега можеш да добавиш Lab Notes.');
     } catch (error: any) {
       console.error('Error creating recipe:', error);
       alert(`Грешка при създаване на рецептата: ${error.message || 'Непозната грешка'}`);
-    } finally {
       setLoading(false);
     }
   }
@@ -278,6 +320,50 @@ export default function NewBaseRecipePage() {
     selectedRole?.name_en === 'Cake base' || 
     selectedRole?.name_en === 'Base' ||
     selectedRole?.name?.toLowerCase().includes('блат');
+
+  // If recipe created, show Lab Notes section
+  if (createdRecipeId) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white border-b">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 className="text-2xl font-bold text-gray-900">✅ Рецепта Създадена!</h1>
+          </div>
+        </div>
+
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-green-900 mb-2">Рецептата "{formData.name}" е успешно създадена!</h2>
+            <p className="text-green-700 mb-4">Сега можеш да добавиш Lab Notes за тази рецепта:</p>
+          </div>
+
+          <div className="bg-white rounded-lg border p-6">
+            <LabNotesManager
+              recipeId={createdRecipeId}
+              onUpdate={() => {
+                // Refresh if needed
+              }}
+            />
+          </div>
+
+          <div className="flex gap-4 mt-6">
+            <button
+              onClick={() => router.push('/dashboard/base-recipes')}
+              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+            >
+              Преди към Рецепти
+            </button>
+            <button
+              onClick={() => router.push(`/dashboard/base-recipes/${createdRecipeId}`)}
+              className="px-6 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50"
+            >
+              Отвори Рецепта
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -349,7 +435,7 @@ export default function NewBaseRecipePage() {
                   <label key={type.id} className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={formData.compatible_dessert_types.includes(type.id)}
+                      checked={formData.compatible_dessert_types?.includes(type.id) ?? false}
                       onChange={() => toggleDessertType(type.id)}
                       className="rounded text-purple-600 focus:ring-purple-600"
                     />
@@ -622,44 +708,17 @@ export default function NewBaseRecipePage() {
                 />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {ingredients.map((ing, index) => (
-                  <div key={index} className="flex gap-2 items-start">
-                    <input
-                      type="text"
-                      value={ing.ingredient_name}
-                      onChange={(e) => updateIngredient(index, 'ingredient_name', e.target.value)}
-                      placeholder="Ingredient name"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                    />
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={ing.quantity || ''}
-                      onChange={(e) => updateIngredient(index, 'quantity', Number(e.target.value))}
-                      placeholder="Qty"
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                    />
-                    <select
-                      value={ing.unit || 'g'}
-                      onChange={(e) => updateIngredient(index, 'unit', e.target.value)}
-                      className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-sm"
-                    >
-                      <option value="g">g</option>
-                      <option value="ml">ml</option>
-                      <option value="tbsp">tbsp</option>
-                      <option value="tsp">tsp</option>
-                      <option value="cup">cup</option>
-                      <option value="pc">pc</option>
-                    </select>
-                    <button
-                      type="button"
-                      onClick={() => removeIngredient(index)}
-                      className="px-2 py-2 text-red-600 hover:bg-red-50 rounded"
-                    >
-                      ✕
-                    </button>
-                  </div>
+                  <IngredientAutocomplete
+                    key={index}
+                    value={ing.ingredient_name}
+                    quantity={ing.quantity}
+                    unit={ing.unit || 'g'}
+                    onChange={(name: string, qty: number | null, unit: string | null, id?: string) => updateIngredient(index, name, qty, unit || 'g', id)}
+                    onSelect={(ingOption: { id: string; name_bg: string; name_en: string }) => updateIngredient(index, ingOption.name_bg, ing.quantity, ing.unit || 'g', ingOption.id)}
+                    onRemove={() => removeIngredient(index)}
+                  />
                 ))}
               </div>
             </div>
@@ -828,20 +887,21 @@ export default function NewBaseRecipePage() {
                     if (!file) return;
 
                     try {
-                      const fileExt = file.name.split('.').pop();
-                      const fileName = `recipe-new-${Date.now()}.${fileExt}`;
-                      
-                      const { error: uploadError } = await supabase.storage
-                        .from('base-recipe-images')
-                        .upload(fileName, file);
+                      const fd = new FormData();
+                      fd.append('file', file);
 
-                      if (uploadError) throw uploadError;
+                      const response = await fetch('/api/upload-recipe-image', {
+                        method: 'POST',
+                        body: fd,
+                      });
 
-                      const { data: urlData } = supabase.storage
-                        .from('base-recipe-images')
-                        .getPublicUrl(fileName);
+                      if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || 'Upload failed');
+                      }
 
-                      setFormData({ ...formData, image_url: urlData.publicUrl });
+                      const { imageUrl } = await response.json();
+                      setFormData({ ...formData, image_url: imageUrl });
                       alert('Image uploaded successfully!');
                     } catch (error: any) {
                       console.error('Upload error:', error);
@@ -882,13 +942,23 @@ export default function NewBaseRecipePage() {
           <div className="bg-white rounded-lg border p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Стъпки за Приготвяне</h2>
-              <button
-                type="button"
-                onClick={addStep}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm"
-              >
-                + Добави Стъпка
-              </button>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleGenerateSteps}
+                  disabled={generatingSteps}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm disabled:opacity-50"
+                >
+                  {generatingSteps ? '⏳ Генерира...' : '✨ Генерирай от описание'}
+                </button>
+                <button
+                  type="button"
+                  onClick={addStep}
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm"
+                >
+                  + Добави Стъпка
+                </button>
+              </div>
             </div>
 
             <div className="space-y-3">

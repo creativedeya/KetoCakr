@@ -22,6 +22,7 @@ export default function NewSimpleRecipePage() {
 
         <SimpleRecipeForm
           onSaved={(id) => router.push(`/dashboard/simple-recipes/${id}`)}
+          onCancel={() => router.push('/dashboard/simple-recipes')}
         />
       </div>
     </div>

@@ -1,0 +1,37 @@
+{
+  "name": "KetoCakr Dev",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+  
+  "containerUser": "node",
+  "remoteUser": "node",
+  
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace",
+  
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-node_modules-admin,target=/workspace/admin/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-node_modules-mobile,target=/workspace/Mobile/node_modules,type=volume"
+  ],
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  
+  "forwardPorts": [3000, 8081],
+  
+  "postCreateCommand": "npm config set legacy-peer-deps true && cd /workspace/admin && npm install && cd /workspace/Mobile && npm install",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "upgradePackages": false
+    }
+  }
+}

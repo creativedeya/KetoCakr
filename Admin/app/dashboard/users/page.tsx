@@ -35,52 +35,32 @@ export default function UsersManagement() {
 
   async function loadUsers() {
     setLoading(true);
-    
     try {
-      // TEMPORARY: Using mock data
-      // TODO: Create API route with service role key for production
-      
-      console.log('Loading users with mock data...');
-      
-      // Mock data based on your 3 users
-      const mockUsers = [
-        {
-          id: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
-          email: 'admin@ketocakr.com',
-          created_at: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
-          last_sign_in_at: new Date().toISOString(),
-          role: 'authenticated',
-          subscription_type: 'pro' as const,
-          is_banned: false,
-          display_name: 'Admin User'
-        },
-        {
-          id: '2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q',
-          email: 'user1@example.com',
-          created_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-          last_sign_in_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          role: 'authenticated',
-          subscription_type: 'free' as const,
-          is_banned: false,
-          display_name: 'Test User'
-        },
-        {
-          id: '3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r',
-          email: 'pro.user@example.com',
-          created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-          last_sign_in_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-          role: 'authenticated',
-          subscription_type: 'pro' as const,
-          is_banned: false,
-          display_name: 'Pro User'
-        }
-      ];
+      const { data: profiles, error } = await supabase
+        .from('profiles')
+        .select('id, email, display_name, subscription_type, is_banned, created_at, is_admin')
+        .order('created_at', { ascending: false });
 
-      setUsers(mockUsers);
-      calculateStats(mockUsers);
-      
+      if (error) {
+        console.error('[Users] Error loading profiles:', error);
+        throw error;
+      }
+
+      const usersData: User[] = (profiles || []).map((p: any) => ({
+        id: p.id,
+        email: p.email || '',
+        created_at: p.created_at,
+        last_sign_in_at: p.created_at,
+        role: p.is_admin ? 'admin' : 'authenticated',
+        subscription_type: p.subscription_type || 'free',
+        is_banned: p.is_banned || false,
+        display_name: p.display_name || null,
+      }));
+
+      setUsers(usersData);
+      calculateStats(usersData);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('[Users] Error loading:', error);
     } finally {
       setLoading(false);
     }

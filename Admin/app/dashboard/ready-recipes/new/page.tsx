@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Trash2, Copy, Save, Sparkles, Upload, X, ImageIcon, FileText } from 'lucide-react';
+import { Plus, Trash2, Copy, Save, Sparkles, Upload, X, ImageIcon, FileText, Settings2 } from 'lucide-react';
+import { GenerationSettingsModal } from '@/app/components/GenerationSettingsModal';
+import { GenerationSettings, DEFAULT_GENERATION_SETTINGS } from '@/lib/types/generationSettings';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -47,6 +49,13 @@ type AssemblyTemplate = {
   intro_text_en: string;
 };
 
+type ServingContainer = {
+  id: number;
+  name: string;
+  name_en: string | null;
+  category: string | null;
+};
+
 const ROLE_LABELS: Record<number, string> = {
   1: 'Блат',
   2: 'Крем',
@@ -62,9 +71,11 @@ export default function ReadyRecipeBuilder() {
   const [recipeRoles, setRecipeRoles] = useState<RecipeRole[]>([]);
   const [baseRecipes, setBaseRecipes] = useState<BaseRecipe[]>([]);
   const [templates, setTemplates] = useState<AssemblyTemplate[]>([]);
+  const [servingContainers, setServingContainers] = useState<ServingContainer[]>([]);
 
   // Form State
   const [selectedDessertType, setSelectedDessertType] = useState<number | null>(null); // ← Changed to number
+  const [selectedServingContainer, setSelectedServingContainer] = useState<number | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
   const [components, setComponents] = useState<ComponentSelection[]>([]);
   const [nameEn, setNameEn] = useState('');
@@ -92,6 +103,17 @@ export default function ReadyRecipeBuilder() {
   const [referenceUrls, setReferenceUrls] = useState<string[]>([]);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [generationProgress, setGenerationProgress] = useState('');
+  const [imageProvider, setImageProvider] = useState<'reve' | 'gemini'>('reve');
+  const [generationSettings, setGenerationSettings] = useState<GenerationSettings>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('keto-generation-settings');
+        if (saved) return JSON.parse(saved) as GenerationSettings;
+      } catch {}
+    }
+    return DEFAULT_GENERATION_SETTINGS;
+  });
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   // UI State
   const [loading, setLoading] = useState(false);
@@ -133,9 +155,10 @@ useEffect(() => {
     try {
       console.log('🚀 Loading initial data...');
       
-      const [dessertTypesRes, rolesRes] = await Promise.all([
+      const [dessertTypesRes, rolesRes, containersRes] = await Promise.all([
         supabase.from('dessert_types').select('*').order('name'),
-        supabase.from('recipe_roles').select('*').order('id') // ← No display_order
+        supabase.from('recipe_roles').select('*').order('id'),
+        fetch('/api/equipment?serving_container=true').then(r => r.json()),
       ]);
 
       console.log('✅ Dessert types:', dessertTypesRes);
@@ -150,6 +173,7 @@ useEffect(() => {
 
       if (dessertTypesRes.data) setDessertTypes(dessertTypesRes.data);
       if (rolesRes.data) setRecipeRoles(rolesRes.data);
+      if (containersRes.success) setServingContainers(containersRes.data || []);
       
     } catch (error) {
       console.error('💥 Fatal error loading data:', error);
@@ -360,6 +384,12 @@ async function calculateRecipeCost() {
       return;
     }
 
+    // Reve requires the recipe to be saved first (needs recipe_id in DB for component lookup)
+    if (imageProvider === 'reve') {
+      alert('Reve изисква запазена рецепта. Моля запишете рецептата първо, след което отворете редакцията и генерирайте с Reve.');
+      return;
+    }
+
     setIsGeneratingImage(true);
     setGenerationProgress('Подготовка на prompt...');
 
@@ -374,13 +404,13 @@ async function calculateRecipeCost() {
 
       const dessertType = dessertTypes.find(dt => dt.id === selectedDessertType);
 
-      const fullPrompt = `Professional food photography of ${nameEn}, a keto ${dessertType?.name || 'dessert'}. 
-Components: ${componentNames}. 
+      const fullPrompt = `Professional food photography of ${nameEn}, a keto ${dessertType?.name || 'dessert'}.
+Components: ${componentNames}.
 ${imagePromptDetails ? `Additional details: ${imagePromptDetails}` : ''}
-Studio lighting, high-end food styling, ultra detailed, appetizing presentation, 
+Studio lighting, high-end food styling, ultra detailed, appetizing presentation,
 clean white background, shallow depth of field, professional culinary photography.`;
 
-      setGenerationProgress('Генериране на изображение (това отнема 30-60 сек)...');
+      setGenerationProgress('Gemini генериране (30-60 сек)...');
 
       const response = await fetch('/api/generate/image', {
         method: 'POST',
@@ -397,7 +427,7 @@ clean white background, shallow depth of field, professional culinary photograph
       }
 
       const data = await response.json();
-      
+
       if (data.imageUrl) {
         setHeroImageUrl(data.imageUrl);
         setGenerationProgress('Готово! ✅');
@@ -460,7 +490,8 @@ clean white background, shallow depth of field, professional culinary photograph
         name_en: nameEn,
         name_bg: nameBg || null,
         slug: slug,
-        dessert_type_id: selectedDessertType, // ← Integer now
+        dessert_type_id: selectedDessertType,
+        serving_container_id: selectedServingContainer || null,
         assembly_template_id: selectedTemplate,
         selected_components: JSON.parse(JSON.stringify(components)),
         description_en: descriptionEn || null,
@@ -640,6 +671,20 @@ estimated_cost: estimatedCost || 0,
                       <option value="">Избери тип...</option>
                       {dessertTypes.map(dt => (
                         <option key={dt.id} value={dt.id}>{dt.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block font-medium mb-2">Съд за сервиране/печене</label>
+                    <select
+                      value={selectedServingContainer || ''}
+                      onChange={(e) => setSelectedServingContainer(Number(e.target.value) || null)}
+                      className="w-full px-4 py-2 border rounded-lg"
+                    >
+                      <option value="">Без съд...</option>
+                      {servingContainers.map(sc => (
+                        <option key={sc.id} value={sc.id}>{sc.name}</option>
                       ))}
                     </select>
                   </div>
@@ -1006,6 +1051,51 @@ estimated_cost: estimatedCost || 0,
                 </label>
               </div>
 
+              {/* Provider Selector + Visual Settings */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="font-medium text-sm text-gray-700">AI Провайдър</label>
+                  <button
+                    type="button"
+                    onClick={() => setShowSettingsModal(true)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors"
+                  >
+                    <Settings2 className="w-3.5 h-3.5" />
+                    Visual Settings
+                    <span className="ml-1 px-1.5 py-0.5 bg-blue-200 text-blue-800 rounded text-[10px] uppercase font-bold">
+                      {generationSettings.lightingStyle}
+                    </span>
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setImageProvider('reve')}
+                    className={`flex-1 py-2 px-4 rounded-lg font-medium border-2 transition-colors text-sm ${
+                      imageProvider === 'reve'
+                        ? 'bg-purple-600 text-white border-purple-600'
+                        : 'bg-white text-gray-600 border-gray-300 hover:border-purple-400'
+                    }`}
+                  >
+                    ✨ Reve (препоръчан)
+                  </button>
+                  <button
+                    onClick={() => setImageProvider('gemini')}
+                    className={`flex-1 py-2 px-4 rounded-lg font-medium border-2 transition-colors text-sm ${
+                      imageProvider === 'gemini'
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'
+                    }`}
+                  >
+                    Gemini
+                  </button>
+                </div>
+                {imageProvider === 'reve' && (
+                  <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded p-2 mt-2">
+                    ⚠️ Reve изисква запазена рецепта. Запишете рецептата, после отворете редакцията за Reve генериране.
+                  </p>
+                )}
+              </div>
+
               <button
                 onClick={generateHeroImage}
                 disabled={isGeneratingImage || !nameEn}
@@ -1294,6 +1384,16 @@ estimated_cost: estimatedCost || 0,
           </div>
         </div>
       </div>
+
+      <GenerationSettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+        settings={generationSettings}
+        onSave={(newSettings) => {
+          setGenerationSettings(newSettings);
+          try { localStorage.setItem('keto-generation-settings', JSON.stringify(newSettings)); } catch {}
+        }}
+      />
     </div>
   );
 }

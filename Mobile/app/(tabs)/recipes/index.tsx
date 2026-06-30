@@ -243,8 +243,7 @@ export default function RecipesScreen() {
                 <TouchableOpacity
                   key={recipe.id}
                   onPress={() => {
-                    console.log('Recipe clicked:', recipe.id);
-                    router.push(`/recipe-detail/${recipe.id}`);
+                    router.push(`/user-recipe/${recipe.id}`);
                   }}
                   activeOpacity={0.7}
                 >
