@@ -45,3 +45,6 @@ Marketing/
 
 # Claude settings
 .claude/
+
+# Session reports and task files (local only)
+Admin/notes/
