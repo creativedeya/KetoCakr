@@ -48,3 +48,8 @@ Marketing/
 
 # Session reports and task files (local only)
 Admin/notes/
+
+# Large files
+Mobile.7z
+*.7z
+Admin/notes/*.pdf
